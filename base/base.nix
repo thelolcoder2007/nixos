@@ -7,6 +7,7 @@
 
 {
   imports = [
+    ./clamav.nix
     ./sops.nix
     ./users.nix
   ];
@@ -21,7 +22,9 @@
         path = "/etc/ssh/ssh_host_ed25519_key.pub";
         mode = "0444";
       };
-      github_token = { };
+      github_token = {
+        sopsFile = ../secrets/common.yml;
+      };
     };
   };
 

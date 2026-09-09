@@ -1,16 +1,12 @@
-{
-  lib,
-  iface,
-  conf,
-  ...
-}:
+{ conf, ... }:
 
 {
   networking = {
-    useDHCP = lib.mkDefault true;
+    inherit (conf) hostName domain;
+    dhcpcd.denyInterfaces = [ conf.iface ];
     firewall.enable = true;
     nftables.enable = true;
-    interfaces.${iface} = {
+    interfaces.${conf.iface} = {
       ipv4 = {
         addresses = [ conf.ipv4Address ];
         routes = conf.ipv4Routes or [ ];
