@@ -4,6 +4,7 @@
   lib,
   pkgs,
   conf,
+  mainIface,
   ...
 }:
 let
@@ -695,7 +696,11 @@ in
       bind-dnssec-db=${dbPath}
 
       # Networking
-      local-address=${(builtins.elemAt config.networking.interfaces.ens192.ipv4.addresses 0).address},127.0.0.1,${(builtins.elemAt config.networking.interfaces.ens192.ipv6.addresses 0).address},::1
+      local-address=${
+        (builtins.elemAt config.networking.interfaces.${mainIface}.ipv4.addresses 0).address
+      },127.0.0.1,${
+        (builtins.elemAt config.networking.interfaces.${mainIface}.ipv6.addresses 0).address
+      },::1
       local-port=${conf.listenPort}
 
       distributor-threads=3

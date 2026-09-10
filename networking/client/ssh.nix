@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  mainIface,
   ...
 }:
 {
@@ -9,10 +10,10 @@
     enable = true;
     listenAddresses = [
       {
-        addr = (builtins.elemAt config.networking.interfaces.ens192.ipv4.addresses 0).address;
+        addr = (builtins.elemAt config.networking.interfaces.${mainIface}.ipv4.addresses 0).address;
       }
       {
-        addr = (builtins.elemAt config.networking.interfaces.ens192.ipv6.addresses 0).address;
+        addr = (builtins.elemAt config.networking.interfaces.${mainIface}.ipv6.addresses 0).address;
       }
     ];
   };
