@@ -1,4 +1,5 @@
 {
+  config,
   interface ? "ens224",
   ipv4Config,
   ipv6Config,
@@ -36,14 +37,34 @@
             inherit (ipv4Config) subnet;
             option-data = [
               {
+                name = "routers";
+                code = 3;
+                data = ipv4Config.routers;
+              }
+              {
                 name = "domain-name-servers";
                 code = 6;
                 data = ipv4Config.dnsServers;
               }
               {
+                code = 15;
+                name = "domain-name";
+                data = config.networking.domain;
+              }
+              {
                 name = "classless-static-route";
                 code = 121;
                 data = ipv4Config.staticRoutes;
+              }
+              {
+                name = "tftp-server-name";
+                code = 66;
+                data = "tftp.16.dapperepoging.nl";
+              }
+              {
+                name = "bootfile-name";
+                code = 67;
+                data = "/netboot.pxe"; # TODO
               }
             ];
           }

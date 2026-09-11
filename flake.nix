@@ -40,7 +40,6 @@
       ...
     }@inputs:
     {
-
       # for `nix fmt`
       formatter.x86_64-linux =
         (treefmt-nix.lib.evalModule nixpkgs.outputs.legacyPackages.x86_64-linux ./base/treefmt.nix)
@@ -85,6 +84,12 @@
             };
             # Still need a gaming server name.
             # If I ever have a buildserver, I'm going to call it Athena
+            "zeus" = {
+              guid_root = "0";
+              guid_boot = "0";
+              vmwareHost = true;
+              qemuHost = false;
+            };
           };
         in
         nixpkgs.lib.genAttrs (nixpkgs.lib.attrNames hosts) (

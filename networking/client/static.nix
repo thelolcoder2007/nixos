@@ -16,5 +16,6 @@
         routes = conf.ipv6Routes or [ ];
       };
     };
+    inherit (conf) defaultGateway defaultGateway6;
   };
 }

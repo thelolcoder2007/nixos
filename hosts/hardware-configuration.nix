@@ -6,7 +6,7 @@
 
 assert
   !(host.vmwareHost && host.qemuHost)
-    "Configuration Error: Cannot run both VMware and QEMU hosts simultaneously. Please set one of the host parameters (vmwareHost or qemuHost) to false.";
+  || throw "Configuration Error: Cannot run both VMware and QEMU hosts simultaneously. Please set one of the host parameters (vmwareHost or qemuHost) to false.";
 let
   inherit (host)
     vmwareHost
@@ -66,4 +66,4 @@ let
   };
 
 in
-	base // qemuModules // vmwareModules
+base // qemuModules // vmwareModules
