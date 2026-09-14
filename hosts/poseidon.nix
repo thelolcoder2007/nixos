@@ -1,7 +1,31 @@
+let
+  mainIface = "ens192";
+in
 {
-  imports = [
-    # keep-sorted start
-    ../base/base.nix
-    # keep-sorted end
-  ];
+  _module.args = {
+    inherit mainIface;
+  };
+  imports =
+    let
+      staticConf = {
+        hostName = "poseidon";
+        domain = "16.dapperepoging.nl";
+        iface = mainIface;
+        ipv4Address = "10.0.116.9";
+        ipv4PrefixLength = 24;
+        ipv6Address = "2a07:54c1:4932:116::9";
+        ipv6PrefixLength = 64;
+        defaultGateway = "10.0.116.1";
+        defaultGateway6 = "fe80::c1c0";
+      };
+    in
+    [
+      # keep-sorted start
+      (import ../networking/client/static.nix { conf = staticConf; })
+      ../base/base.nix
+      ../monitoring/zabbix-agent.nix
+      ../networking/client/resolv.conf.nix
+      ../networking/client/ssh.nix
+      # keep-sorted end
+    ];
 }

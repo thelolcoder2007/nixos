@@ -9,7 +9,7 @@
     expire = 604800; # 1 week
     minimum = 604800; # 1 week
   };
-  ns = [ "localhost." ];
-  A = "127.0.0.1";
-  AAAA = "::1";
+  NS = [ "localhost." ];
+  A = ["127.0.0.1"];
+  AAAA = ["::1"];
 }

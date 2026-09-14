@@ -104,6 +104,7 @@
             ];
             specialArgs = {
               inherit inputs;
+              emulatedHost = "";
             };
           }
         )
@@ -119,6 +120,7 @@
             ];
             specialArgs = {
               inherit inputs;
+              inherit emulatedHost;
             };
           };
         };

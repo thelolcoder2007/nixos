@@ -17,14 +17,16 @@
       access-tokens = github.com=${config.sops.placeholder.github_token}
     '';
     secrets = {
-      "${config.networking.hostName}/privkey".path = "/etc/ssh/ssh_host_ed25519_key";
-      "${config.networking.hostName}/pubkey" = {
+      "privkey" = {
+        sopsFile = ../secrets/${config.networking.hostName}.yml;
+        path = "/etc/ssh/ssh_host_ed25519_key";
+      };
+      "pubkey" = {
+        sopsFile = ../secrets/${config.networking.hostName}.yml;
         path = "/etc/ssh/ssh_host_ed25519_key.pub";
         mode = "0444";
       };
-      github_token = {
-        sopsFile = ../secrets/common.yml;
-      };
+      github_token.sopsFile = ../secrets/common.yml;
     };
   };
 
@@ -34,7 +36,6 @@
     '';
     settings = {
       trusted-users = [
-        "robbert"
         "thomas"
       ];
       cores = 0;
@@ -55,6 +56,8 @@
       # keep-sorted start
       bat
       btop
+      comma
+      curl
       dig
       fastfetch
       file
@@ -65,9 +68,12 @@
       iotop
       nano
       nh
+      pciutils
       screen
       tcpdump
       traceroute
+      usbutils
+      vim
       wget
       # keep-sorted end
     ];

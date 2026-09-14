@@ -26,10 +26,10 @@ let
   );
 
   compiledDNSzones = lib.genAttrs conf.dnsZones (
-    zone: pkgs.writeText "${zone}zone" inputs.dns.lib.toString zone (import ./zones/${zone}zone.nix)
+    zone: pkgs.writeText "${zone}zone" (inputs.dns.lib.toString zone (import ./zones/${zone}zone.nix))
   );
   named-conf-path = pkgs.writeText "named.conf" (
-    lib.concatStrings (
+    builtins.concatStringsSep "\n" (
       lib.mapAttrsToList (zone: file: ''
         zone "${zone}" {
           type master;
@@ -704,7 +704,7 @@ in
       },127.0.0.1,${
         (builtins.elemAt config.networking.interfaces.${mainIface}.ipv6.addresses 0).address
       },::1
-      local-port=${conf.listenPort}
+      local-port=${toString conf.listenPort}
 
       distributor-threads=3
       loglevel=9

@@ -9,5 +9,5 @@
     expire = 604800; # 1 week
     minimum = 604800; # 1 week
   };
-  ns = [ "localhost." ];
+  NS = [ "localhost." ];
 }

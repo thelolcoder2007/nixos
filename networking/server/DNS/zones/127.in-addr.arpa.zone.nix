@@ -9,6 +9,6 @@
     expire = 604800; # 1 week
     minimum = 604800; # 1 week
   };
-  ns = [ "localhost." ];
-  subdomains."1.0.0".PTR = "localhost.";
+  NS = [ "localhost." ];
+  subdomains."1.0.0".PTR = ["localhost."];
 }
