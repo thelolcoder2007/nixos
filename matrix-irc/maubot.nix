@@ -1,13 +1,16 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 
 {
+  nixpkgs.config.permittedInsecurePackages = [
+    "olm-3.2.16"
+  ];
   imports = [
-    ../webserver/nginx-base.nix
+    ../networking/server/HTTP/defaults.nix
+    ../networking/server/HTTP/options.nix
   ];
   services.maubot = {
     enable = true;
@@ -37,12 +40,11 @@
         # keep-sorted end
       ];
   };
-  services.nginx.virtualHosts."maubot.dapperepoging.nl" =
-    (import ../webserver/certs/nginx-vhost-snakeoil.nix { inherit pkgs; })
-    // {
-      locations."${config.services.maubot.settings.server.ui_base_path}" = {
-        proxyPass = "http://127.0.0.1:${lib.toString config.services.maubot.settings.server.port}$request_uri";
-        proxyWebsockets = true;
-      };
+  services.nginx.virtualHosts."maubot.dapperepoging.nl" = {
+    locations."${config.services.maubot.settings.server.ui_base_path}" = {
+      proxyPass = "http://127.0.0.1:${lib.toString config.services.maubot.settings.server.port}$request_uri";
+      proxyWebsockets = true;
     };
+  };
+  x.nginx.virtualHosts."maubot.dapperepoging.nl".snakeoilHost = true;
 }

@@ -4,6 +4,9 @@
 }:
 
 {
+  imports = [
+    ../networking/server/HTTP/options.nix
+  ];
   services.matrix-continuwuity = {
     enable = true;
     settings = {
@@ -58,5 +61,9 @@
       "dapperepoging.nl".locations."/.well-known/matrix".proxyPass = "http://localhost:6963";
       "matrix.dapperepoging.nl".locations."/".proxyPass = "http://localhost:6963";
     };
+  };
+  x.nginx.virtualHosts = {
+    "dapperepoging.nl".prodHost = true;
+    "matrix.dapperepoging.nl".prodHost = true;
   };
 }

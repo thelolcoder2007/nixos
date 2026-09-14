@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 let
   conf = {
     defaultHomeserver = 0;
@@ -44,7 +41,7 @@ let
       basename = "/";
     };
   };
-  sable = pkgs.callPackage ./pkg-sable/package.nix {
+  sable = pkgs.callPackage ./pkg-sable/options.nix {
     inherit (pkgs) sable;
     inherit conf;
   };
@@ -52,17 +49,16 @@ in
 {
   services.nginx = {
     enable = true;
-    virtualHosts."sable-2.chat.dapperepoging.nl" =
-      (import ../webserver/certs/nginx-vhost-snakeoil.nix { inherit pkgs; })
-      // {
-        root = sable;
-        locations."/" = {
-          index = "index.html";
-          tryFiles = "$uri $uri/ /index.html";
-        };
-        locations."^/config.json" = {
-          tryFiles = "$uri /config.json/config.json";
-        };
+    virtualHosts."sable-2.chat.dapperepoging.nl" = {
+      root = sable;
+      locations."/" = {
+        index = "index.html";
+        tryFiles = "$uri $uri/ /index.html";
       };
+      locations."^/config.json" = {
+        tryFiles = "$uri /config.json/config.json";
+      };
+    };
   };
+  x.nginx.virtualHosts."sable-2.chat.dapperepoging.nl".snakeoilHost = true;
 }

@@ -56,16 +56,17 @@
                 code = 121;
                 data = ipv4Config.staticRoutes;
               }
-              {
-                name = "tftp-server-name";
-                code = 66;
-                data = "tftp.16.dapperepoging.nl";
-              }
-              {
-                name = "bootfile-name";
-                code = 67;
-                data = "/netboot.pxe"; # TODO
-              }
+              # TODO: Make TFTP work
+              # {
+              #   name = "tftp-server-name";
+              #   code = 66;
+              #   data = "tftp.16.dapperepoging.nl";
+              # }
+              # {
+              #   name = "bootfile-name";
+              #   code = 67;
+              #   data = "/netboot.pxe";
+              # }
             ];
           }
         ];
@@ -76,33 +77,43 @@
       let
         convertRoutes =
           routes:
-          map (route: ''
-            route ${route} {
-            	AdvRoutePreference medium;
-             	AdvRouteLifetime ${ipv6Config.routeLifetime}
-            };
-          '') routes;
+          if routes == [ ] then
+            ""
+          else
+            builtins.concatStringsSep "\n" (
+              map (route: ''
+                route ${route} {
+                	AdvRoutePreference medium;
+                 	AdvRouteLifetime ${toString ipv6Config.routeLifetime}
+                };
+              '') routes
+            );
         convertRDNSS =
           rdnsservers:
-          map (server: ''
-            RDNSS ${server} {
-            	AdvRDNSSLifetime ${ipv6Config.RDNSSLifetime}
-            };
-          '') rdnsservers;
+          if rdnsservers == [ ] then
+            ""
+          else
+            builtins.concatStringsSep "\n" (
+              map (server: ''
+                RDNSS ${server} {
+                	AdvRDNSSLifetime ${toString ipv6Config.RDNSSLifetime}
+                };
+              '') rdnsservers
+            );
       in
       {
         enable = true;
         config = ''
           interface ${interface} {
               AdvSendAdvert on;
-              AdvDefaultLifetime ${ipv6Config.defaultRouteLifetime or 0};
+              AdvDefaultLifetime ${toString (ipv6Config.defaultRouteLifetime or 0)};
 
               prefix ${ipv6Config.prefix} {
                   AdvOnLink on;
                   AdvAutonomous on;
               };
-              ${convertRoutes ipv6Config.routes}
-              ${convertRDNSS ipv6Config.RDNSServers}
+              ${convertRoutes ipv6Config.routes or [ ]}
+              ${convertRDNSS ipv6Config.RDNSServers or [ ]}
           };
         '';
       };

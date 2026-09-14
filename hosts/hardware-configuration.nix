@@ -1,12 +1,5 @@
-{
-  lib,
-  host,
-  ...
-}:
+{ lib, host, ... }:
 
-assert
-  !(host.vmwareHost && host.qemuHost)
-  || throw "Configuration Error: Cannot run both VMware and QEMU hosts simultaneously. Please set one of the host parameters (vmwareHost or qemuHost) to false.";
 let
   inherit (host)
     vmwareHost
@@ -15,6 +8,12 @@ let
     guid_boot
     ;
   base = {
+    assertions = [
+      {
+        assertion = !(host.vmwareHost && host.qemuHost);
+        message = "Configuration Error: Cannot run both VMware and QEMU hosts simultaneously. Please set one of the host parameters (vmwareHost or qemuHost) to false.";
+      }
+    ];
     boot = {
       initrd.availableKernelModules = [
         "ata_piix"

@@ -11,12 +11,14 @@ in
 {
   imports = [
     ../database/postgres.nix
+    ../networking/server/HTTP/defaults.nix
+    ../networking/server/HTTP/options.nix
   ];
   services = {
     zabbixWeb = {
       enable = true;
       frontend = "nginx";
-      hostname = "${config.networking.hostName}.dapperepoging.nl";
+      hostname = config.networking.fqdnOrHostName;
       database = {
         socket = "/var/run/postgresql/postgresql.sock";
         type = "pgsql";
@@ -24,7 +26,7 @@ in
         user = zabbixUsername;
       };
       package = pkgs.zabbix74.web;
-      nginx.virtualHost = (import ../webserver/certs/nginx-vhost-snakeoil.nix { inherit pkgs; }) // {
+      nginx.virtualHost = {
         default = true; # There should be no other NGINX virtualhosts on this host, otherwise monitoring is dependent on other hosts which should not be
         listen = lib.mkForce [
           {
@@ -47,17 +49,17 @@ in
         Timeout = 30;
       };
     };
+    postgresql = {
+      ensureUsers = [
+        {
+          name = zabbixUsername;
+          ensureDBOwnership = true;
+        }
+      ];
+      ensureDatabases = [
+        zabbixUsername
+      ];
+    };
   };
-
-  services.postgresql = {
-    ensureUsers = [
-      {
-        name = zabbixUsername;
-        ensureDBOwnership = true;
-      }
-    ];
-    ensureDatabases = [
-      zabbixUsername
-    ];
-  };
+  x.nginx.virtualHosts.${config.networking.fqdnOrHostName}.snakeoilHost = true;
 }

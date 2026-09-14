@@ -1,4 +1,10 @@
-{ config, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   mainIface = "ens192";
@@ -39,15 +45,34 @@ in
           staticRoutes = "10.0.111.0 - 10.0.116.1";
           routers = "10.0.116.1";
         };
+        ipv6Config = {
+          RDNSSLifetime = 43200; # 12 hours
+          defaultRouteLifetime = 21600; # 6 hours
+          prefix = "2a07:54c1:4932:116::/64";
+          RDNSServers = [
+            (builtins.elemAt inputs.self.nixosConfigurations.zeus.config.networking.interfaces.ens192.ipv6.addresses 0)
+            .address
+          ];
+        };
       };
     in
     [
       (import ../networking/server/dhcp-server.nix {
         inherit (DHCPconf) ipv4Config ipv6Config;
+        inherit config;
         interface = "ens192";
       })
       (import ../networking/client/static.nix { conf = staticConf; })
-      (import ../networking/server/DNS/authoritative.nix { conf = DNSconf; })
+      (import ../networking/server/DNS/authoritative.nix {
+        conf = DNSconf;
+        inherit
+          config
+          inputs
+          lib
+          pkgs
+          mainIface
+          ;
+      })
 
       # keep-sorted start
       ../base/base.nix

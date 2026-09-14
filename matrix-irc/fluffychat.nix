@@ -23,7 +23,8 @@ let
 in
 {
   imports = [
-    ../webserver/nginx-base.nix
+    ../networking/server/HTTP/defaults.nix
+    ../networking/server/HTTP/options.nix
   ];
 
   services.nginx.virtualHosts."fluffy-2.chat.dapperepoging.nl" = {
@@ -36,4 +37,5 @@ in
     };
     root = fluffychat-configured;
   };
+  x.nginx.virtualHosts."fluffy-2.chat.dapperepoging.nl".snakeoilHost = true;
 }

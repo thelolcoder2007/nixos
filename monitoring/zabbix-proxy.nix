@@ -14,13 +14,15 @@ assert (builtins.elem serverHost (lib.attrNames inputs.self.nixosConfiguratons))
 {
   imports = [
     ../database/postgres.nix
+    ../networking/server/HTTP/defaults.nix
+    ../networking/server/HTTP/options.nix
   ];
 
   services = {
     zabbixWeb = {
       enable = true;
       frontend = "nginx";
-      hostname = "${config.networking.hostName}.dapperepoging.nl";
+      hostname = config.networking.fqdnOrHostName;
       database = {
         socket = "/var/run/postgresql/postgresql.sock";
         type = "pgsql";
@@ -28,7 +30,7 @@ assert (builtins.elem serverHost (lib.attrNames inputs.self.nixosConfiguratons))
         user = zabbixUsername;
       };
       package = pkgs.zabbix74.web;
-      nginx.virtualHost = (import ../webserver/certs/nginx-vhost-snakeoil.nix { inherit pkgs; }) // {
+      nginx.virtualHost = {
         default = true; # There should be no other NGINX virtualhosts on this host, otherwise monitoring is dependent on other hosts which should not be
         listen = lib.mkForce [
           {
@@ -50,17 +52,17 @@ assert (builtins.elem serverHost (lib.attrNames inputs.self.nixosConfiguratons))
         inputs.nixosConfiguration.${serverHost}.config.networking.interfaces.ens192.ipv4.addresses
         0
       ).address;
+    postgresql = {
+      ensureUsers = [
+        {
+          name = zabbixUsername;
+          ensureDBOwnership = true;
+        }
+      ];
+      ensureDatabases = [
+        zabbixUsername
+      ];
+    };
   };
-
-  services.postgresql = {
-    ensureUsers = [
-      {
-        name = zabbixUsername;
-        ensureDBOwnership = true;
-      }
-    ];
-    ensureDatabases = [
-      zabbixUsername
-    ];
-  };
+  x.nginx.virtualHosts.${config.networking.fqdnOrHostName}.snakeoilHost = true;
 }

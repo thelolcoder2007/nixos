@@ -8,11 +8,21 @@
     nftables.enable = true;
     interfaces.${conf.iface} = {
       ipv4 = {
-        addresses = [ conf.ipv4Address ];
+        addresses = [
+          {
+            address = conf.ipv4Address;
+            prefixLength = conf.ipv4PrefixLength or 24;
+          }
+        ];
         routes = conf.ipv4Routes or [ ];
       };
       ipv6 = {
-        addresses = [ conf.ipv6Address ];
+        addresses = [
+          {
+            address = conf.ipv6Address;
+            prefixLength = conf.ipv6PrefixLength or 64;
+          }
+        ];
         routes = conf.ipv6Routes or [ ];
       };
     };
