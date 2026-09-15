@@ -17,5 +17,4 @@ build:
 	nh os build -H poseidon -d never
 	nh os build -H xenoi -d never
 	nh os build -H zeus -d never
-	${MAKE} pull
 	rm result

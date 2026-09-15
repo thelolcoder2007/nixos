@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, ... }:
 
 let
   inherit (lib) mkOption mkEnableOption types;
@@ -20,15 +15,22 @@ in
       }
     );
   };
-  config.assertions = [
-    {
-      assertion = lib.all (vhost: !(vhost.snakeoilHost && vhost.prodHost)) (
-        lib.attrValues config.x.nginx.virtualHosts
-      );
-      message = "A virtualHost cannot have both snakeoilHost and enableACME set to true.";
-    }
-  ];
   config = {
+    assertions = [
+      {
+        assertion = lib.all (vhost: !(vhost.snakeoilHost && vhost.prodHost)) (
+          lib.attrValues config.x.nginx.virtualHosts
+        );
+        message = "A virtualHost cannot have both snakeoilHost and enableACME set to true.";
+      }
+    ];
+    sops.secrets."sslprivatekey" = {
+      owner = config.users.users.nginx.name;
+      group = config.users.groups.nginx.name;
+      sopsFile = ./certs/private.key.sops;
+      format = "binary";
+    };
+
     security.acme.acceptTerms = lib.any (vhost: vhost.enableACME) (
       lib.attrValues config.services.nginx.virtualHosts
     );
@@ -46,10 +48,11 @@ in
       // lib.optionalAttrs (cfg.${vhost}.snakeoilHost) {
         onlySSL = lib.mkDefault true;
         # TODO: Make SSL certs something else than a public certificate
-        sslCertificate = "${pkgs.path}/nixos/tests/common/acme/server/acme.test.cert.pem";
-        sslCertificateKey = "${pkgs.path}/nixos/tests/common/acme/server/acme.test.key.pem";
+        sslCertificate = ./certs/certificate.crt;
+        sslCertificateKey = config.sops.secrets.sslprivatekey.path;
       }
     );
+
   };
 
 }

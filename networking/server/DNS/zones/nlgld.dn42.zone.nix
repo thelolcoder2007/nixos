@@ -1,4 +1,9 @@
-{ dns }:
+let
+  host = ipv4Address: ipv6Address: {
+    A = [ (toString ipv4Address) ];
+    AAAA = [ (toString ipv6Address) ];
+  };
+in
 {
   SOA = {
     nameServer = "ns.nlgld.dn42.";
@@ -28,13 +33,11 @@
     "v=spf1; -all"
   ];
 
-  subdomains = with dns.lib.combinators; rec {
+  subdomains = rec {
     ns = host "172.23.99.254" "fda7:54c1:4932::";
     _dmarc.TXT = [ "v=DMARC1; p=reject;" ];
 
-    recursor = host "172.23.99.253" "fda7:54c1:4932::253";
-
     lg = ns;
-    home.CNAME = [ "lg" ];
+    poseidon = host "172.23.99.254" "fda7:54c1:4932::";
   };
 }

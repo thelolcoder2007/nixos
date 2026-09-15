@@ -51,11 +51,6 @@
                 name = "domain-name";
                 data = config.networking.domain;
               }
-              {
-                name = "classless-static-route";
-                code = 121;
-                data = ipv4Config.staticRoutes;
-              }
               # TODO: Make TFTP work
               # {
               #   name = "tftp-server-name";
@@ -67,7 +62,19 @@
               #   code = 67;
               #   data = "/netboot.pxe";
               # }
-            ];
+            ]
+            ++ (
+              if (ipv4Config ? staticRoutes) then
+                [
+                  {
+                    name = "classless-static-route";
+                    code = 121;
+                    data = ipv4Config.staticRoutes;
+                  }
+                ]
+              else
+                [ ]
+            );
           }
         ];
       };

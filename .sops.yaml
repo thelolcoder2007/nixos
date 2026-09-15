@@ -47,3 +47,13 @@ creation_rules:
       - age:
           - *thomas
           - *zeus
+
+  - path_regex: networking/server/HTTP/certs/private.key.sops$
+    key_groups:
+      - age:
+        - *thomas
+        - *hera
+        - *hermes
+        - *poseidon
+        - *xenoi
+        - *zeus

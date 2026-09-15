@@ -10,5 +10,5 @@
     minimum = 604800; # 1 week
   };
   NS = [ "localhost." ];
-  PTR = ["localhost."];
+  PTR = [ "localhost." ];
 }

@@ -2,7 +2,6 @@
 
 {
   networking = {
-    inherit (conf) hostName domain;
     dhcpcd.denyInterfaces = [ conf.iface ];
     firewall.enable = true;
     nftables.enable = true;
@@ -26,6 +25,5 @@
         routes = conf.ipv6Routes or [ ];
       };
     };
-    inherit (conf) defaultGateway defaultGateway6;
-  };
+  } // (builtins.intersectAttrs { hostName = null; domain = null; defaultGateway = null; defaultGateway6 = null; } conf);
 }

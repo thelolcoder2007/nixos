@@ -704,7 +704,7 @@ in
       },127.0.0.1,${
         (builtins.elemAt config.networking.interfaces.${mainIface}.ipv6.addresses 0).address
       },::1
-      local-port=${toString conf.listenPort}
+      local-port=${toString (conf.listenPort or 53)}
 
       distributor-threads=3
       loglevel=9
@@ -719,8 +719,8 @@ in
   };
 
   networking.firewall = {
-    allowedTCPPorts = [ conf.listenPort ];
-    allowedUDPPorts = [ conf.listenPort ];
+    allowedTCPPorts = [ (conf.listenPort or 53) ];
+    allowedUDPPorts = [ (conf.listenPort or 53) ];
   };
 
   environment.systemPackages = with pkgs; [

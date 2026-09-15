@@ -10,5 +10,5 @@
     minimum = 604800; # 1 week
   };
   NS = [ "localhost." ];
-  subdomains."1.0.0".PTR = ["localhost."];
+  subdomains."1.0.0".PTR = [ "localhost." ];
 }

@@ -2,7 +2,8 @@
 
 ## TODO
 
-- [x] Make nginx work modularly without weird (import ./bullshit.nix) shennanigans
+- [x] Make nginx work modularly without weird `(import ./bullshit.nix)` shennanigans
 - [ ] Implement database/postgres.nix
-- [ ] Implement networking/server/HTTP/defaults.nix
-- [ ] Implement Poseidon
+- [x] Implement networking/server/HTTP/defaults.nix
+- [x] Implement Poseidon
+- [ ] Find a better place for networking/server/BGP/DN42-cert.nix
