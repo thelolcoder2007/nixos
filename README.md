@@ -6,4 +6,4 @@
 - [ ] Implement database/postgres.nix
 - [x] Implement networking/server/HTTP/defaults.nix
 - [x] Implement Poseidon
-- [ ] Find a better place for networking/server/BGP/DN42-cert.nix
+- [x] Find a better place for networking/server/BGP/DN42-cert.nix

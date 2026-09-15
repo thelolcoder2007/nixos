@@ -1,8 +1,17 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (lib) mkOption mkEnableOption types;
   cfg = config.x.nginx.virtualHosts;
+  clientScript = pkgs.fetchurl {
+    url = "https://dn42.g-load.eu/about/certificate-authority/client.sh";
+    hash = "sha256-1/QOigfUcc6LUGM9/Ud7CRo9odYSBtfEjDUfOYDxBT0=";
+  };
 in
 {
   options.x.nginx.virtualHosts = mkOption {
@@ -11,6 +20,7 @@ in
         options = {
           prodHost = mkEnableOption "Enable this host to run production (aka ask for ACME certs)";
           snakeoilHost = mkEnableOption "Use snakeoil HTTPS certificates for this host";
+          DN42Host = mkEnableOption "Use Kioubit's DN42 certificates for this host";
         };
       }
     );
@@ -18,10 +28,15 @@ in
   config = {
     assertions = [
       {
-        assertion = lib.all (vhost: !(vhost.snakeoilHost && vhost.prodHost)) (
-          lib.attrValues config.x.nginx.virtualHosts
-        );
-        message = "A virtualHost cannot have both snakeoilHost and enableACME set to true.";
+        assertion = lib.all (
+          vhost:
+          lib.count (x: x) [
+            vhost.snakeoilHost
+            vhost.prodHost
+            vhost.DN42Host
+          ] <= 1
+        ) (lib.attrValues config.x.nginx.virtualHosts);
+        message = "A virtualHost cannot have only have one of the following three attributes set to true: snakeoilHost, prodHost, DN42Host.";
       }
     ];
     sops.secrets."sslprivatekey" = {
@@ -51,8 +66,64 @@ in
         sslCertificate = ./certs/certificate.crt;
         sslCertificateKey = config.sops.secrets.sslprivatekey.path;
       }
+      // lib.optionalAttrs (cfg.${vhost}.DN42Host) {
+        onlySSL = lib.mkDefault true;
+        sslCertificate = "/etc/certs/nlgld.dn42/signed.crt";
+        sslCertificateKey = "/etc/certs/nlgld.dn42/server.key";
+      }
     );
-
   };
 
+}
+// {
+  config = lib.mkIf (lib.any (vhost: cfg.${vhost}.DN42Host) (lib.attrNames cfg)) {
+    sops.secrets."dn42_secret" = {
+      path = "/run/dn42-cert/token.txt";
+    };
+
+    systemd.services.dn42-cert = {
+      description = "Fetch DN42 Certificate using client.sh";
+
+      after = [
+        "network-online.target"
+        "sops-nix.service"
+      ];
+      before = [ "nginx.service" ];
+      wants = [ "network-online.target" ];
+
+      path = with pkgs; [
+        #	keep-sorted start
+        bash
+        coreutils-full
+        curl
+        gawk
+        gnugrep
+        openssl
+        # keep-sorted end
+      ];
+
+      serviceConfig = {
+        Type = "oneshot";
+        WorkingDirectory = "/run/dn42-cert";
+        DynamicUser = true;
+        PrivateTmp = true;
+        PrivateDev = true;
+
+        ExecStart = pkgs.writeShellScript "run-dn42-script" ''
+          cp ${clientScript} ./client.sh
+          chmod +x ./client.sh
+
+          ./client.sh get_certificate nlgld.dn42 '*.nlgld.dn42'
+
+          mkdir -p /etc/certs/nlgld.dn42
+
+          cp signed.crt /etc/certs/nlgld.dn42
+          cp server.key /etc/certs/nlgld.dn42
+
+          chmod 0600 /etc/certs/nlgld.dn42/*
+          chown nginx:nginx /etc/certs/nlgld.dn42/*
+        '';
+      };
+    };
+  };
 }

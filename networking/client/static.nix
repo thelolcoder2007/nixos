@@ -25,5 +25,11 @@
         routes = conf.ipv6Routes or [ ];
       };
     };
-  } // (builtins.intersectAttrs { hostName = null; domain = null; defaultGateway = null; defaultGateway6 = null; } conf);
+  }
+  // (builtins.intersectAttrs {
+    hostName = null;
+    domain = null;
+    defaultGateway = null;
+    defaultGateway6 = null;
+  } conf);
 }

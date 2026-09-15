@@ -10,10 +10,12 @@
       logRefusedConnections = true;
       logRefusedUnicastsOnly = false;
       logRefusedPackets = true;
-      extraInputRules = builtins.concatStringsSep "\n" (map (
-        peer:
-        ''ip6 saddr fe80::${peer.dn42Endpoint-LL} ip6 daddr fe80::2 iifname "dn42_${peer.asnum}" accept comment "Allow peering from dn42_${peer.asnum}"''
-      )peers);
+      extraInputRules = builtins.concatStringsSep "\n" (
+        map (
+          peer:
+          ''ip6 saddr fe80::${peer.dn42Endpoint-LL} ip6 daddr fe80::2 iifname "dn42_${peer.asnum}" accept comment "Allow peering from dn42_${peer.asnum}"''
+        ) peers
+      );
       filterForward = true;
       extraForwardRules = ''
         iifname { ${builtins.concatStringsSep ", " config.networking.firewall.trustedInterfaces} } accept comment "trusted interfaces"

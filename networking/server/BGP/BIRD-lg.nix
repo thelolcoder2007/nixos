@@ -2,6 +2,7 @@
 {
   imports = [
     ../HTTP/defaults.nix
+    ../HTTP/options.nix
     ../../../base/sops.nix
   ];
 
@@ -24,16 +25,12 @@
     };
   };
   services.nginx = {
-    virtualHosts."lg.nlgld.dn42" = {
-      locations."/".proxyPass = "http://BIRD-LG-backend";
-      sslCertificate = "/etc/certs/nlgld.dn42/signed.crt";
-      sslCertificateKey = "/etc/certs/nlgld.dn42/server.key";
-      addSSL = true;
-    };
+    virtualHosts."lg.nlgld.dn42".locations."/".proxyPass = "http://BIRD-LG-backend";
     upstreams."BIRD-LG-backend".servers =
       lib.genAttrs config.services.bird-lg.frontend.listenAddresses
         (_: { });
   };
+  x.nginx.virtualHosts."lg.nlgld.dn42".DN42Host = true;
 
   networking.firewall.allowedTCPPorts = [
     80

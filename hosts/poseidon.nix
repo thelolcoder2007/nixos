@@ -132,15 +132,14 @@ in
         interface = "ens224";
       })
       # keep-sorted start
-      (import ../networking/client/static.nix { conf = inetConf; })
       (import ../networking/client/static.nix { conf = dn42Conf; })
+      (import ../networking/client/static.nix { conf = inetConf; })
       ../base/base.nix
       ../monitoring/zabbix-agent.nix
       ../networking/client/resolv.conf.nix
       ../networking/client/ssh.nix
       ../networking/server/BGP/BIRD-lg.nix
       ../networking/server/BGP/BIRD.nix
-      ../networking/server/BGP/DN42-cert.nix
       ../networking/server/BGP/ROA.nix
       # keep-sorted end
     ];
