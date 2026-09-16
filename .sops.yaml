@@ -8,7 +8,7 @@ keys:
   - &zeus age1s8sasdxlc8yzw47pqgh0swwhkpergq943jzmc49n6vx7ct7nfucsaqq68t # TODO
 
 creation_rules:
-  - path_regex: secrets/common.yml$
+  - path_regex: secrets/common.yml$|networking/server/HTTP/certs/private.key.sops$
     key_groups:
       - age:
         - *thomas
@@ -47,13 +47,3 @@ creation_rules:
       - age:
           - *thomas
           - *zeus
-
-  - path_regex: networking/server/HTTP/certs/private.key.sops$
-    key_groups:
-      - age:
-        - *thomas
-        - *hera
-        - *hermes
-        - *poseidon
-        - *xenoi
-        - *zeus
