@@ -34,6 +34,7 @@ in
       ../monitoring/zabbix-agent.nix
       ../networking/client/resolv.conf.nix
       ../networking/client/ssh.nix
+      ../networking/client/tailscale.nix
       # keep-sorted end
     ];
 }

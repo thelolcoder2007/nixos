@@ -37,5 +37,6 @@ in
   imports = [
     ../convert/vert-sh.nix
     ../convert/vertd.nix
+    ../networking/client/tailscale.nix
   ];
 }

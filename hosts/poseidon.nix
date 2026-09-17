@@ -138,6 +138,7 @@ in
       ../monitoring/zabbix-agent.nix
       ../networking/client/resolv.conf.nix
       ../networking/client/ssh.nix
+      ../networking/client/tailscale.nix
       ../networking/server/BGP/BIRD-lg.nix
       ../networking/server/BGP/BIRD.nix
       ../networking/server/BGP/ROA.nix

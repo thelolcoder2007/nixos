@@ -25,6 +25,7 @@ in
       ../monitoring/zabbix-server.nix
       ../networking/client/resolv.conf.nix
       ../networking/client/ssh.nix
+      ../networking/client/tailscale.nix
       # keep-sorted end
     ];
 }
