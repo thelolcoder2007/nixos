@@ -22,10 +22,10 @@ in
         OnUnitInactiveSec = "1h";
         Unit = "dn42-roa.service";
       };
-
       wantedBy = [ "timers.target" ];
       before = [ "bird.service" ];
     };
+
     services.dn42-roa = {
       after = [ "network.target" ];
       description = "DN42 ROA Update";
