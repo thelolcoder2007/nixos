@@ -50,37 +50,37 @@
         let
           emulatedHost = "hermes";
           hosts = {
-          # Apollo makes music. It will be my media server (if I need one)
-          "apollo" = {
-            guid_root = "0";
-            guid_boot = "0";
-            vmwareHost = true;
-            qemuHost = false;
-          };
-          # Athena is the goddess of war and knowledge. It will be my buildserver
-          # and nixos reference host.
-          "athena" = {
-            guid_root = "0";
-            guid_boot = "0";
-            vmwareHost = true;
-            qemuHost = false;
-          };
-          # Hera sees everything Zeus does (which is mostly sleeping with other women)
-          # Therefore it is my monitoring server and does the home-assistant stuff
-          "hera" = {
-            guid_root = "0";
-            guid_boot = "0";
-            vmwareHost = true;
-            qemuHost = false;
-          };
-          # Hermes brings messages to everybody.
-          # Therefore it runs my Matrix homeserver and the Matrix and IRC clients.
-          "hermes" = {
-            guid_root = "0";
-            guid_boot = "0";
-            vmwareHost = true;
-            qemuHost = false;
-          };
+            # Apollo makes music. It will be my media server (if I need one)
+            "apollo" = {
+              guid_root = "0";
+              guid_boot = "0";
+              vmwareHost = true;
+              qemuHost = false;
+            };
+            # Athena is the goddess of war and knowledge. It will be my buildserver
+            # and nixos reference host.
+            "athena" = {
+              guid_root = "0";
+              guid_boot = "0";
+              vmwareHost = true;
+              qemuHost = false;
+            };
+            # Hera sees everything Zeus does (which is mostly sleeping with other women)
+            # Therefore it is my monitoring server and does the home-assistant stuff
+            "hera" = {
+              guid_root = "0";
+              guid_boot = "0";
+              vmwareHost = true;
+              qemuHost = false;
+            };
+            # Hermes brings messages to everybody.
+            # Therefore it runs my Matrix homeserver and the Matrix and IRC clients.
+            "hermes" = {
+              guid_root = "0";
+              guid_boot = "0";
+              vmwareHost = true;
+              qemuHost = false;
+            };
             # Poseidon talks with a lot of creatures others can't understand.
             # Therefore it runs the BGP for DN42 (underwater)
             "poseidon" = {

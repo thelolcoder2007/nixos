@@ -26,7 +26,10 @@ let
   );
 
   compiledDNSzones = lib.genAttrs conf.dnsZones (
-    zone: pkgs.writeText "${lib.removeSuffix "." zone}zone" (inputs.dns.lib.toString zone (import ./zones/${zone}zone.nix))
+    zone:
+    pkgs.writeText "${lib.removeSuffix "." zone}zone" (
+      inputs.dns.lib.toString zone (import ./zones/${zone}zone.nix)
+    )
   );
   named-conf-path = pkgs.writeText "named.conf" (
     builtins.concatStringsSep "\n" (
