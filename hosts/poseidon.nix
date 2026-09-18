@@ -20,9 +20,7 @@ in
         domain = "16.dapperepoging.nl";
         iface = mainIface;
         ipv4Address = "10.0.116.9";
-        ipv4PrefixLength = 24;
         ipv6Address = "2a07:54c1:4932:116::9";
-        ipv6PrefixLength = 64;
         defaultGateway = "10.0.116.1";
         defaultGateway6 = "fe80::c1c0";
       };
@@ -34,7 +32,6 @@ in
         ipv4Address = "172.23.99.254";
         ipv4PrefixLength = 27;
         ipv6Address = "fda7:54c1:4932::";
-        ipv6PrefixLength = 64;
       };
 
       peer_pixia = {

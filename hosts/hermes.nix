@@ -12,9 +12,7 @@ in
         domain = "16.dapperepoging.nl";
         iface = mainIface;
         ipv4Address = "10.0.116.6";
-        ipv4PrefixLength = 24;
         ipv6Address = "2a07:54c1:4932:116::6";
-        ipv6PrefixLength = 64;
         defaultGateway = "10.0.116.1";
         defaultGateway6 = "fe80::c1c0";
       };
