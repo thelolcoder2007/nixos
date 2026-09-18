@@ -11,22 +11,22 @@ let
   dbPath = "/var/lib/powerdns/dnssec.bind.sqlite3";
 
   localhost = pkgs.writeText "localhost.zone" (
-    inputs.dns.lib.toString "localhost." (import ./zones/localhost.zone.nix)
+    inputs.dns.lib.toString "localhost" (import ./zones/localhost.zone.nix)
   );
   localhost-rdnsv4 = pkgs.writeText "127.in-addr.arpa.zone" (
-    inputs.dns.lib.toString "127.in-addr.arpa." (import ./zones/127.in-addr.arpa.zone.nix)
+    inputs.dns.lib.toString "127.in-addr.arpa" (import ./zones/127.in-addr.arpa.zone.nix)
   );
 
   empty = pkgs.writeText "db.empty" (inputs.dns.lib.toString "@" (import ./zones/db.empty.zone.nix));
 
   localhost-rdnsv6 = pkgs.writeText "1.0..0.ip6.arpa.zone" (
-    inputs.dns.lib.toString "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa." (
+    inputs.dns.lib.toString "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa" (
       import ./zones/1.0..0.ip6.arpa.zone.nix
     )
   );
 
   compiledDNSzones = lib.genAttrs conf.dnsZones (
-    zone: pkgs.writeText "${zone}zone" (inputs.dns.lib.toString zone (import ./zones/${zone}zone.nix))
+    zone: pkgs.writeText "${lib.removeSuffix "." zone}zone" (inputs.dns.lib.toString zone (import ./zones/${zone}zone.nix))
   );
   named-conf-path = pkgs.writeText "named.conf" (
     builtins.concatStringsSep "\n" (
