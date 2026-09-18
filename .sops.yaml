@@ -1,6 +1,8 @@
 ---
 keys:
   - &thomas age1s8sasdxlc8yzw47pqgh0swwhkpergq943jzmc49n6vx7ct7nfucsaqq68t
+  - &apollo age1s8sasdxlc8yzw47pqgh0swwhkpergq943jzmc49n6vx7ct7nfucsaqq68t # TODO
+  - &athena age1s8sasdxlc8yzw47pqgh0swwhkpergq943jzmc49n6vx7ct7nfucsaqq68t # TODO
   - &hera age1s8sasdxlc8yzw47pqgh0swwhkpergq943jzmc49n6vx7ct7nfucsaqq68t # TODO
   - &hermes age1s8sasdxlc8yzw47pqgh0swwhkpergq943jzmc49n6vx7ct7nfucsaqq68t # TODO
   - &poseidon age1pfyuh53qv5jg4ege7y0nypg7ddx5mdfnsl40pnmsg0xxuymcfu8qmavma9
@@ -17,6 +19,18 @@ creation_rules:
         - *poseidon
         - *xenoi
         - *zeus
+
+  - path_regex: secrets/apollo.yml$
+    key_groups:
+      - age:
+          - *thomas
+          - *apollo
+
+  - path_regex: secrets/athena.yml$
+    key_groups:
+      - age:
+          - *thomas
+          - *athena
 
   - path_regex: secrets/hera.yml$
     key_groups:
