@@ -1,5 +1,4 @@
 {
-  security.acme.defaults.email = "thomas.erents@gmail.com";
   services.nginx = {
     enable = true;
 

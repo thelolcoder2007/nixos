@@ -39,16 +39,35 @@ in
         message = "A virtualHost cannot have only have one of the following three attributes set to true: snakeoilHost, prodHost, DN42Host.";
       }
     ];
-    sops.secrets."sslprivatekey" = {
-      owner = config.users.users.nginx.name;
-      group = config.users.groups.nginx.name;
-      sopsFile = ./certs/private.key.sops;
-      format = "binary";
+    sops.secrets = {
+      "sslprivatekey" =
+        lib.optionalAttrs (lib.any (vhost: vhost.snakeoilHost) (lib.attrValues config.x.nginx.virtualHosts))
+          {
+            owner = config.users.users.nginx.name;
+            group = config.users.groups.nginx.name;
+            sopsFile = ./certs/private.key.sops;
+            format = "binary";
+          };
+      "acme_env" =
+        lib.optionalAttrs (lib.any (vhost: vhost.prodHost) (lib.attrValues config.x.nginx.virtualHosts))
+          {
+          	owner = config.users.users.nginx.name;
+           	group = config.users.groups.nginx.name;
+            sopsFile = ./certs/env-acme.sops;
+            format = "binary";
+          };
     };
 
-    security.acme.acceptTerms = lib.any (vhost: vhost.enableACME) (
-      lib.attrValues config.services.nginx.virtualHosts
-    );
+    security.acme =
+      lib.optionalAttrs (lib.any (vhost: vhost.prodHost) (lib.attrValues config.x.nginx.virtualHosts))
+        {
+          acceptTerms = true;
+          defaults = {
+            email = "thomas.erents@gmail.com";
+            server = "https://acme-api.actalis.com/acme/directory";
+            environmentFile = config.sops.secrets."acme_env".path;
+          };
+        };
     services.nginx.virtualHosts = lib.genAttrs (lib.attrNames cfg) (
       vhost:
       {
@@ -76,7 +95,7 @@ in
 
 }
 // {
-  config = lib.mkIf (lib.any (vhost: cfg.${vhost}.DN42Host) (lib.attrNames cfg)) {
+  config = lib.mkIf (lib.any (vhost: vhost.DN42Host) (lib.attrValues cfg)) {
     sops.secrets."dn42_secret".path = "/run/dn42-cert/token.txt";
 
     systemd.services.dn42-cert = {
