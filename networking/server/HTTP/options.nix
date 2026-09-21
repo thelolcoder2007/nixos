@@ -51,8 +51,8 @@ in
       "acme_env" =
         lib.optionalAttrs (lib.any (vhost: vhost.prodHost) (lib.attrValues config.x.nginx.virtualHosts))
           {
-          	owner = config.users.users.nginx.name;
-           	group = config.users.groups.nginx.name;
+            owner = config.users.users.nginx.name;
+            group = config.users.groups.nginx.name;
             sopsFile = ./certs/env-acme.sops;
             format = "binary";
           };
