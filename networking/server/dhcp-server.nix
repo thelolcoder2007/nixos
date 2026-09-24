@@ -15,7 +15,7 @@
     kea.dhcp4 = {
       enable = true;
       settings = {
-        inherit (ipv4Config) validLifetime rebind-timer renew-timer;
+        inherit (ipv4Config) valid-lifetime rebind-timer renew-timer;
         interfaces-config = {
           interfaces = [
             interface
@@ -91,7 +91,7 @@
               map (route: ''
                 route ${route} {
                 	AdvRoutePreference medium;
-                 	AdvRouteLifetime ${toString ipv6Config.routeLifetime}
+                 	AdvRouteLifetime ${toString ipv6Config.routeLifetime};
                 };
               '') routes
             );
@@ -103,7 +103,7 @@
             builtins.concatStringsSep "\n" (
               map (server: ''
                 RDNSS ${server} {
-                	AdvRDNSSLifetime ${toString ipv6Config.RDNSSLifetime}
+                	AdvRDNSSLifetime ${toString ipv6Config.RDNSSLifetime};
                 };
               '') rdnsservers
             );

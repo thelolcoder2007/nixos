@@ -34,7 +34,7 @@ in
       };
       DHCPconf = {
         ipv4Config = {
-          validLifetime = 86400;
+          valid-lifetime = 86400;
           rebind-timer = 43200;
           renew-timer = 7200;
           pool = "10.0.116.130 - 10.0.116.150";

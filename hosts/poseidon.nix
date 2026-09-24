@@ -72,7 +72,7 @@ in
 
       DHCPconf = {
         ipv4Config = {
-          validLifetime = 86400;
+          valid-lifetime = 86400;
           rebind-timer = 43200;
           renew-timer = 7200;
           pool = "172.23.99.225 - 172.23.99.235";
