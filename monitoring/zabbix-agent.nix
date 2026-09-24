@@ -39,12 +39,11 @@
           map getZabbixAddresses (builtins.attrValues inputs.self.nixosConfigurations)
         );
       in
-      (builtins.concatStringsSep "," allActiveZabbixIPs) + ",127.0.0.1";
+      (builtins.concatStringsSep "," allActiveZabbixIPs) + ",127.0.0.1,::1,10.0.111.8,2a07:54c1:4932:111::8";
     settings = {
       Hostname = config.networking.hostName;
       UserParameter =
         let
-
           nix-pkgs-list = pkgs.writeShellScript "linecount-nixpkgs.sh" ''
             cat /etc/current-system-packages | wc -l
           '';
