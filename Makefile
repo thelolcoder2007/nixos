@@ -2,7 +2,7 @@
 
 update:
 	nh os switch -u --commit-lock-file --target-host "thomas@10.0.116.125" -H "xenoi"
-	nh os switch --target-host "thomas@10.0.111.14" -H "poseidon"
+	nh os switch --target-host "thomas@10.0.116.9" -H "poseidon"
 	${MAKE} pull
 
 pull push:
