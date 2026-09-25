@@ -7,13 +7,13 @@
 
 pkgs.rustPlatform.buildRustPackage (finalAttrs: {
   pname = "vertd";
-  version = "0-unstable-2026-09-11";
+  version = "0-unstable-2026-09-25";
 
   src = fetchFromGitHub {
     owner = "vert-sh";
     repo = "vertd";
-    rev = "e94eca2b47237d4e1d698b3bd1162111edcd45c6";
-    hash = "sha256-/ksPeJ5ZdPBVTvxgK0B9aEPmHkBDbyCSn1Zjc8uUq/0=";
+    rev = "24bff68d59c03e24914624ad78f7cc125b4870db";
+    hash = "sha256-wXKN22QLH21YGcYGCQ5S9IHW5RvrhZMrnRLVW1pZUf0=";
   };
 
   nativeBuildInputs = with pkgs; [
