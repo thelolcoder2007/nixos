@@ -39,7 +39,7 @@ in
 
     lg = ns;
 
-   	olympos = host "172.23.99.253" "fda7:54c1:4932::253";
+    olympos = host "172.23.99.253" "fda7:54c1:4932::253";
     poseidon = host "172.23.99.254" "fda7:54c1:4932::";
   };
 }

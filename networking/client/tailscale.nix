@@ -1,9 +1,9 @@
 { config, lib, ... }:
 let
-	DN42Hosts = [
-		"poseidon"
-		"xenoi"
-	]; # FIXME make this dynamic
+  DN42Hosts = [
+    "poseidon"
+    "xenoi"
+  ]; # FIXME make this dynamic
   advertisedRoutes = lib.concatStringsSep "," (
     [
       "10.0.111.0/24"
@@ -11,13 +11,11 @@ let
       "2a07:54c1:4932:111::/64"
       "2a07:54c1:4932:116::/64"
     ]
-    ++
-      lib.optionals (builtins.elem config.networking.hostName DN42Hosts)
-        [
-          "172.20.0.0/14"
-          "172.31.0.0/16"
-          "fd00::/8"
-        ]
+    ++ lib.optionals (builtins.elem config.networking.hostName DN42Hosts) [
+      "172.20.0.0/14"
+      "172.31.0.0/16"
+      "fd00::/8"
+    ]
   );
 in
 {

@@ -39,7 +39,8 @@
           map getZabbixAddresses (builtins.attrValues inputs.self.nixosConfigurations)
         );
       in
-      (builtins.concatStringsSep "," allActiveZabbixIPs) + ",127.0.0.1,::1,10.0.111.8,2a07:54c1:4932:111::8";
+      (builtins.concatStringsSep "," allActiveZabbixIPs)
+      + ",127.0.0.1,::1,10.0.111.8,2a07:54c1:4932:111::8";
     settings = {
       Hostname = config.networking.hostName;
       UserParameter =
