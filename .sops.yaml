@@ -25,30 +25,35 @@ creation_rules:
       - age:
           - *thomas
           - *apollo
+          - *xenoi
 
   - path_regex: secrets/athena.yml$
     key_groups:
       - age:
           - *thomas
           - *athena
+          - *xenoi
 
   - path_regex: secrets/hera.yml$
     key_groups:
       - age:
           - *thomas
           - *hera
+          - *xenoi
 
   - path_regex: secrets/hermes.yml$
     key_groups:
       - age:
           - *thomas
           - *hermes
+          - *xenoi
 
   - path_regex: secrets/poseidon.yml$
     key_groups:
       - age:
           - *thomas
           - *poseidon
+          - *xenoi
 
   - path_regex: secrets/xenoi.yml$
     key_groups:
@@ -60,4 +65,5 @@ creation_rules:
     key_groups:
       - age:
           - *thomas
+          - *xenoi
           - *zeus
