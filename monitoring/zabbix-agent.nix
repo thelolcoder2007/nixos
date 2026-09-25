@@ -55,7 +55,7 @@
     };
     package = pkgs.zabbix74.agent2;
   };
-  systemd.services.zabbix-agent.serviceConfig.ReadOnlyPaths = [ "/etc/nixos/nixos-repository" ];
+  # systemd.services.zabbix-agent.serviceConfig.ReadOnlyPaths = [ "/etc/nixos/nixos" ];
   environment.etc."current-system-packages".text =
     let
       packages = map (p: "${p.name}") config.environment.systemPackages;
