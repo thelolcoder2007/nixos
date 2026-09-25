@@ -1,22 +1,16 @@
 { config, peers, ... }:
 
 {
+  imports = [
+    ./default.nix
+  ];
   networking = {
     firewall = {
-      logRefusedConnections = true;
-      logRefusedUnicastsOnly = false;
-      logRefusedPackets = true;
       extraInputRules = builtins.concatStringsSep "\n" (
-        map (
-          peer:
-          ''
+        map (peer: ''
           ip6 saddr fe80::${peer.dn42Endpoint-LL} ip6 daddr fe80::2 iifname "dn42_${peer.asnum}" accept comment "Allow peering from dn42_${peer.asnum}";
-          ''
-        ) peers
-      ) + ''
-        ip saddr { 10.0.111.8, 10.0.116.8 } tcp dport 10050 accept comment "monitoring from monitoring servers";
-        ip6 saddr { 2a07:54c1:4932:111::8, 2a07:54c1:4932:116::8 } tcp dport 10050 accept comment "monitoring from monitoring servers";
-      '';
+        '') peers
+      );
       filterForward = true;
       extraForwardRules = ''
         iifname { ${builtins.concatStringsSep ", " config.networking.firewall.trustedInterfaces} } accept comment "trusted interfaces"

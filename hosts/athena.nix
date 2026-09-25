@@ -25,6 +25,7 @@ in
       ../networking/client/resolv.conf.nix
       ../networking/client/ssh.nix
       ../networking/client/tailscale.nix
+      ../networking/server/firewall/default.nix
       # keep-sorted end
     ];
 }
