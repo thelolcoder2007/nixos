@@ -83,8 +83,8 @@ in
         };
         ipv6Config = {
           RDNSSLifetime = 43200; # 12 hours
-          defaultRouteLifetime = 21600; # 6 hours
-          prefix = "fd07:54c1:4932::/64";
+          defaultRouteLifetime = 0; # No default route
+          prefix = "fda7:54c1:4932::/64";
           RDNSServers = [
             (builtins.elemAt inputs.self.nixosConfigurations.zeus.config.networking.interfaces.ens192.ipv6.addresses 0)
             .address
