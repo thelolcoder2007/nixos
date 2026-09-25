@@ -24,13 +24,13 @@ let
 in
 bun2nix.mkDerivation (finalAttrs: {
   pname = "vert-sh";
-  version = "0-unstable-2026-09-09";
+  version = "0-unstable-2026-09-25";
 
   src = fetchFromGitHub {
     owner = "vert-sh";
     repo = "vert";
-    rev = "063383e685dee61531f71c77d41443c5a04bd872";
-    hash = "sha256-XWpnrN110dLHr4zFoy8ooOpiO06x2sAA8A2Z76qUrYY=";
+    rev = "2fb7c6d96e8bd4616f9d2ef79804e3485b49e483";
+    hash = "sha256-e3Tr6DZxEOWPvy7JzPeYv/gqj8zob/z8iv75BSFwjzM=";
   };
 
   packageJson = "${finalAttrs.src}/package.json";
