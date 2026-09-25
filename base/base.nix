@@ -50,7 +50,7 @@
 
   environment = {
     variables = {
-      "NH_FLAKE" = "/etc/nixos/nixos-repository";
+      "NH_FLAKE" = "/etc/nixos/nixos";
     };
     systemPackages = with pkgs; [
       # keep-sorted start
