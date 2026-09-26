@@ -25,121 +25,107 @@ in
       }
     );
   };
-  config = {
-    assertions = [
-      {
-        assertion = lib.all (
-          vhost:
-          lib.count (x: x) [
-            vhost.snakeoilHost
-            vhost.prodHost
-            vhost.DN42Host
-          ] <= 1
-        ) (lib.attrValues config.x.nginx.virtualHosts);
-        message = "A virtualHost cannot have only have one of the following three attributes set to true: snakeoilHost, prodHost, DN42Host.";
-      }
-    ];
-    sops.secrets = {
-      "sslprivatekey" =
-        lib.optionalAttrs (lib.any (vhost: vhost.snakeoilHost) (lib.attrValues config.x.nginx.virtualHosts))
-          {
-            owner = config.users.users.nginx.name;
-            group = config.users.groups.nginx.name;
-            sopsFile = ./certs/private.key.sops;
-            format = "binary";
-          };
-      "acme_env" =
-        lib.optionalAttrs (lib.any (vhost: vhost.prodHost) (lib.attrValues config.x.nginx.virtualHosts))
-          {
-            owner = config.users.users.nginx.name;
-            group = config.users.groups.nginx.name;
-            sopsFile = ./certs/env-acme.sops;
-            format = "binary";
-          };
-    };
 
-    security.acme =
-      lib.optionalAttrs (lib.any (vhost: vhost.prodHost) (lib.attrValues config.x.nginx.virtualHosts))
+  config = lib.mkMerge [
+    {
+      assertions = [
         {
-          acceptTerms = true;
-          defaults = {
-            email = "thomas.erents@gmail.com";
-            server = "https://acme-api.actalis.com/acme/directory";
-            environmentFile = config.sops.secrets."acme_env".path;
-          };
+          assertion = lib.all (
+            vhost:
+            lib.count (x: x) [
+              vhost.snakeoilHost
+              vhost.prodHost
+              vhost.DN42Host
+            ] <= 1
+          ) (lib.attrValues cfg);
+          message = "A virtualHost cannot have only have one of the following three attributes set to true: snakeoilHost, prodHost, DN42Host.";
+        }
+      ];
+
+      sops.secrets = {
+        "sslprivatekey" = lib.mkIf (lib.any (vhost: vhost.snakeoilHost) (lib.attrValues cfg)) {
+          owner = config.users.users.nginx.name;
+          group = config.users.groups.nginx.name;
+          sopsFile = ./certs/private.key.sops;
+          format = "binary";
         };
-    services.nginx.virtualHosts = lib.genAttrs (lib.attrNames cfg) (
-      vhost:
-      {
-        http2 = true;
-        http3 = true;
-        http3_hq = true;
-      }
-      // lib.optionalAttrs (cfg.${vhost}.prodHost) {
-        enableACME = true;
-        onlySSL = true;
-      }
-      // lib.optionalAttrs (cfg.${vhost}.snakeoilHost) {
-        onlySSL = lib.mkDefault true;
-        # TODO: Make SSL certs something else than a public certificate
-        sslCertificate = ./certs/certificate.crt;
-        sslCertificateKey = config.sops.secrets.sslprivatekey.path;
-      }
-      // lib.optionalAttrs (cfg.${vhost}.DN42Host) {
-        onlySSL = lib.mkDefault true;
-        sslCertificate = "/etc/certs/nlgld.dn42/signed.crt";
-        sslCertificateKey = "/etc/certs/nlgld.dn42/server.key";
-      }
-    );
-  };
-
-}
-// {
-  config = lib.mkIf (lib.any (vhost: vhost.DN42Host) (lib.attrValues cfg)) {
-    sops.secrets."dn42_secret".path = "/run/dn42-cert/token.txt";
-
-    systemd.services.dn42-cert = {
-      description = "Fetch DN42 Certificate using client.sh";
-
-      after = [
-        "network-online.target"
-        "sops-nix.service"
-      ];
-      before = [ "nginx.service" ];
-      wants = [ "network-online.target" ];
-
-      path = with pkgs; [
-        #	keep-sorted start
-        bash
-        coreutils-full
-        curl
-        gawk
-        gnugrep
-        openssl
-        # keep-sorted end
-      ];
-
-      serviceConfig = {
-        Type = "oneshot";
-        WorkingDirectory = "/run/dn42-cert";
-        DynamicUser = true;
-        PrivateTmp = true;
-        PrivateDev = true;
+        "acme_env" = lib.mkIf (lib.any (vhost: vhost.prodHost) (lib.attrValues cfg)) {
+          owner = config.users.users.nginx.name;
+          group = config.users.groups.nginx.name;
+          sopsFile = ./certs/env-acme.sops;
+          format = "binary";
+        };
       };
-      script = ''
-        cp ${clientScript} ./client.sh
-        chmod +x ./client.sh
 
-        ./client.sh get_certificate nlgld.dn42 '*.nlgld.dn42'
+      security.acme = lib.optionalAttrs (lib.any (vhost: vhost.prodHost) (lib.attrValues cfg)) {
+        acceptTerms = true;
+        defaults = {
+          email = "thomas.erents@gmail.com";
+          server = "https://acme-api.actalis.com/acme/directory";
+          environmentFile = config.sops.secrets."acme_env".path;
+        };
+      };
 
-        mkdir -p /etc/certs/nlgld.dn42
+      services.nginx.virtualHosts = lib.genAttrs (lib.attrNames cfg) (
+        vhost:
+        {
+          http2 = true;
+          http3 = true;
+          http3_hq = true;
+        }
+        // lib.optionalAttrs (cfg.${vhost}.prodHost) {
+          # enableACME = true;
+          # onlySSL = true;
+        }
+        // lib.optionalAttrs (cfg.${vhost}.snakeoilHost) {
+          onlySSL = lib.mkDefault true;
+          sslCertificate = ./certs/certificate.crt;
+          sslCertificateKey = config.sops.secrets.sslprivatekey.path;
+        }
+        // lib.optionalAttrs (cfg.${vhost}.DN42Host) {
+          onlySSL = lib.mkDefault true;
+          sslCertificate = "/etc/certs/nlgld.dn42/signed.crt";
+          sslCertificateKey = "/etc/certs/nlgld.dn42/server.key";
+        }
+      );
+    }
 
-        cp signed.crt /etc/certs/nlgld.dn42
-        cp server.key /etc/certs/nlgld.dn42
+    (lib.mkIf (lib.any (vhost: vhost.DN42Host) (lib.attrValues cfg)) {
+      sops.secrets."dn42_secret".path = "/run/dn42-cert/token.txt";
 
-        chmod 0600 /etc/certs/nlgld.dn42/*
-        chown nginx:nginx /etc/certs/nlgld.dn42/*
-      '';
-    };
-  };
+      systemd.services.dn42-cert = {
+        description = "Fetch DN42 Certificate using client.sh";
+        after = [
+          "network-online.target"
+          "sops-nix.service"
+        ];
+        before = [ "nginx.service" ];
+        wants = [ "network-online.target" ];
+        path = with pkgs; [
+          bash
+          coreutils-full
+          curl
+          gawk
+          gnugrep
+          openssl
+        ];
+        serviceConfig = {
+          Type = "oneshot";
+          WorkingDirectory = "/run/dn42-cert";
+          DynamicUser = true;
+          PrivateTmp = true;
+        };
+        script = ''
+          cp ${clientScript} ./client.sh
+          chmod +x ./client.sh
+          ./client.sh get_certificate nlgld.dn42 '*.nlgld.dn42'
+          mkdir -p /etc/certs/nlgld.dn42
+          cp signed.crt /etc/certs/nlgld.dn42
+          cp server.key /etc/certs/nlgld.dn42
+          chmod 0600 /etc/certs/nlgld.dn42/*
+          chown nginx:nginx /etc/certs/nlgld.dn42/*
+        '';
+      };
+    })
+  ];
 }
