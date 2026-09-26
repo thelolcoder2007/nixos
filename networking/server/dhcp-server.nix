@@ -37,11 +37,6 @@
             inherit (ipv4Config) subnet;
             option-data = [
               {
-                name = "routers";
-                code = 3;
-                data = ipv4Config.routers;
-              }
-              {
                 name = "domain-name-servers";
                 code = 6;
                 data = ipv4Config.dnsServers;
@@ -63,6 +58,18 @@
               #   data = "/netboot.pxe";
               # }
             ]
+            ++ (
+              if (ipv4Config ? routers) then
+                [
+                  {
+                    name = "routers";
+                    code = 3;
+                    data = ipv4Config.routers;
+                  }
+                ]
+              else
+                [ ]
+            )
             ++ (
               if (ipv4Config ? staticRoutes) then
                 [

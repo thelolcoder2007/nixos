@@ -79,7 +79,7 @@ in
           subnet = "172.23.99.224/27";
           dnsServers = "${(builtins.elemAt config.networking.interfaces.${mainIface}.ipv4.addresses 0).address
           }";
-          routers = "172.23.99.254";
+          staticRoutes = "172.20.0.0/14 - 172.23.99.254";
         };
         ipv6Config = {
           RDNSSLifetime = 43200; # 12 hours
