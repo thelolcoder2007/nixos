@@ -5,6 +5,10 @@ let
   ip_addr6_ll = "fe80::c1c0"; # fe80::cisco
 in
 {
+	services.udev.extraRules = ''
+		SUBSYSTEM=="net", ACTION=="add", KERNELS=="0000:00:12.0", NAME="ens192"
+		SUBSYSTEM=="net", ACTION=="add", KERNELS=="0000:00:13.0", NAME="ens224"
+	'';
   networking = {
     hostName = lib.mkForce "xenoi";
     interfaces.ens192 = lib.mkForce {
