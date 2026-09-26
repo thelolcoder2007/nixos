@@ -6,6 +6,10 @@
   ];
   networking = {
     firewall = {
+      trustedInterfaces = [
+        "ens192"
+        "ens224"
+      ];
       extraInputRules = builtins.concatStringsSep "\n" (
         map (peer: ''
           ip6 saddr fe80::${peer.dn42Endpoint-LL} ip6 daddr fe80::2 iifname "dn42_${peer.asnum}" accept comment "Allow peering from dn42_${peer.asnum}";
@@ -13,9 +17,10 @@
       );
       filterForward = true;
       extraForwardRules = ''
-        iifname { ${builtins.concatStringsSep ", " config.networking.firewall.trustedInterfaces} } accept comment "trusted interfaces"
-        icmp type echo-request accept comment "allow ping"
-        iifname "dn42_*" oifname "dn42_*" accept
+        iifname tailscale0 accept comment "Allow tailscale";
+        iifname ens224 oifname != ens192 accept comment "Allow ens224 everywhere but ens192";
+        icmp type echo-request accept comment "allow ping";
+        iifname "dn42_*" oifname "dn42_*" accept;
       '';
       checkReversePath = false;
     };
