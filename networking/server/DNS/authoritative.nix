@@ -4,7 +4,6 @@
   lib,
   pkgs,
   conf,
-  mainIface,
   ...
 }:
 let
@@ -641,6 +640,9 @@ in
   imports = [
     ../../../base/sops.nix
   ];
+  environment.etc."resolv.conf".text = lib.mkBefore ''
+    nameserver 127.0.0.1
+  '';
   sops.secrets."powerdns-apikey" = { };
   systemd = {
     services = {
@@ -702,11 +704,7 @@ in
       bind-dnssec-db=${dbPath}
 
       # Networking
-      local-address=${
-        (builtins.elemAt config.networking.interfaces.${mainIface}.ipv4.addresses 0).address
-      },127.0.0.1,${
-        (builtins.elemAt config.networking.interfaces.${mainIface}.ipv6.addresses 0).address
-      },::1
+      local-address=0.0.0.0,::
       local-port=${toString (conf.listenPort or 53)}
 
       distributor-threads=3
