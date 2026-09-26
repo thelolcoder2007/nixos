@@ -8,7 +8,7 @@ update:
 pull push:
 	git push
 	ssh thomas@10.0.116.125 "git -C /etc/nixos/nixos pull"
-	ssh thomas@10.0.111.14 "git -C /etc/nixos/nixos pull"
+	ssh thomas@10.0.116.9 "git -C /etc/nixos/nixos pull"
 
 build:
 	nix flake update --commit-lock-file
