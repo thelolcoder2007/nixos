@@ -23,10 +23,10 @@
       dn42-natv4 = {
         family = "ip";
         content = ''
-            		chain postrouting {
-          				type nat hook postrouting priority srcnat - 5; policy accept;
-              		oifname "dn42_*" meta mark & 0x00ff0000 == 0x00040000 snat to ${(builtins.elemAt config.networking.interfaces.ens224.ipv4.addresses 0).address}
-            		}
+          chain postrouting {
+          	type nat hook postrouting priority srcnat - 5; policy accept;
+          	oifname "dn42_*" meta mark & 0x00ff0000 == 0x00040000 snat to ${(builtins.elemAt config.networking.interfaces.ens224.ipv4.addresses 0).address}
+          }
         '';
       };
       dn42-natv6 = {
