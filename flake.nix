@@ -89,7 +89,7 @@
             # It gets a lot of "foreigners", "xenoi", in its body.
             "xenoi" = {
               guid_root = "6b726067-dbb2-481e-a323-1f61855ca34e";
-              guid_boot = "471D-894E";
+              guid_boot = "9159-0D98";
               vmwareHost = false;
               qemuHost = true;
             };

@@ -6,8 +6,8 @@ let
 in
 {
   services.udev.extraRules = ''
-    		SUBSYSTEM=="net", ACTION=="add", KERNELS=="0000:00:12.0", NAME="ens192"
-    		SUBSYSTEM=="net", ACTION=="add", KERNELS=="0000:00:13.0", NAME="ens224"
+    		SUBSYSTEM=="net", ACTION=="add", KERNELS=="0000:00:1.0", NAME="ens192"
+    		SUBSYSTEM=="net", ACTION=="add", KERNELS=="0000:00:2.0", NAME="ens224"
     	'';
   networking = {
     hostName = lib.mkForce "xenoi";
