@@ -6,9 +6,9 @@ let
 in
 {
   services.udev.extraRules = ''
-    		SUBSYSTEM=="net", ACTION=="add", KERNELS=="0000:00:1.0", NAME="ens192"
-    		SUBSYSTEM=="net", ACTION=="add", KERNELS=="0000:00:2.0", NAME="ens224"
-    	'';
+    SUBSYSTEM=="net", ACTION=="add", KERNELS=="0000:01:00.0", NAME="ens192"
+    SUBSYSTEM=="net", ACTION=="add", KERNELS=="0000:02:00.0", NAME="ens224"
+  '';
   networking = {
     hostName = lib.mkForce "xenoi";
     interfaces.ens192 = lib.mkForce {
