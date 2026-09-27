@@ -88,8 +88,8 @@
             # The nixos tryout server. I use it to test hosts, which means that I build it to be a lot of different hosts
             # It gets a lot of "foreigners", "xenoi", in its body.
             "xenoi" = {
-              guid_root = "bce8673e-6588-4782-bf43-c2b351da947d";
-              guid_boot = "8ED8-E9E1";
+              guid_root = "6b726067-dbb2-481e-a323-1f61855ca34e";
+              guid_boot = "471D-894E";
               vmwareHost = false;
               qemuHost = true;
             };

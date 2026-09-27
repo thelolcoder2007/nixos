@@ -51,7 +51,6 @@ let
       "vmw_pvscsi"
     ];
   };
-
   qemuModules = lib.optionalAttrs qemuHost {
     services.qemuGuest.enable = true;
     boot = {
@@ -59,6 +58,11 @@ let
         "uhci_hcd"
         "virtio_pci"
         "virtio_scsi"
+        "ahci"
+        "xhci_pci"
+        "virtio_pci"
+        "sr_mod"
+        "virtio_blk"
       ];
       kernelModules = [ "kvm-intel" ];
     };
