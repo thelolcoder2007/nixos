@@ -28,13 +28,12 @@
     '';
   };
   services.zabbixAgent = {
-
     # Monitoring Postgres server
-    extraPackages = with pkgs; [
-      zabbix-agent2-plugin-postgresql
+    extraPackages = with pkgs.zabbix74.plugins; [
+      postgresql
     ];
     settings = {
-      "Plugins.PostgreSQL.System.Path" = lib.getExe pkgs.zabbix-agent2-plugin-postgresql;
+      "Plugins.PostgreSQL.System.Path" = lib.getExe pkgs.zabbix74.plugins.postgresql;
 
       "Plugins.PostgreSQL.Sessions.postgres.Uri" = "tcp://localhost:5432";
       "Plugins.PostgreSQL.Sessions.postgres.User" = "zabbix";
