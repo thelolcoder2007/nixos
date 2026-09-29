@@ -76,9 +76,9 @@
           })
         end
 
-        addAction(QNameSuffixRule({"16.dapperepoging.nl.", "116.0.10.in-addr.arpa.", "6.1.1.2.3.9.4.1.c.4.5.7.0.a.2.ip6.arpa."}), PoolAction("zeus"))
-        addAction(QNameSuffixRule({"dapperepoging.nl.","111.0.10.in-addr.arpa."}), PoolAction("upstream"))
-        addAction(QNameSuffixRule({"nlgld.dn42."}), PoolAction("poseidon"))
+        addAction(QNameSuffixRule({"16.dapperepoging.nl.", "116.0.10.in-addr.arpa.", "6.1.1.0.2.3.9.4.1.c.4.5.7.0.a.2.ip6.arpa."}), PoolAction("zeus"))
+        addAction(QNameSuffixRule({"dapperepoging.nl.","111.0.10.in-addr.arpa.", "1.1.1.0.2.3.9.4.1.c.4.5.7.0.a.2.ip6.arpa."}), PoolAction("upstream"))
+        addAction(QNameSuffixRule({"nlgld.dn42.", "2.3.9.4.1.c.4.5.7.a.d.f.ip6.arpa."}), PoolAction("poseidon"))
         addAction(QNameSuffixRule({"dn42.", "20.172.in-addr.arpa.", "21.172.in-addr.arpa.", "22.172.in-addr.arpa.", "23.172.in-addr.arpa.", "d.f.ip6.arpa."}), PoolAction("DN42"))
 
         -- Catch AS112 zones before they hit the internet
