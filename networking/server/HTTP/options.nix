@@ -75,15 +75,15 @@ in
         }
         // lib.optionalAttrs (cfg.${vhost}.prodHost) {
           # enableACME = true;
-          # onlySSL = true;
+          # forceSSL = true;
         }
         // lib.optionalAttrs (cfg.${vhost}.snakeoilHost) {
-          onlySSL = lib.mkDefault true;
+          forceSSL = lib.mkDefault true;
           sslCertificate = ./certs/certificate.crt;
           sslCertificateKey = config.sops.secrets.sslprivatekey.path;
         }
         // lib.optionalAttrs (cfg.${vhost}.DN42Host) {
-          onlySSL = lib.mkDefault true;
+          forceSSL = lib.mkDefault true;
           sslCertificate = "/etc/certs/nlgld.dn42/signed.crt";
           sslCertificateKey = "/etc/certs/nlgld.dn42/server.key";
         }
