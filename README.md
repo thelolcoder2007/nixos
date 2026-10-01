@@ -7,6 +7,7 @@
 - [x] Implement networking/server/HTTP/defaults.nix
 - [x] Implement Poseidon
 - [x] Find a better place for networking/server/BGP/DN42-cert.nix
+- [ ] Make sure the cert gets checked every couple days
 - [ ] Make up a name for games server
 - [ ] Add games
 - [ ] Add hydra buildserver named Athena

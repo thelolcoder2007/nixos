@@ -112,7 +112,6 @@ in
         serviceConfig = {
           Type = "oneshot";
           WorkingDirectory = "/run/dn42-cert";
-          DynamicUser = true;
           PrivateTmp = true;
         };
         script = ''
@@ -124,6 +123,7 @@ in
           cp server.key /etc/certs/nlgld.dn42
           chmod 0600 /etc/certs/nlgld.dn42/*
           chown nginx:nginx /etc/certs/nlgld.dn42/*
+          systemctl restart nginx
         '';
       };
     })
