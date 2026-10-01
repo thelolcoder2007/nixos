@@ -66,7 +66,7 @@ in
       };
       DNSconf.dnsZones = [
         "2.3.9.4.1.c.4.5.7.a.d.f.ip6.arpa."
-        "224-27.99.23.172.in-addr.arpa."
+        "224/27.99.23.172.in-addr.arpa."
         "nlgld.dn42."
       ];
 
