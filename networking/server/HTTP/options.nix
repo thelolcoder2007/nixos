@@ -92,39 +92,47 @@ in
 
     (lib.mkIf (lib.any (vhost: vhost.DN42Host) (lib.attrValues cfg)) {
       sops.secrets."dn42_secret".path = "/run/dn42-cert/token.txt";
-
-      systemd.services.dn42-cert = {
-        description = "Fetch DN42 Certificate using client.sh";
-        after = [
-          "network-online.target"
-          "sops-nix.service"
-        ];
-        before = [ "nginx.service" ];
-        wants = [ "network-online.target" ];
-        path = with pkgs; [
-          bash
-          coreutils-full
-          curl
-          gawk
-          gnugrep
-          openssl
-        ];
-        serviceConfig = {
-          Type = "oneshot";
-          WorkingDirectory = "/run/dn42-cert";
-          PrivateTmp = true;
+      systemd = {
+        timers.dn42-cert = {
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "Weekly";
+            Unit = "hello-world.service";
+          };
         };
-        script = ''
-          cp ${clientScript} ./client.sh
-          chmod +x ./client.sh
-          ./client.sh get_certificate nlgld.dn42 '*.nlgld.dn42'
-          mkdir -p /etc/certs/nlgld.dn42
-          cp signed.crt /etc/certs/nlgld.dn42
-          cp server.key /etc/certs/nlgld.dn42
-          chmod 0600 /etc/certs/nlgld.dn42/*
-          chown nginx:nginx /etc/certs/nlgld.dn42/*
-          systemctl restart nginx
-        '';
+        services.dn42-cert = {
+          description = "Fetch DN42 Certificate using client.sh";
+          after = [
+            "network-online.target"
+            "sops-nix.service"
+          ];
+          before = [ "nginx.service" ];
+          wants = [ "network-online.target" ];
+          path = with pkgs; [
+            bash
+            coreutils-full
+            curl
+            gawk
+            gnugrep
+            openssl
+          ];
+          serviceConfig = {
+            Type = "oneshot";
+            WorkingDirectory = "/run/dn42-cert";
+            PrivateTmp = true;
+          };
+          script = ''
+            cp ${clientScript} ./client.sh
+            chmod +x ./client.sh
+            ./client.sh get_certificate nlgld.dn42 '*.nlgld.dn42'
+            mkdir -p /etc/certs/nlgld.dn42
+            cp signed.crt /etc/certs/nlgld.dn42
+            cp server.key /etc/certs/nlgld.dn42
+            chmod 0600 /etc/certs/nlgld.dn42/*
+            chown nginx:nginx /etc/certs/nlgld.dn42/*
+            systemctl restart nginx
+          '';
+        };
       };
     })
   ];

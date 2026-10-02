@@ -68,6 +68,7 @@ in
         "2.3.9.4.1.c.4.5.7.a.d.f.ip6.arpa."
         "224/27.99.23.172.in-addr.arpa."
         "nlgld.dn42."
+        "2.4.8.3.4.2.4.0.tel.dn42."
       ];
 
       DHCPconf = {
@@ -139,6 +140,7 @@ in
       ../networking/server/BGP/BIRD-lg.nix
       ../networking/server/BGP/BIRD.nix
       ../networking/server/BGP/ROA.nix
+      ../networking/server/telephony/asterisk.nix
       # keep-sorted end
     ];
 }

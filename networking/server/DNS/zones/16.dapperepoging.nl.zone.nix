@@ -27,21 +27,22 @@ in
     zeus = host "10.0.116.5" "2a07:54c1:4932:116::5";
 
     # Other machines
+    cerberos = host "10.0.116.1" "2a07:54c1:4932:116::";
+    chronos = host "10.0.116.103" "2a07:54c1:4932:116::103";
     olympos = host "10.0.116.31" "2a07:54c1:4932:116::31";
     olympos-ipmi = host "10.0.116.36" "2a07:54c1:4932:116::36";
 
-    cerberos = host "10.0.116.1" "2a07:54c1:4932:116::";
-
     # CNAMEs
-    # keep-sorted start
-    build = cname "athena";
     chat = cname "hermes" // {
       subdomains."*" = cname "hermes";
     };
+    # keep-sorted start
+    build = cname "athena";
     matrix = cname "hermes";
     maubot = cname "hermes";
     monitoring = cname "hera";
     music = cname "apollo";
+    ns = cname "zeus";
     tftp = cname "zeus";
     # keep-sorted end
   };
