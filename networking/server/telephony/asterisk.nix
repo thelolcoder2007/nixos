@@ -47,8 +47,8 @@
 
         ; Replace variables to create an extension names <EXT_NAME>
         [4201](phone-template)
-        auth=0001
-        aors=0001
+        auth=4201
+        aors=4201
         callerid="My Name" <<+0424384201>>
 
         [4201]
@@ -136,8 +136,8 @@
 
         ; Calls destined for local networks.
         [ext-local]
-        ; route <OWN_PREFIX>0001 calls to your local extension <EXT_NAME>
-        exten => 0001,1,Dial(PJSIP/<EXT_NAME>,30)  ;
+        ; route <OWN_PREFIX>4201 calls to your local extension <EXT_NAME>
+        exten => 4201,1,Dial(PJSIP/<EXT_NAME>,30)  ;
 
 
         ; Inter-PBX routing for both inbound and outbound calls.
@@ -152,7 +152,27 @@
         same => n,ExecIf($["$\{TARGET_URI}"!=""]?Dial(PJSIP/peer-enum-outbound/sip:$\{TARGET_URI},60))
         ; if unallocated or failed, naturally hangup
         same => n,Hangup()
-        			'';
+      '';
+
+      "modules.conf" = ''
+        [modules]
+        autoload=yes
+        noload = res_xmpp.so
+        noload = chan_motif.so
+        noload = res_pjsip_notify.so
+        noload = res_prometheus.so
+        noload = res_hep_rtcp.so
+        noload = res_hep_pjsip.so
+        noload = res_stun_monitor.so
+        noload = pbx_lua.so
+        noload = pbx_ael.so
+        noload = app_festival.so
+        noload = app_followme.so
+        noload = app_alarmreceiver.so
+        noload = cdr_manager.so
+        noload = cdr_sqlite3_custom.so
+        noload = cel_sqlite3_custom.so
+      '';
     };
   };
 }
