@@ -27,7 +27,9 @@ let
   compiledDNSzones = lib.genAttrs conf.dnsZones (
     zone:
     pkgs.writeText "${zone}zone" (
-      inputs.dns.lib.toString (lib.removeSuffix "." zone) (import ./zones/${zone}zone.nix)
+      inputs.dns.lib.toString (lib.removeSuffix "." zone) (
+        import ./zones/${zone}zone.nix { inherit inputs; }
+      )
       + lib.optionalString (zone == "2.4.8.3.4.2.4.0.tel.dn42.") ''
         2.4.8.3.4.2.4.0.tel.dn42.   3600 IN NAPTR 100 10 "u" "E2U+sip" "!^(.*)$!sip:\\1@sip.nlgld.dn42:5060!" .
         *.2.4.8.3.4.2.4.0.tel.dn42. 3600 IN NAPTR 100 10 "u" "E2U+sip" "!^(.*)$!sip:\\1@sip.nlgld.dn42:5060!" .

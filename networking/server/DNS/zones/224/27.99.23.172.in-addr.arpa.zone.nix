@@ -1,3 +1,4 @@
+{ ... }:
 {
   SOA = {
     nameServer = "ns.nlgld.dn42.";

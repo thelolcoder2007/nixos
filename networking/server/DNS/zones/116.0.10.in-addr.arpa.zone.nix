@@ -1,3 +1,4 @@
+{ ... }:
 {
   SOA = {
     nameServer = "zeus.16.dapperepoging.nl.";
