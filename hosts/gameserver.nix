@@ -8,11 +8,11 @@ in
   imports =
     let
       staticConf = {
-        hostName = "athena";
+        hostName = "gameserver"; # TODO: NAME IS STILL WIP
         domain = "16.dapperepoging.nl";
         iface = mainIface;
-        ipv4Address = "10.0.116.4";
-        ipv6Address = "2a07:54c1:4932:116::4";
+        ipv4Address = "10.0.116.7";
+        ipv6Address = "2a07:54c1:4932:116::7";
         defaultGateway = "10.0.116.1";
         defaultGateway6 = "fe80::c1c0";
       };

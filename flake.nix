@@ -61,6 +61,13 @@
               vmwareHost = true;
               qemuHost = false;
             };
+            # This is my gameserver. Name still WIP
+            "gameserver" = {
+              guid_root = "0";
+              guid_boot = "0";
+              vmwareHost = true;
+              qemuHost = false;
+            };
             # Hera sees everything Zeus does (which is mostly sleeping with other women)
             # Therefore it is my monitoring server and does the home-assistant stuff
             "hera" = {
