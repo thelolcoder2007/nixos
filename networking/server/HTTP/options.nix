@@ -97,7 +97,7 @@ in
           wantedBy = [ "timers.target" ];
           timerConfig = {
             OnCalendar = "Weekly";
-            Unit = "hello-world.service";
+            Unit = "dn42-cert.service";
           };
         };
         services.dn42-cert = {
