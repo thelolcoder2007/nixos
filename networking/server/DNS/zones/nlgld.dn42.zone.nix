@@ -56,7 +56,7 @@ in
       _dmarc.TXT = [ "v=DMARC1; p=reject;" ];
       olympos = host "172.23.99.250" "fda7:54c1:4932::250";
       chronos = host "172.23.99.251" "fda7:54c1:4932::251";
-      ns = cname "poseidon";
+      ns = host "172.23.99.254" "fda7:54c1:4932::";
       lg = cname "poseidon";
       sip = cname "poseidon";
     };
