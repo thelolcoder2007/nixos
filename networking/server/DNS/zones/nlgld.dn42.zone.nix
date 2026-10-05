@@ -1,8 +1,8 @@
 { inputs, ... }:
 let
   host = ipv4Address: ipv6Address: {
-    A = [ (toString ipv4Address) ];
-    AAAA = [ (toString ipv6Address) ];
+    A = if ipv4Address != "" then [ (toString ipv4Address) ] else [];
+    AAAA = if ipv6Address != "" then [ (toString ipv6Address) ] else [];
   };
   cname = name: { CNAME = [ name ]; };
   inherit (inputs.nixpkgs) lib;
