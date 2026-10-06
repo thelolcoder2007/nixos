@@ -1,8 +1,8 @@
 { inputs, ... }:
 let
   host = ipv4Address: ipv6Address: {
-    A = [ (toString ipv4Address) ];
-    AAAA = [ (toString ipv6Address) ];
+    A = if ipv4Address != "" then [ (toString ipv4Address) ] else [ ];
+    AAAA = if ipv6Address != "" then [ (toString ipv6Address) ] else [ ];
   };
   cname = name: { CNAME = [ name ]; };
   inherit (inputs.nixpkgs) lib;
@@ -32,15 +32,19 @@ in
   subdomains =
     lib.genAttrs (lib.attrNames inputs.self.nixosConfigurations) (
       name:
-      host
-        (builtins.elemAt
-          inputs.self.nixosConfigurations.${name}.config.networking.interfaces.ens192.ipv4.addresses
-          0
-        ).address
-        (builtins.elemAt
-          inputs.self.nixosConfigurations.${name}.config.networking.interfaces.ens192.ipv6.addresses
-          0
-        ).address
+      let
+        ifaceConf =
+          if (inputs.self.nixosConfigurations.${name}.config.networking.interfaces ? ens192) then
+            inputs.self.nixosConfigurations.${name}.config.networking.interfaces.ens192
+          else
+            {
+              ipv4.addresses = [ { address = ""; } ];
+              ipv6.addresses = [ { address = ""; } ];
+            };
+      in
+      host ((builtins.elemAt ifaceConf.ipv4.addresses 0).address) (
+        (builtins.elemAt ifaceConf.ipv6.addresses 0).address
+      )
     )
     // {
       _dmarc.TXT = [ "v=DMARC1; p=reject;" ];
