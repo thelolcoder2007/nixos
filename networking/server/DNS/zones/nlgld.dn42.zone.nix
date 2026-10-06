@@ -1,8 +1,8 @@
 { inputs, ... }:
 let
   host = ipv4Address: ipv6Address: {
-    A = if ipv4Address != "" then [ (toString ipv4Address) ] else [];
-    AAAA = if ipv6Address != "" then [ (toString ipv6Address) ] else [];
+    A = if ipv4Address != "" then [ (toString ipv4Address) ] else [ ];
+    AAAA = if ipv6Address != "" then [ (toString ipv6Address) ] else [ ];
   };
   cname = name: { CNAME = [ name ]; };
   inherit (inputs.nixpkgs) lib;
@@ -45,12 +45,13 @@ in
             inputs.self.nixosConfigurations.${name}.config.networking.interfaces.ens224
           else
             {
-              ipv4.addresses = [ {address="";} ];
-              ipv6.addresses = [ {address="";} ];
+              ipv4.addresses = [ { address = ""; } ];
+              ipv6.addresses = [ { address = ""; } ];
             };
       in
-      host ((builtins.elemAt ifaceConf.ipv4.addresses 0).address)
-        ((builtins.elemAt ifaceConf.ipv6.addresses 0).address)
+      host ((builtins.elemAt ifaceConf.ipv4.addresses 0).address) (
+        (builtins.elemAt ifaceConf.ipv6.addresses 0).address
+      )
     )
     // {
       _dmarc.TXT = [ "v=DMARC1; p=reject;" ];
