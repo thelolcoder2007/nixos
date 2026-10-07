@@ -29,8 +29,8 @@ bun2nix.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "vert-sh";
     repo = "vert";
-    rev = "07a3c67445fdf134f0a575fda518d4ec67186506";
-    hash = "sha256-aFW4HdCooG7hGUMWv6Wj/zv4KLkSzzk8jxb7evTsijg=";
+    rev = "91091a1b91a518566afe3980f7e0e31cd340f57d";
+    hash = "sha256-6SJbWqSP7fNaYUztEB7EX7SUxo3nGRGVFuULvDK4G4o=";
   };
 
   packageJson = "${finalAttrs.src}/package.json";
