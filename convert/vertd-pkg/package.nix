@@ -12,8 +12,8 @@ pkgs.rustPlatform.buildRustPackage (finalAttrs: {
   src = fetchFromGitHub {
     owner = "vert-sh";
     repo = "vertd";
-    rev = "d2fb0df076a800c58ee0b97d8182bea284f0b74d";
-    hash = "sha256-FoHKniwzp6rZS5hA/twuthD1XTbbkP/7lLRs26asXmw=";
+    rev = "9bf1ea2a2981396d90b11c295d42784c60d1f98f";
+    hash = "sha256-ooUYHHx+YeMfXUAjZja6e02yMkqyVMtvsVgKmcnZtic=";
   };
 
   nativeBuildInputs = with pkgs; [

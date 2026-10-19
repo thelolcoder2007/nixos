@@ -44,6 +44,11 @@ in
         default = "";
         description = "Used for kept video access";
       };
+      CORS_ORIGINS = mkOption {
+        type = types.str;
+        default = "*";
+        description = "Allows CORS origins for vertd. Can either be \"*\" or comma separated origins: \"https://origin1.com,https://origin2.com\". If not defined, fall back automatically to *";
+      };
     };
   };
   config.systemd.services.vertd = mkIf config.services.vertd.enable {
