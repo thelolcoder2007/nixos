@@ -1,49 +1,55 @@
 diff --git a/bun.lock b/bun.lock
-index f6c816f..6d9cc7f 100644
+index 4b446f2..def5cc0 100644
 --- a/bun.lock
 +++ b/bun.lock
-@@ -41,6 +41,8 @@
+@@ -46,6 +46,8 @@
        },
        "devDependencies": {
-         "@inlang/paraglide-js": "^2.25.4",
+         "@inlang/paraglide-js": "^2.29.0",
 +        "@inlang/plugin-m-function-matcher": "^2.2.16",
 +        "@inlang/plugin-message-format": "^4.4.4",
          "@poppanator/sveltekit-svg": "^7.0.1",
-         "@sveltejs/adapter-static": "^3.0.10",
-         "@sveltejs/kit": "^2.70.3",
-@@ -199,6 +201,10 @@
+         "@sveltejs/adapter-static": "^4.0.0",
+         "@sveltejs/kit": "^3.1.0",
+@@ -82,6 +84,14 @@
+   "packages": {
+     "@alloc/quick-lru": ["@alloc/quick-lru@5.3.0", "", {}, "sha512-U4+70Pc5ZS9osnCBCE5Jha/ciHM+Yp+CNMNC/7HvYbNRk1Ldd+f7qO65W5qfhu/TCv+/ozljlXXe9Nj8419DMA=="],
  
-     "@inlang/paraglide-js": ["@inlang/paraglide-js@2.25.4", "", { "dependencies": { "@inlang/recommend-sherlock": "^0.2.1", "@inlang/sdk": "^3.0.6", "commander": "11.1.0", "consola": "3.4.0", "jiti": "^2.7.0", "json5": "2.2.3", "unplugin": "^2.1.2", "urlpattern-polyfill": "^10.0.0", "valibot": "^1.4.2" }, "peerDependencies": { "typescript": ">=5.6", "vite": ">=5.0.0" }, "optionalPeers": ["typescript", "vite"], "bin": { "paraglide-js": "bin/run.js" } }, "sha512-z8OoKAcPT0DwlfTQ/SvaPBQILrtmkl4lUPCSQPjKxqERRp1n7W7a2eKi7EvfylatWivSZFGHGjlB6Ad20w0nzw=="],
- 
-+    "@inlang/plugin-m-function-matcher": ["@inlang/plugin-m-function-matcher@2.2.16", "", { "dependencies": { "@inlang/sdk": "3.0.6" } }, "sha512-OnlpBFcLLapK0DeHOhuP+u0Ut0Ls/wcvcAKEdhtjOk/WrpmAiRvSuvCCctsfW8qR+GI71oqGkt4zZ7uOhcLmvg=="],
++    "@babel/helper-string-parser": ["@babel/helper-string-parser@7.29.7", "", {}, "sha512-Pb5ijPrZ89GDH8223L4UP8i6QApWxs04RbPQJTeWDV0/keR2E36MeKnyr6LYmUUvqRRI+Iv87SuF1W6ErINzYw=="],
 +
-+    "@inlang/plugin-message-format": ["@inlang/plugin-message-format@4.4.4", "", { "dependencies": { "flat": "^6.0.1" } }, "sha512-50tkyH/qMFudcIOZSCRdi+BeCVuJQo3BWbvfRTVKr8pEslBiRaZDTKBC1NkCI3ivmkyqzK8k+ktBci3NtDu3Lg=="],
++    "@babel/helper-validator-identifier": ["@babel/helper-validator-identifier@7.29.7", "", {}, "sha512-qehxGkRj55h/ff8EMaJ+cYhyaKlHIxqYDn682wQD7RNp9UujOQsHog2uS0r2vzr4pW+sXf90NeeayjcNaX3fFg=="],
++
++    "@babel/parser": ["@babel/parser@7.29.9", "", { "dependencies": { "@babel/types": "^7.29.8" }, "bin": "./bin/babel-parser.js" }, "sha512-CjXrNHTnvqBVqHgdBysY3vk2T8tpJHb5/RMeHJBTyVa9xgugCB0CJTx/3oO8RV2QRQP391RWpB7D6hLjm8V9uA=="],
++
++    "@babel/types": ["@babel/types@7.29.8", "", { "dependencies": { "@babel/helper-string-parser": "^7.29.7", "@babel/helper-validator-identifier": "^7.29.7" } }, "sha512-Vj1jF3cPfxg7OAfoI7QnVKLoILlm2JF9pnVHrX8qx7AHMiYWT+NDAA7jChlNgRS4WTLc/fD1lXLmPixluj+3Gg=="],
++
+     "@bjorn3/browser_wasi_shim": ["@bjorn3/browser_wasi_shim@0.4.2", "", {}, "sha512-/iHkCVUG3VbcbmEHn5iIUpIrh7a7WPiwZ3sHy4HZKZzBdSadwdddYDZAII2zBvQYV0Lfi8naZngPCN7WPHI/hA=="],
+ 
+     "@borewit/text-codec": ["@borewit/text-codec@0.2.2", "", {}, "sha512-DDaRehssg1aNrH4+2hnj1B7vnUGEjU6OIlyRdkMd0aUdIUvKXrJfXsy8LVtXAy7DRvYVluWbMspsRhz2lcW0mQ=="],
+@@ -164,6 +174,10 @@
+ 
+     "@inlang/paraglide-js": ["@inlang/paraglide-js@2.29.0", "", { "dependencies": { "@inlang/recommend-sherlock": "^0.2.1", "@inlang/sdk": "^4.0.4", "commander": "11.1.0", "consola": "3.4.0", "jiti": "^2.7.0", "json5": "2.2.3", "jsonc-parser": "^3.3.1", "unplugin": "^2.1.2", "urlpattern-polyfill": "^10.0.0", "valibot": "^1.4.2" }, "peerDependencies": { "eslint": "^9.0.0 || ^10.0.0", "typescript": ">=5.6", "vite": ">=5.0.0" }, "optionalPeers": ["eslint", "typescript", "vite"], "bin": { "paraglide-js": "bin/run.js" } }, "sha512-1yBsi2ycRLRLOsZJRFf4wk6kycUOohoqrVyZye85D1fRHcd6IfhRAQWpGZPSJI5prgslpe3oHE8gOVXZr9aTww=="],
+ 
++    "@inlang/plugin-m-function-matcher": ["@inlang/plugin-m-function-matcher@2.3.4", "", { "dependencies": { "@babel/parser": "^7.28.5", "@inlang/sdk": "4.0.4", "svelte": "^5.57.2" } }, "sha512-Jd2ccLjEqyUAj+y54fb/8O1bEREsaHcPOw6PBercVjDMTvcUqAQZ8V/1t5Z0ZmSCuWgof7XxnmBcwgMuf0Xk+A=="],
++
++    "@inlang/plugin-message-format": ["@inlang/plugin-message-format@4.5.4", "", { "dependencies": { "@inlang/sdk": "4.0.4", "@sinclair/typebox": "^0.31.17" } }, "sha512-rpNQgDvL723tvUM9VWu6uwXnRzIGSTBN7M7QJbQmpPk0SROMXjXPEafVteEZ1RAeeETcYsUG8OJes6nCcnYu6A=="],
 +
      "@inlang/recommend-sherlock": ["@inlang/recommend-sherlock@0.2.1", "", { "dependencies": { "comment-json": "^4.2.3" } }, "sha512-ckv8HvHy/iTqaVAEKrr+gnl+p3XFNwe5D2+6w6wJk2ORV2XkcRkKOJ/XsTUJbPSiyi4PI+p+T3bqbmNx/rDUlg=="],
  
-     "@inlang/sdk": ["@inlang/sdk@3.0.6", "", { "dependencies": { "@lix-js/sdk": "0.17.0", "@sinclair/typebox": "^0.31.17", "kysely": "^0.28.12", "uuid": "^14.0.0" } }, "sha512-JyUxQNjKNWglT8qhInmenKK/AnKkbX9AhAM8vFnTT8SyQ0gFA2YGKPntGp+3+UZP9F06Nmawf4sFTn7nGIyTXQ=="],
-@@ -651,6 +657,8 @@
- 
-     "find-up": ["find-up@5.0.0", "", { "dependencies": { "locate-path": "^6.0.0", "path-exists": "^4.0.0" } }, "sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng=="],
- 
-+    "flat": ["flat@6.0.1", "", { "bin": { "flat": "cli.js" } }, "sha512-/3FfIa8mbrg3xE7+wAhWeV+bd7L2Mof+xtZb5dRDKZ+wDvYJK4WDYeIOuOhre5Yv5aQObZrlbRmk3RTSiuQBtw=="],
-+
-     "flat-cache": ["flat-cache@4.0.1", "", { "dependencies": { "flatted": "^3.2.9", "keyv": "^4.5.4" } }, "sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw=="],
- 
-     "flatted": ["flatted@3.4.4", "", {}, "sha512-5+ybhBZANEJxaH3X5evAFatUxLfEHSr7n6kYJ+1Qd0mUqr4eu9gIf6GDbWHf8RJijHrjjO8G+la14SlL2SeS1Q=="],
+     "@inlang/sdk": ["@inlang/sdk@4.0.4", "", { "dependencies": { "@lix-js/sdk": "0.20.1", "@sinclair/typebox": "^0.31.17", "kysely": "^0.28.12", "uuid": "^14.0.0" } }, "sha512-OJhVSGJa/Ak52WncgqIPHr9TyVJ1DuoublcmtNo9H8apoVn4Dr1DJNxUxawCCc01QmMSg8qoY8GrTV8SVIu1lg=="],
 diff --git a/package.json b/package.json
-index 732334c..b17f8f9 100644
+index 63b1b5c..fad7483 100644
 --- a/package.json
 +++ b/package.json
-@@ -14,6 +14,8 @@
+@@ -18,6 +18,8 @@
  	},
  	"devDependencies": {
- 		"@inlang/paraglide-js": "^2.25.4",
+ 		"@inlang/paraglide-js": "^2.29.0",
 +		"@inlang/plugin-m-function-matcher": "^2.2.16",
 +		"@inlang/plugin-message-format": "^4.4.4",
  		"@poppanator/sveltekit-svg": "^7.0.1",
- 		"@sveltejs/adapter-static": "^3.0.10",
- 		"@sveltejs/kit": "^2.70.3",
+ 		"@sveltejs/adapter-static": "^4.0.0",
+ 		"@sveltejs/kit": "^3.1.0",
 diff --git a/project.inlang/settings.json b/project.inlang/settings.json
 index da3aa28..5f7003b 100644
 --- a/project.inlang/settings.json
