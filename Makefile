@@ -1,4 +1,5 @@
-.SILENT: pull push update
+.SILENT: update push pull build
+.PHONY: update push pull build
 
 update:
 	nh os switch -u --commit-lock-file --target-host "thomas@10.0.116.125" -H "xenoi"
