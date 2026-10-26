@@ -15,6 +15,7 @@ build:
 	nix flake update --commit-lock-file
 	nh os build -H apollo -d never
 	nh os build -H athena -d never
+	nh os build -H gameserver -d never
 	nh os build -H hera -d never
 	nh os build -H hermes -d never
 	nh os build -H poseidon -d never
