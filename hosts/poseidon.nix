@@ -140,6 +140,7 @@ in
       ../networking/server/BGP/BIRD-lg.nix
       ../networking/server/BGP/BIRD.nix
       ../networking/server/BGP/ROA.nix
+      ../networking/server/GPG/hockeypuck.nix
       ../networking/server/telephony/asterisk.nix
       # keep-sorted end
     ];

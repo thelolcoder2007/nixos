@@ -60,5 +60,6 @@ in
       ns = host "172.23.99.254" "fda7:54c1:4932::";
       lg = cname "poseidon";
       sip = cname "poseidon";
+      keys = cname "poseidon";
     };
 }
