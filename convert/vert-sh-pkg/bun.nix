@@ -6,9 +6,6 @@
 # or `pkgs.callPackage` if you wish to handle
 # it manually.
 {
-  copyPathToStore,
-  fetchFromGitHub,
-  fetchgit,
   fetchurl,
   ...
 }:
@@ -1757,10 +1754,11 @@
     url = "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.4.19.tgz";
     hash = "sha512-3ofp+LL8E+pK/JuPLPggVAIaEuhvIz4qNcf3nA1Xn2o/7fb7s/TYpHhwGDv1ZU3PkBluUVaF8PyCHcm48cKLWQ==";
   };
-  "tarball:https://registry.npmjs.org/@neplex/vectorizer-wasm32-wasi/-/vectorizer-wasm32-wasi-0.1.0.tgz" = builtins.fetchTarball {
-    url = "https://registry.npmjs.org/@neplex/vectorizer-wasm32-wasi/-/vectorizer-wasm32-wasi-0.1.0.tgz";
-    sha256 = "sha256-KyqFgJyaBGP0bkofMm81VDMl0NWQw3niwr4EBKChuKI=";
-  };
+  "tarball:https://registry.npmjs.org/@neplex/vectorizer-wasm32-wasi/-/vectorizer-wasm32-wasi-0.1.0.tgz" =
+    fetchTarball {
+      url = "https://registry.npmjs.org/@neplex/vectorizer-wasm32-wasi/-/vectorizer-wasm32-wasi-0.1.0.tgz";
+      sha256 = "sha256-KyqFgJyaBGP0bkofMm81VDMl0NWQw3niwr4EBKChuKI=";
+    };
   "thenify-all@1.6.0" = fetchurl {
     url = "https://registry.npmjs.org/thenify-all/-/thenify-all-1.6.0.tgz";
     hash = "sha512-RNxQH/qI8/t3thXJDwcstUO4zeqo64+Uy/+sNVRBx4Xn2OX+OZ9oP+iJnNFqplFra2ZUVeKCSa2oVWi3T4uVmA==";
