@@ -1,4 +1,4 @@
-.SILENT: update push pull build
+.SILENT: update push pull
 .PHONY: update push pull build
 
 update:
