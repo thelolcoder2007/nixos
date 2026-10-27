@@ -61,6 +61,7 @@ in
       # keep-sorted start
       build = cname "xenoi";
       cache = cname "athena";
+      certs = cname "zeus";
       dn42 = cname "poseidon";
       matrix = cname "hermes";
       maubot = cname "hermes";
