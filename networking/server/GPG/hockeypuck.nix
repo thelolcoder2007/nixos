@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   imports = [
     ../../../database/postgres.nix
@@ -44,7 +44,7 @@
     };
   };
   services.zabbixAgent.settings.UserParameter = [
-    "gpgserver.metrics,'curl [::1]:9102/metrics'"
+    "gpgserver.metrics,${lib.getExe pkgs.curl} '[::1]:9102/metrics'"
   ];
   x.nginx.virtualHosts."keys.nlgld.dn42".DN42Host = true;
   services.nginx.virtualHosts."keys.nlgld.dn42".locations."/".proxyPass = "http://[::1]:11371";
