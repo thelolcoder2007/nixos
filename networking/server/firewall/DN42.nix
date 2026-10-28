@@ -18,7 +18,9 @@
       filterForward = true;
       extraForwardRules = ''
         iifname tailscale0 accept comment "Allow tailscale";
-        iifname ens224 oifname != ens192 accept comment "Allow ens224 everywhere but ens192";
+        iifname ens192 drop comment "Do not route ens192 traffic, that is not our business";
+        oifname ens192 drop comment "Do not route ens192 traffic, that is not our business";
+        iifname ens224 accept;
         icmp type echo-request accept comment "allow ping";
         iifname "dn42_*" oifname "dn42_*" accept;
       '';
