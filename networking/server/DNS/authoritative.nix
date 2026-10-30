@@ -646,9 +646,6 @@ in
   imports = [
     ../../../base/sops.nix
   ];
-  environment.etc."resolv.conf".text = lib.mkBefore ''
-    nameserver 127.0.0.1
-  '';
   sops.secrets."powerdns-apikey" = { };
   systemd = {
     services = {
