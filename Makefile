@@ -2,13 +2,13 @@
 .PHONY: update push pull build
 
 update:
-	nh os switch -u --commit-lock-file --target-host "thomas@10.0.116.125" -H "xenoi"
+	# nh os switch -u --commit-lock-file --target-host "thomas@10.0.116.125" -H "xenoi"
 	nh os switch --target-host "thomas@10.0.116.9" -H "poseidon"
 	${MAKE} push
 
 pull push:
 	git push
-	ssh thomas@10.0.116.125 "git -C /etc/nixos/nixos pull"
+	# ssh thomas@10.0.116.125 "git -C /etc/nixos/nixos pull"
 	ssh thomas@10.0.116.9 "git -C /etc/nixos/nixos pull"
 
 build:

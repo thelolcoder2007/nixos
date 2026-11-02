@@ -103,8 +103,8 @@
             # Zeus is the leader of the gods. It will serve DNS, DHCPv4,
             # and will generally be owner of the subnet 10.0.116.0/24
             "zeus" = {
-              guid_root = "0";
-              guid_boot = "0";
+              guid_root = "624b634a-f08c-4618-9e64-a1156b267f48";
+              guid_boot = "99EE-28F5";
               vmwareHost = true;
               qemuHost = false;
             };

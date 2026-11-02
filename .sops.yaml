@@ -8,7 +8,7 @@ keys:
   - &hermes age1s8sasdxlc8yzw47pqgh0swwhkpergq943jzmc49n6vx7ct7nfucsaqq68t # TODO
   - &poseidon age1pfyuh53qv5jg4ege7y0nypg7ddx5mdfnsl40pnmsg0xxuymcfu8qmavma9
   - &xenoi age14x5wknqzvkm84tx8n4gerwe3n7r6f4gv086f69rqcwjasf5g5yvsux775c
-  - &zeus age1s8sasdxlc8yzw47pqgh0swwhkpergq943jzmc49n6vx7ct7nfucsaqq68t # TODO
+  - &zeus age1adnz4n9pky0rnq0vrkwuh3xssmpv4nvn4xdlspjrapr7ysd07fdqs7nz5a
 
 creation_rules:
   - path_regex: secrets/common.yml$|networking/server/HTTP/certs/private.key.sops$|networking/server/HTTP/certs/env-acme.sops$
