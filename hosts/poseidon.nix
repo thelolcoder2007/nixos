@@ -90,6 +90,7 @@ in
             (builtins.elemAt inputs.self.nixosConfigurations.zeus.config.networking.interfaces.ens192.ipv6.addresses 0)
             .address
           ];
+          enabled = true;
         };
       };
     in

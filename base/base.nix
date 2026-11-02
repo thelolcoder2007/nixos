@@ -66,6 +66,7 @@
       htop
       iftop
       iotop
+      kitty
       nano
       nh
       pciutils

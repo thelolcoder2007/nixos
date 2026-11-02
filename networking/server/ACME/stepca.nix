@@ -1,50 +1,26 @@
+{ config, ... }:
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-let
-  initStepca-sh = pkgs.writeShellScript "initstepca.sh" ''
-    cd /var/lib/step-ca
-    [ -e /var/lib/step-ca/root/ca.crt ] || [ -e /var/lib/step-ca/im/im.crt ] || [ -e /var/lib/step-ca/im.key ] || exit 1
-    ${lib.getExe' pkgs.step-cli "step"} certificate create --profile=root-ca "Dapperepoging Root CA" ca.crt ca.key --no-password --insecure
-    ${lib.getExe' pkgs.step-cli "step"} certificate create --profile=intermediate-ca "Dapperepoging Intermediate CA" im.crt im.key --ca=./ca.crt --ca-key=./ca.key
-    mkdir -p root im
-    mv ca.* root/
-    mv im.* im/
-    chown -R step-ca:nginx .
-  '';
-in
-{
-  users.users.step-ca.extraGroups = [ "nginx" ];
-  systemd.tmpfiles.rules = [
-    "d /var/lib/step-ca/ 0750 step-ca nginx 0 -"
+  imports = [
+    ../../../base/sops.nix
   ];
-  systemd.services.init-stepca = {
-    serviceConfig = {
-      User = config.users.users.step-ca.name;
-      Group = config.users.groups.step-ca.name;
-      Type = "oneshot";
-      ExecStart = initStepca-sh;
-    };
-    wantedBy = [ "multi-user.target" ];
-    before = [ "step-ca.service" ];
+  sops.secrets."stepca-intermediate-password" = {
+    owner = "step-ca";
+    group = "step-ca";
   };
+  users.users.step-ca.extraGroups = [ "nginx" ];
   services.step-ca = {
     enable = true;
-    port = 7217;
-    address = "[::1]";
+    port = 443;
+    address = "[::]";
     openFirewall = true;
 
+    intermediatePasswordFile = config.sops.secrets."stepca-intermediate-password".path;
     settings = {
       root = "/var/lib/step-ca/root/ca.crt";
       crt = "/var/lib/step-ca/im/im.crt";
       key = "/var/lib/step-ca/im/im.key";
       dnsNames = [
         "certs.16.dapperepoging.nl"
-        config.networking.interfaces."ens192".ipv4
-        config.networking.interfaces."ens192".ipv6
       ];
 
       db = {

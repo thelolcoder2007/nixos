@@ -24,6 +24,26 @@ in
         defaultGateway = "10.0.116.1";
         defaultGateway6 = "fe80::c1c0";
       };
+      staticDN42Conf = {
+        iface = "ens224";
+        ipv4Address = "172.23.99.253";
+        ipv4PrefixLength = 27;
+        ipv6Address = "fda7:54c1:4932::253";
+        ipv4Routes = [
+          {
+            address = "172.20.0.0";
+            prefixLength = 14;
+            via = "172.23.99.254";
+          }
+        ];
+        ipv6Routes = [
+          {
+            address = "fd00::";
+            prefixLength = 8;
+            via = "fe80::250:56ff:fe89:b7ef";
+          }
+        ];
+      };
       DNSconf = {
         dnsZones = [
           "6.1.1.0.2.3.9.4.1.c.4.5.7.0.a.2.ip6.arpa."
@@ -42,7 +62,7 @@ in
           dnsServers = "${
             (builtins.elemAt config.networking.interfaces.${mainIface}.ipv4.addresses 0).address
           }, ${(builtins.elemAt config.networking.interfaces.${mainIface}.ipv6.addresses 0).address}";
-          staticRoutes = "10.0.111.0 - 10.0.116.1";
+          staticRoutes = "10.0.111.0/24 - 10.0.116.1";
           routers = "10.0.116.1";
         };
         ipv6Config = {
@@ -53,6 +73,7 @@ in
             (builtins.elemAt inputs.self.nixosConfigurations.zeus.config.networking.interfaces.ens192.ipv6.addresses 0)
             .address
           ];
+          enabled = false;
         };
       };
     in
@@ -74,12 +95,17 @@ in
           ;
       })
 
+      (import ../networking/client/static.nix {
+        iface = "ens224";
+        conf = staticDN42Conf;
+      })
       # keep-sorted start
       ../base/base.nix
       ../monitoring/zabbix-agent.nix
       ../networking/client/resolv.conf.nix
       ../networking/client/ssh.nix
       ../networking/client/tailscale.nix
+      ../networking/server/ACME/stepca-nginx.nix
       ../networking/server/ACME/stepca.nix
       ../networking/server/DNS/dnsdist.nix
       ../networking/server/firewall/default.nix

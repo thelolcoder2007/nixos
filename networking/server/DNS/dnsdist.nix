@@ -6,40 +6,42 @@
     extraConfig =
       # Unfortunately this is handwork for now
       ''
+
+        setKey("i+LAm63+sOMEc1eycL8SIVQQcHuP7jbEf7BE3O3JHHE=")
+        controlSocket("127.0.0.1:5199")
+
         -- Listen addresses
         setLocal('0.0.0.0:53')
         addLocal('[::]:53')
 
         -- Who is allowed to query DNS on this forwarder?
-        setAcl("10.0.116.0/24")
-        addAcl("10.0.111.0/24")
-        addAcl("2a07:54c1:4932::/48")
+        setACL({"10.0.116.0/24", "10.0.111.0/24", "2a07:54c1:4932::/48"})
 
-        addAcl("127.0.0.0/8")
-        addAcl("::1/128")
+        addACL("127.0.0.0/8")
+        addACL("::1/128")
 
-        addAcl("100.64.0.0/10")
-        addAcl("fd7a::115c:a1e0::/48")
+        addACL("100.64.0.0/10")
+        addACL("fd7a:115c:a1e0::/48")
 
-        addAcl("172.23.99.224/27")
-        addAcl("fda7:54c1:4932::/48")
+        addACL("172.23.99.224/27")
+        addACL("fda7:54c1:4932::/48")
 
         -- Zeus is the leader of the Gods. It will be my main DNS server
-        newServer("${(builtins.elemAt inputs.self.nixosConfigurations.zeus.config.networking.interfaces.ens192.ipv4.addresses 0).address}:5353", pool="zeus")
-        newServer("${(builtins.elemAt inputs.self.nixosConfigurations.zeus.config.networking.interfaces.ens192.ipv6.addresses 0).address}:5353", pool="zeus")
+        newServer({address="${(builtins.elemAt inputs.self.nixosConfigurations.zeus.config.networking.interfaces.ens192.ipv4.addresses 0).address}:5353", pool="zeus"})
+        newServer({address="${(builtins.elemAt inputs.self.nixosConfigurations.zeus.config.networking.interfaces.ens192.ipv6.addresses 0).address}:5353", pool="zeus"})
 
         -- Poseidon will run my DN42. It will run the DNS for DN42
-        newServer("${(builtins.elemAt inputs.self.nixosConfigurations.poseidon.config.networking.interfaces.ens192.ipv4.addresses 0).address}:53", pool="poseidon", checkName="nlgld.dn42", checkType="SOA", mustResolve=true)
-        newServer("${(builtins.elemAt inputs.self.nixosConfigurations.poseidon.config.networking.interfaces.ens192.ipv6.addresses 0).address}:53", pool="poseidon", checkName="nlgld.dn42", checkType="SOA", mustResolve=true)
+        newServer({address="${(builtins.elemAt inputs.self.nixosConfigurations.poseidon.config.networking.interfaces.ens192.ipv4.addresses 0).address}:53", pool="poseidon", checkName="nlgld.dn42", checkType="SOA", mustResolve=true})
+        newServer({address="${(builtins.elemAt inputs.self.nixosConfigurations.poseidon.config.networking.interfaces.ens192.ipv6.addresses 0).address}:53", pool="poseidon", checkName="nlgld.dn42", checkType="SOA", mustResolve=true})
 
-        newServer("172.20.0.53", pool="DN42")
-        newServer("172.23.0.53", pool="DN42")
-        newServer("fd42:d42:d42:53::1", pool="DN42")
-        newServer("fd42:d42:d42:54::1", pool="DN42")
+        newServer({address="172.20.0.53", pool="DN42", checkName="nlgld.dn42", checkType="SOA", mustResolve=true})
+        newServer({address="172.23.0.53", pool="DN42", checkName="nlgld.dn42", checkType="SOA", mustResolve=true})
+        newServer({address="fd42:d42:d42:53::1", pool="DN42", checkName="nlgld.dn42", checkType="SOA", mustResolve=true})
+        newServer({address="fd42:d42:d42:54::1", pool="DN42", checkName="nlgld.dn42", checkType="SOA", mustResolve=true})
 
         -- Upstream DNS server, it also serves some unique zones I might want to read
-        newServer("10.0.111.2:53", pool="upstream")
-        -- newServer("[2a07:54c1:4932:111::2]:53", pool="upstream") -- (Server does not (yet) support IPv6)
+        newServer({address="10.0.111.2:53", pool="upstream"})
+        -- newServer({address="[2a07:54c1:4932:111::2]:53", pool="upstream"}) -- (Server does not (yet) support IPv6)
 
         -- Fallback for the internet: {1-4}.dns.nothingtohide.nl
         local hosts = {
@@ -75,6 +77,8 @@
             pool                 = "internet",
           })
         end
+
+        setServFailWhenNoServer(true)
 
         addAction(QNameSuffixRule({"16.dapperepoging.nl.", "116.0.10.in-addr.arpa.", "6.1.1.0.2.3.9.4.1.c.4.5.7.0.a.2.ip6.arpa."}), PoolAction("zeus"))
         addAction(QNameSuffixRule({"dapperepoging.nl.","111.0.10.in-addr.arpa.", "1.1.1.0.2.3.9.4.1.c.4.5.7.0.a.2.ip6.arpa."}), PoolAction("upstream"))

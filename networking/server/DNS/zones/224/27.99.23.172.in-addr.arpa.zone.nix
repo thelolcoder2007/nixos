@@ -11,6 +11,15 @@
     "ns.nlgld.dn42."
   ];
   subdomains = {
+    "250" = {
+      PTR = [ "olympos.nlgld.dn42." ];
+    };
+    "251" = {
+      PTR = [ "chronos.nlgld.dn42." ];
+    };
+    "253" = {
+      PTR = [ "zeus.nlgld.dn42." ];
+    };
     "254" = {
       PTR = [ "nlgld.dn42." ];
     }; # 172.23.99.254

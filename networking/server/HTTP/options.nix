@@ -21,6 +21,7 @@ in
           prodHost = mkEnableOption "Enable this host to run production (aka ask for ACME certs)";
           snakeoilHost = mkEnableOption "Use snakeoil HTTPS certificates for this host";
           DN42Host = mkEnableOption "Use Kioubit's DN42 certificates for this host";
+          localAcmeHost = mkEnableOption "Use Dapperepoging Internal CA certificates for this host";
         };
       }
     );
@@ -36,9 +37,10 @@ in
               vhost.snakeoilHost
               vhost.prodHost
               vhost.DN42Host
+              vhost.localAcmeHost
             ] <= 1
           ) (lib.attrValues cfg);
-          message = "A virtualHost cannot have only have one of the following three attributes set to true: snakeoilHost, prodHost, DN42Host.";
+          message = "A virtualHost cannot have only have one of the following four attributes set to true: snakeoilHost, prodHost, DN42Host, localAcmeHost";
         }
       ];
 
@@ -73,7 +75,7 @@ in
           http3 = true;
           http3_hq = true;
         }
-        // lib.optionalAttrs (cfg.${vhost}.prodHost) {
+        // lib.optionalAttrs (cfg.${vhost}.prodHost or cfg.${vhost}.localAcmeHost) {
           # enableACME = true;
           # forceSSL = true;
         }

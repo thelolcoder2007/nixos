@@ -2,7 +2,9 @@
   config,
   interface ? "ens224",
   ipv4Config,
-  ipv6Config,
+  ipv6Config ? {
+    enabled = false;
+  },
   ...
 }:
 {
@@ -116,7 +118,7 @@
             );
       in
       {
-        enable = true;
+        enable = ipv6Config.enabled;
         config = ''
           interface ${interface} {
               AdvSendAdvert on;
