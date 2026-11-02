@@ -30,6 +30,23 @@
     };
   };
 
+  security.pki.certificates = [
+    # Dapperepoging internal CA
+    ''
+      -----BEGIN CERTIFICATE-----
+      MIIBhDCCASqgAwIBAgIRALaW0SaOTPi/YfK17Ex+ljkwCgYIKoZIzj0EAwIwIDEe
+      MBwGA1UEAxMVRGFwcGVyZXBvZ2luZyBSb290IENBMB4XDTI2MTEwMjExNDgzMFoX
+      DTM2MTAzMDExNDgzMFowIDEeMBwGA1UEAxMVRGFwcGVyZXBvZ2luZyBSb290IENB
+      MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAENCqbaaWblixheqUUyqX9kYiC4KYI
+      WQFK3vgfETp6VPPPf3v2WRlq1XiCErgVGL93WE5xbZSIPcqBMPP5AKv4nqNFMEMw
+      DgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYEFKYo
+      q4H6/EfrCVS29viKdtDzM30aMAoGCCqGSM49BAMCA0gAMEUCIGso6HZig5KLR6Id
+      rwwHbehvwRAdGRnQveeQlHCVRSOBAiEA8MPaqClMMIaVNlkLWaUqqFLzFLrsZGwa
+      +7liJrmuDt4=
+      -----END CERTIFICATE-----
+    ''
+  ];
+
   nix = {
     extraOptions = ''
       !include ${config.sops.templates."nix-github-token.env".path}
