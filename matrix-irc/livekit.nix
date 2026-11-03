@@ -25,8 +25,7 @@
       settings = {
         port = 7880;
         bind_addresses = [
-          "0.0.0.0"
-          "[::]"
+          "::"
         ];
         rtc = {
           tcp_port = 7881;
