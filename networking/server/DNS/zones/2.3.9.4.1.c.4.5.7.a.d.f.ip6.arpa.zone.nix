@@ -1,4 +1,9 @@
 { ... }:
+let
+  host = hostname: {
+    PTR = [ "${hostname}.nlgld.dn42." ];
+  };
+in
 {
   SOA = {
     nameServer = "ns.nlgld.dn42.";
@@ -11,14 +16,10 @@
     "ns.nlgld.dn42."
   ];
   subdomains = {
-    "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" = {
-      PTR = [ "nlgld.dn42." ];
-    }; # fda7:54c1:4932::
-    "*.0.0.0.0" = {
-      PTR = [ "dhcp.v6.connected-by.nlgld.dn42." ];
-    }; # fda7:54c1:4932::/64
-    "*" = {
-      PTR = [ "v6.connected-by.nlgld.dn42." ];
-    }; # fda7:54c1:4932:: - fda7:54c1:4932:ffff:ffff:ffff:ffff:ffff
+    "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" = host "poseidon";
+    "0.5.2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" = host "olympos";
+    "1.5.2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" = host "chronos";
+    "3.5.2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0" = host "zeus";
+    "*" = host "v6.connected-by"; # fda7:54c1:4932::/48
   };
 }

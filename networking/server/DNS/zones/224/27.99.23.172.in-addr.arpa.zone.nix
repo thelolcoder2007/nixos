@@ -1,4 +1,7 @@
 { ... }:
+let
+	host = hostname: { PTR = ["${host}.nlgld.dn42."];};
+	in
 {
   SOA = {
     nameServer = "ns.nlgld.dn42.";
@@ -11,20 +14,10 @@
     "ns.nlgld.dn42."
   ];
   subdomains = {
-    "250" = {
-      PTR = [ "olympos.nlgld.dn42." ];
-    };
-    "251" = {
-      PTR = [ "chronos.nlgld.dn42." ];
-    };
-    "253" = {
-      PTR = [ "zeus.nlgld.dn42." ];
-    };
-    "254" = {
-      PTR = [ "nlgld.dn42." ];
-    }; # 172.23.99.254
-    "*" = {
-      PTR = [ "dhcp.v4.connected-by.nlgld.dn42." ];
-    }; # All other hosts that I have not described
+    "250" = host "olympos";
+    "251" = host "chronos";
+    "253" = host "zeus";
+    "254" = host "poseidon";
+    "*" = host "dhcp.v4.connected-by"; # All other hosts that I have not described
   };
 }
