@@ -1,7 +1,7 @@
 { ... }:
 let
-	host = hostname: { PTR = ["${hostname}.nlgld.dn42."];};
-	in
+  host = hostname: { PTR = [ "${hostname}.nlgld.dn42." ]; };
+in
 {
   SOA = {
     nameServer = "ns.nlgld.dn42.";
