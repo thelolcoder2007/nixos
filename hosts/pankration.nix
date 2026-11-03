@@ -8,11 +8,11 @@ in
   imports =
     let
       staticConf = {
-        hostName = "apollo";
+        hostName = "pankration";
         domain = "16.dapperepoging.nl";
         iface = mainIface;
-        ipv4Address = "10.0.116.10";
-        ipv6Address = "2a07:54c1:4932:116::10";
+        ipv4Address = "10.0.116.7";
+        ipv6Address = "2a07:54c1:4932:116::7";
         defaultGateway = "10.0.116.1";
         defaultGateway6 = "fe80::c1c0";
       };

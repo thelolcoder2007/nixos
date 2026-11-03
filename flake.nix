@@ -46,23 +46,9 @@
         let
           emulatedHost = "hermes";
           hosts = {
-            # Apollo makes music. It will be my media server (if I need one)
-            "apollo" = {
-              guid_root = "0";
-              guid_boot = "0";
-              vmwareHost = true;
-              qemuHost = false;
-            };
-            # Athena is the goddess of war and knowledge. It will be my buildserver
-            # and nixos reference host.
-            "athena" = {
-              guid_root = "0";
-              guid_boot = "0";
-              vmwareHost = true;
-              qemuHost = false;
-            };
-            # This is my gameserver. Name still WIP
-            "gameserver" = {
+            # Pankration was a kind of MMA in ancient Greece.
+            # It is the server I run my games on
+            "pankration" = {
               guid_root = "0";
               guid_boot = "0";
               vmwareHost = true;
