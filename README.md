@@ -1,5 +1,14 @@
 # nixos
 
+## Setup
+
+1. Boot into system like normal
+2. Clone repo into /tmp
+3. Run `./setup/setup.sh`
+4. Put GUIDs of disks into `flake.nix`
+5. `sudo nixos-install --flake ".#<hostname>"`
+6. Reboot
+
 ## TODO
 
 - [x] Make nginx work modularly without weird `(import ./bullshit.nix)` shennanigans
