@@ -39,7 +39,7 @@ in
   };
   boot.initrd.systemd.emergencyAccess = true; # Because I fuck up sometimes
   imports = [
-    ../convert/vert-sh.nix
+    # ../convert/vert-sh.nix
     ../convert/vertd.nix
     ../networking/client/tailscale.nix
   ];

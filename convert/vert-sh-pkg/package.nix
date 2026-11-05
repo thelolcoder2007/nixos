@@ -65,5 +65,6 @@ bun2nix.mkDerivation (finalAttrs: {
     homepage = "https://vert.sh";
     license = lib.licenses.agpl3Only;
     platforms = lib.platforms.all;
+    broken = true;
   };
 })
