@@ -59,15 +59,20 @@ in
         };
       };
 
-      security.acme = lib.optionalAttrs (lib.any (vhost: vhost.prodHost) (lib.attrValues cfg)) {
-        acceptTerms = true;
-        defaults = {
-          email = "thomas.erents@gmail.com";
-          server = "https://acme-api.actalis.com/acme/directory";
-          environmentFile = config.sops.secrets."acme_env".path;
+      security.acme = {
+        acceptTerms = lib.any (vhost: vhost.prodHost || vhost.localAcmeHost) (lib.attrValues cfg);
+        defaults = lib.mkIf (lib.any (vhost: vhost.prodHost) (lib.attrValues cfg)) {
+          acceptTerms = true;
+          defaults = {
+            email = "thomas.erents@gmail.com";
+            server = "https://acme-api.actalis.com/acme/directory";
+            environmentFile = config.sops.secrets."acme_env".path;
+          };
         };
+        certs = lib.genAttrs (lib.attrNames (lib.filterAttrs (_: v: v.localAcmeHost) cfg)) (_: {
+          server = "https://certs.16.dapperepoging.nl/acme/acme/directory";
+        });
       };
-
       services.nginx.virtualHosts = lib.genAttrs (lib.attrNames cfg) (
         vhost:
         {
@@ -75,9 +80,13 @@ in
           http3 = true;
           http3_hq = true;
         }
-        // lib.optionalAttrs (cfg.${vhost}.prodHost or cfg.${vhost}.localAcmeHost) {
+        // lib.optionalAttrs (cfg.${vhost}.prodHost) {
           # enableACME = true;
           # forceSSL = true;
+        }
+        // lib.optionalAttrs (cfg.${vhost}.localAcmeHost) {
+          enableACME = lib.mkForce true;
+          forceSSL = lib.mkDefault true;
         }
         // lib.optionalAttrs (cfg.${vhost}.snakeoilHost) {
           forceSSL = lib.mkDefault true;

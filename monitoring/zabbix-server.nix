@@ -61,5 +61,5 @@ in
       ];
     };
   };
-  x.nginx.virtualHosts.${config.networking.fqdnOrHostName}.snakeoilHost = true;
+  x.nginx.virtualHosts.${config.networking.fqdnOrHostName}.localAcmeHost = true;
 }

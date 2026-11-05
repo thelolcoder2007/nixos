@@ -64,5 +64,5 @@ assert (builtins.elem serverHost (lib.attrNames inputs.self.nixosConfiguratons))
       ];
     };
   };
-  x.nginx.virtualHosts.${config.networking.fqdnOrHostName}.snakeoilHost = true;
+  x.nginx.virtualHosts.${config.networking.fqdnOrHostName}.localAcmeHost = true;
 }
