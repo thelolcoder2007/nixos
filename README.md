@@ -21,6 +21,12 @@
 - [ ] Make sure nixos hosts can receive certs from ACME server (`x.nginx.virtualHosts.<name>.localAcmeHost`)
 - [ ] Add centralized logging facility to Hera
 - [ ] Make all logs point to Hera instead of local files
-- [ ] Make up a name for games server
+- [x] Make up a name for games server
 - [ ] Add games
+  - [x] Mindustry
+  - [x] Satisfactory
+  - [x] Rust
+  - [ ] Factorio
+  - [ ] OpenRCT2
+  - [ ] OpenTTD
 - [ ] Set up impermanence

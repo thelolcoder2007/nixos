@@ -46,14 +46,6 @@
         let
           emulatedHost = "hermes";
           hosts = {
-            # Pankration was a kind of MMA in ancient Greece.
-            # It is the server I run my games on
-            "pankration" = {
-              guid_root = "0";
-              guid_boot = "0";
-              vmwareHost = true;
-              qemuHost = false;
-            };
             # Hera sees everything Zeus does (which is mostly sleeping with other women)
             # Therefore it is my monitoring server and does the home-assistant stuff
             "hera" = {
@@ -65,6 +57,14 @@
             # Hermes brings messages to everybody.
             # Therefore it runs my Matrix homeserver and the Matrix and IRC clients.
             "hermes" = {
+              guid_root = "0";
+              guid_boot = "0";
+              vmwareHost = true;
+              qemuHost = false;
+            };
+            # Pankration was a kind of MMA in ancient Greece.
+            # It is the server I run my games on
+            "pankration" = {
               guid_root = "0";
               guid_boot = "0";
               vmwareHost = true;

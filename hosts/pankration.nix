@@ -21,6 +21,7 @@ in
       # keep-sorted start
       (import ../networking/client/static.nix { conf = staticConf; })
       ../base/base.nix
+      ../gaming/factorio/factorio.nix
       ../monitoring/zabbix-agent.nix
       ../networking/client/resolv.conf.nix
       ../networking/client/ssh.nix
