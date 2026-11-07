@@ -1,23 +1,32 @@
 { lib, pkgs, ... }:
 
-let
-  modZips = [
-    "squeak-through-2_0.2.1.zip"
-  ];
-  modDrvs = builtins.attrValues (
-    lib.genAttrs modZips (
-      modName: (pkgs.callPackage pkgs.factorio-utils.modDrv { src = ./mods/${modName}; })
-    )
-  );
-in
 {
   services.factorio = {
     enable = true;
     admins = [
 
     ];
-    # mods = modDrvs;
-    # mods-dat = ./mods.dat;
+    mods = let
+      modDir = ./mods;
+      modList = lib.pipe modDir [
+        builtins.readDir
+        (lib.filterAttrs (k: v: v == "regular"))
+        (lib.mapAttrsToList (k: v: k))
+        (builtins.filter (lib.hasSuffix ".zip"))
+      ];
+      validPath = modFileName:
+        builtins.path {
+          path = modDir + "/${modFileName}";
+          name = lib.strings.sanitizeDerivationName modFileName;
+        };
+      modToDrv = modFileName:
+        pkgs.runCommand "copy-factorio-mods" {} ''
+          mkdir $out
+          ln -s '${validPath modFileName}' $out/'${modFileName}'
+        ''
+        // { deps = []; };
+    in
+      map modToDrv modList;
     loadLatestSave = true;
     openFirewall = true;
     autosave-interval = 10;
