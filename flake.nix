@@ -1,6 +1,10 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    factoriomods = {
+      url = "path:/home/thomas/git/github/factorio-mods";
+      flake = false;
+    };
 
     bun2nix = {
       url = "github:nix-community/bun2nix";

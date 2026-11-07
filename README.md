@@ -26,7 +26,7 @@
   - [x] Mindustry
   - [x] Satisfactory
   - [x] Rust
-  - [ ] Factorio
+  - [x] Factorio
   - [ ] OpenRCT2
   - [ ] OpenTTD
 - [ ] Set up impermanence
