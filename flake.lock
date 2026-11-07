@@ -69,13 +69,14 @@
     "factoriomods": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-Nk95Dowqx2Q5YxaRbWTJbR89HGVas3G7Xh2mqT3+X8E=",
-        "type": "file",
-        "url": "file:/home/thomas/git/github/factorio-mods"
+        "lastModified": 1794055507,
+        "narHash": "sha256-0xQZGI7McfRxWa+srH4dJoQTFd76L8l1nUhM0wXumcc=",
+        "path": "/home/thomas/git/github/factorio-mods",
+        "type": "path"
       },
       "original": {
-        "type": "file",
-        "url": "file:/home/thomas/git/github/factorio-mods"
+        "path": "/home/thomas/git/github/factorio-mods",
+        "type": "path"
       }
     },
     "flake-parts": {
