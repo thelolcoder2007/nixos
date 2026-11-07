@@ -66,6 +66,18 @@
         "type": "github"
       }
     },
+    "factoriomods": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-Nk95Dowqx2Q5YxaRbWTJbR89HGVas3G7Xh2mqT3+X8E=",
+        "type": "file",
+        "url": "file:/home/thomas/git/github/factorio-mods"
+      },
+      "original": {
+        "type": "file",
+        "url": "file:/home/thomas/git/github/factorio-mods"
+      }
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
@@ -165,6 +177,7 @@
         "bun2nix": "bun2nix",
         "disko": "disko",
         "dns": "dns",
+        "factoriomods": "factoriomods",
         "impermanence": "impermanence",
         "nixpkgs": "nixpkgs",
         "sops-nix": "sops-nix",
