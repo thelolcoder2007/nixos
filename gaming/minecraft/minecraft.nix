@@ -1,6 +1,9 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ./options/options.nix
+  ];
   services.minecraft-server = {
     enable = true;
     package = pkgs.minecraftServers.vanilla-26-3; # Force minecraft server version
