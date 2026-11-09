@@ -22,6 +22,10 @@ in
       (import ../networking/client/static.nix { conf = staticConf; })
       ../base/base.nix
       ../gaming/factorio/factorio.nix
+      ../gaming/mindustry/mindustry.nix
+      ../gaming/minecraft/minecraft.nix
+      ../gaming/rust/rust.nix
+      ../gaming/satisfactory/satisfactory.nix
       ../monitoring/zabbix-agent.nix
       ../networking/client/resolv.conf.nix
       ../networking/client/ssh.nix
