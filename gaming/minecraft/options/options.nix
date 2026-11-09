@@ -19,33 +19,35 @@ in
         };
     in
     mkOption {
-      type = types.listOf (types.submodule {
-        options = {
-          name = mkOption {
-            type = types.str;
-            description = "name of the use to give op, defaults to the attribute name.";
+      type = types.listOf (
+        types.submodule {
+          options = {
+            name = mkOption {
+              type = types.str;
+              description = "name of the use to give op, defaults to the attribute name.";
+            };
+            level = mkOption {
+              type = types.enum [
+                1
+                2
+                3
+                4
+              ];
+              default = 4;
+              description = "op-level to give the user";
+            };
+            uuid = mkOption {
+              type = minecraftUUID;
+              description = "Minecraft uuid of the operator. You can use https://mcuuid.net/ to get a Minecraft UUID for a username";
+            };
+            bypassesPlayerLimit = mkOption {
+              type = types.bool;
+              default = false;
+              description = "sets the bypassesplayerlimit";
+            };
           };
-          level = mkOption {
-            type = types.enum [
-              1
-              2
-              3
-              4
-            ];
-            default = 4;
-            description = "op-level to give the user";
-          };
-          uuid = mkOption {
-            type = minecraftUUID;
-            description = "Minecraft uuid of the operator. You can use https://mcuuid.net/ to get a Minecraft UUID for a username";
-          };
-          bypassesPlayerLimit = mkOption {
-            type = types.bool;
-            default = false;
-            description = "sets the bypassesplayerlimit";
-          };
-        };
-      });
+        }
+      );
       default = [ ];
       description = ''
         Operators. Only has an effect when
