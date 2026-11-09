@@ -15,33 +15,39 @@
         addLocal('[::]:53')
 
         -- Who is allowed to query DNS on this forwarder?
+
+        -- Clearnet IPv4 and IPv6
         setACL({"10.0.116.0/24", "10.0.111.0/24", "2a07:54c1:4932::/48"})
 
+        -- Localhost
         addACL("127.0.0.0/8")
         addACL("::1/128")
 
+        -- Tailscale
         addACL("100.64.0.0/10")
         addACL("fd7a:115c:a1e0::/48")
 
+        -- My DN42 address space
         addACL("172.23.99.224/27")
         addACL("fda7:54c1:4932::/48")
 
-        -- Zeus is the leader of the Gods. It will be my main DNS server
+        -- Zeus for 16.dapperepoging.nl
         newServer({address="${(builtins.elemAt inputs.self.nixosConfigurations.zeus.config.networking.interfaces.ens192.ipv4.addresses 0).address}:5353", pool="zeus"})
-        newServer({address="${(builtins.elemAt inputs.self.nixosConfigurations.zeus.config.networking.interfaces.ens192.ipv6.addresses 0).address}:5353", pool="zeus"})
+        newServer({address="[${(builtins.elemAt inputs.self.nixosConfigurations.zeus.config.networking.interfaces.ens192.ipv6.addresses 0).address}]:5353", pool="zeus"})
 
-        -- Poseidon will run my DN42. It will run the DNS for DN42
+        -- Poseidon for nlgld.dn42
         newServer({address="${(builtins.elemAt inputs.self.nixosConfigurations.poseidon.config.networking.interfaces.ens192.ipv4.addresses 0).address}:53", pool="poseidon", checkName="nlgld.dn42", checkType="SOA", mustResolve=true})
-        newServer({address="${(builtins.elemAt inputs.self.nixosConfigurations.poseidon.config.networking.interfaces.ens192.ipv6.addresses 0).address}:53", pool="poseidon", checkName="nlgld.dn42", checkType="SOA", mustResolve=true})
+        newServer({address="${(builtins.elemAt inputs.self.nixosConfigurations.poseidon.config.networking.interfaces.ens192.ipv6.addresses 0).address}", pool="poseidon", checkName="nlgld.dn42", checkType="SOA", mustResolve=true})
 
-        newServer({address="172.20.0.53", pool="DN42", checkName="nlgld.dn42", checkType="SOA", mustResolve=true})
-        newServer({address="172.23.0.53", pool="DN42", checkName="nlgld.dn42", checkType="SOA", mustResolve=true})
-        newServer({address="fd42:d42:d42:53::1", pool="DN42", checkName="nlgld.dn42", checkType="SOA", mustResolve=true})
-        newServer({address="fd42:d42:d42:54::1", pool="DN42", checkName="nlgld.dn42", checkType="SOA", mustResolve=true})
+        -- a{0,3}.recursive-servers.dn42 for *.dn42
+        newServer({address="172.20.0.53", pool="DN42", checkName="burble.dn42", checkType="SOA", mustResolve=true})
+        newServer({address="172.23.0.53", pool="DN42", checkName="burble.dn42", checkType="SOA", mustResolve=true})
+        newServer({address="fd42:d42:d42:53::1", pool="DN42", checkName="burble.dn42", checkType="SOA", mustResolve=true})
+        newServer({address="fd42:d42:d42:54::1", pool="DN42", checkName="burble.dn42", checkType="SOA", mustResolve=true})
 
-        -- Upstream DNS server, it also serves some unique zones I might want to read
-        newServer({address="10.0.111.2:53", pool="upstream"})
-        -- newServer({address="[2a07:54c1:4932:111::2]:53", pool="upstream"}) -- (Server does not (yet) support IPv6)
+        -- Upstream DNS server, for dapperepoging.nl
+        newServer({address="10.0.111.2", pool="upstream"})
+        -- newServer({address="2a07:54c1:4932:111::2", pool="upstream"}) -- (Server does not (yet) support IPv6)
 
         -- Fallback for the internet: {1-4}.dns.nothingtohide.nl
         local hosts = {
