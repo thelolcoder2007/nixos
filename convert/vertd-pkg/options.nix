@@ -14,6 +14,7 @@ let
     concatStringsSep
     mkIf
     ;
+    cfg = config.services.vertd;
 in
 {
   options.services.vertd = {
@@ -51,7 +52,7 @@ in
       };
     };
   };
-  config.systemd.services.vertd = mkIf config.services.vertd.enable {
+  config.systemd.services.vertd = mkIf cfg.enable {
     name = "vertd.service";
     requires = [ "network.target" ];
     after = [ "network.target" ];
@@ -63,12 +64,12 @@ in
       Group = "vertd";
       DynamicUser = true;
       Restart = "on-failure";
-      EnvironmentFile = pipe config.services.vertd.options [
+      EnvironmentFile = pipe cfg.options [
         (mapAttrsToList (k: v: "${k}=${v}"))
         (concatStringsSep "\n")
         (pkgs.writeText "vert.env")
       ];
-      ExecStart = lib.getExe' config.services.vertd.package "vertd";
+      ExecStart = lib.getExe cfg.package;
       NoNewPrivileges = true;
       ProtectHome = true;
       ProtectSystem = "strict";

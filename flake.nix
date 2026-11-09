@@ -52,7 +52,7 @@
       checks.x86_64-linux.formatting = (treefmt-nix.lib.evalModule nixpkgs.outputs.legacyPackages.x86_64-linux ./base/treefmt.nix).config.build.check self;
       nixosConfigurations =
         let
-          emulatedHost = "hermes";
+          emulatedHost = "pankration";
           hosts = {
             # Hera sees everything Zeus does (which is mostly sleeping with other women)
             # Therefore it is my monitoring server and does the home-assistant stuff

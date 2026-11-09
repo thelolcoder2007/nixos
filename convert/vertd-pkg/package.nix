@@ -1,11 +1,14 @@
 {
   lib,
   fetchFromGitHub,
-  pkgs,
+  pkg-config,
+  rustPlatform,
+  openssl,
+  zstd,
   ...
 }:
 
-pkgs.rustPlatform.buildRustPackage (finalAttrs: {
+rustPlatform.buildRustPackage (finalAttrs: {
   pname = "vertd";
   version = "0-unstable-2026-10-19";
 
@@ -16,14 +19,15 @@ pkgs.rustPlatform.buildRustPackage (finalAttrs: {
     hash = "sha256-ooUYHHx+YeMfXUAjZja6e02yMkqyVMtvsVgKmcnZtic=";
   };
 
-  nativeBuildInputs = with pkgs; [
+  nativeBuildInputs = [
     rustPlatform.bindgenHook
     pkg-config
   ];
 
-  buildInputs = with pkgs; [
+  buildInputs = [
     openssl
     openssl.dev
+    zstd
   ];
 
   cargoLock.lockFile = "${finalAttrs.src}/Cargo.lock";
