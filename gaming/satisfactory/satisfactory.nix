@@ -4,9 +4,7 @@ let
   presets = import (inputs.steamcmd-servers + "/presets.nix") { inherit lib; };
 in
 {
-  imports = [
-    inputs.steamcmd-servers.nixosModules.default
-  ];
+  imports = [ ../common.nix ];
   services.steamcmd-servers = {
     enable = true;
     servers.satisfactory = lib.recursiveUpdate presets.satisfactory {
