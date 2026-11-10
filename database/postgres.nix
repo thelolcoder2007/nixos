@@ -25,6 +25,7 @@
       local   all             postgres                                peer
       local   all             zabbix                                  trust
       host    all             zabbix          127.0.0.1/32            md5
+      host    all             zabbix          ::1/128                 md5
     '';
   };
   services.zabbixAgent = {

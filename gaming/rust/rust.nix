@@ -1,4 +1,9 @@
-{ inputs, lib, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   presets = import (inputs.steamcmd-servers + "/presets.nix") { inherit lib; };
@@ -11,6 +16,7 @@ in
       enable = true;
       executableArgs = lib.mkForce [
         "-batchmode"
+        "-logfile"
         "+server.port 28015"
         "+rcon.port 28016"
         "+server.level Procedural Map"
@@ -29,4 +35,16 @@ in
     	ip saddr { 10.0.111.0/24, 10.0.116.0/24 } meta l4proto { tcp, udp } th dport 28016 accept;
     	ip6 saddr 2a07:54c1:4932::/48 meta l4proto { tcp, udp } th dport 28016 accept;
   '';
+  programs.nix-ld = {
+    enable = lib.mkForce true;
+    libraries = with pkgs; [
+      libc
+      libdecor
+      pango
+      cairo
+      glib
+      wayland
+      dbus
+    ];
+  };
 }

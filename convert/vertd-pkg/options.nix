@@ -14,7 +14,7 @@ let
     concatStringsSep
     mkIf
     ;
-    cfg = config.services.vertd;
+  cfg = config.services.vertd;
 in
 {
   options.services.vertd = {
