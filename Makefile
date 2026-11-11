@@ -1,5 +1,5 @@
 .SILENT: update push pull
-.PHONY: update push pull build
+.PHONY: update push pull build iso
 
 update:
 ifdef XENOI
@@ -25,4 +25,14 @@ build:
 	nh os build -H poseidon -d never
 	nh os build -H xenoi -d never
 	nh os build -H zeus -d never
+	rm result
+
+iso:
+	nix flake update --commit-lock-file
+	nh os build-image --image-variant iso -H hera -d never
+	# nh os build-image --image-variant iso -H hermes -d never # Hermes is temporarily borken
+	nh os build-image --image-variant iso -H pankration -d never
+	nh os build-image --image-variant iso -H poseidon -d never
+	nh os build-image --image-variant iso -H xenoi -d never
+	nh os build-image --image-variant iso -H zeus -d never
 	rm result
