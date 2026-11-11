@@ -39,7 +39,10 @@
         type = "postgres";
         user = "grafana";
       };
-      security.secret_key = "$__file{${config.sops.secrets."grafana_secret_key".path}}";
+      security = {
+        admin_password = "$__file{${config.sops.secrets."grafana_admin_password".path}}";
+        secret_key = "$__file{${config.sops.secrets."grafana_secret_key".path}}";
+      };
       server = {
         domain = "grafana.16.dapperepoging.nl";
         http_addr = "[::]";

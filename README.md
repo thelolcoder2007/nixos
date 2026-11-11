@@ -25,8 +25,8 @@
 - [ ] Add games
   - [x] Mindustry
   - [x] Satisfactory
-  - [x] Rust
-  - [x] Factorio
+  - [ ] Rust
+  - [ ] Factorio
   - [ ] OpenRCT2
   - [ ] OpenTTD
 - [ ] Set up impermanence
