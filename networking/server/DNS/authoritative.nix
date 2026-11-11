@@ -639,6 +639,11 @@ let
           allow-update { none; };
       }; // IPv6 documentation prefix (2001:db8::/32)
 
+      zone "home.arpa" {
+          type master;
+          file "${empty}";
+          allow-update { none; };
+      }; // home.arpa is also an AS112 zone
     ''
   );
 in
