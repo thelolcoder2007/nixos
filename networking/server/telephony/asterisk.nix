@@ -1,3 +1,5 @@
+{config, ...}:
+
 {
   services.asterisk = {
     enable = true;
@@ -15,7 +17,7 @@
         [transport-udp4]
         type=transport
         protocol=udp
-        bind=172.23.99.254:5060
+        bind=${(builtins.elemAt config.networking.interfaces.ens224.ipv4.addresses 0).address}:5060
         local_net=172.20.0.0/14
         local_net=172.31.0.0/16
         local_net=10.0.0.0/8
@@ -23,7 +25,7 @@
         [transport-udp6]
         type=transport
         protocol=udp
-        bind=[fda7:54c1:4932::]:5060
+        bind=[${(builtins.elemAt config.networking.interfaces.ens224.ipv6.addresses 0).address}]:5060
         local_net=fd00::/8
 
         ; ==========================================
@@ -46,21 +48,22 @@
         ; ==========================================
 
         ; Replace variables to create an extension names <EXT_NAME>
-        [4201](phone-template)
-        auth=4201
-        aors=4201
-        callerid="My Name" <<+0424384201>>
+        [0001](phone-template)
+        auth=0001
+        aors=0001
+        callerid="NLGLD-MNT" <+042438420001>
+        dtmf_mode=rfc4733
 
-        [4201]
+        [0001]
         type=auth
         auth_type=userpass
-        username=4201
+        username=0001
         password=SECRET_PASSWORD
 
-        [4201]
+        [0001]
         type=aor
         max_contacts=3   ; Allow 3 devices to register simultaneously
-        remove_existing=yes
+        ; remove_existing=yes
 
         ; ==========================================
         ; Incoming calls via ENUM
@@ -105,29 +108,29 @@
         [context-local]
 
         ; 4 digits -> call local extension
-        exten => _XXXX,1,Goto(ext-local,$\{EXTEN},1)
+        exten => _XXXX,1,Goto(ext-local,''${EXTEN},1)
 
         ; starts with 042 -> add + and route out
-        exten => _042X.,1,Goto(ext-routing,+$\{EXTEN},1)
+        exten => _042X.,1,Goto(ext-routing,+''${EXTEN},1)
 
         ; standard +042 dialing -> route out
-        exten => _+042X.,1,Goto(ext-routing,$\{EXTEN},1)
+        exten => _+042X.,1,Goto(ext-routing,''${EXTEN},1)
 
         ; Catch-all -> add +042 and route out
-        exten => _X!,1,Goto(ext-routing,+042$\{EXTEN},1)
+        exten => _X!,1,Goto(ext-routing,+042''${EXTEN},1)
 
 
         ; Calls originating from external networks via ENUM.
         [context-enum]
 
         ; starts with 00 -> replace with + and route out
-        exten => _00X!,1,Goto(ext-routing,+$\{EXTEN:2},1)
+        exten => _00X!,1,Goto(ext-routing,+''${EXTEN:2},1)
 
         ; starts with + -> route out
-        exten => _+X!,1,Goto(ext-routing,$\{EXTEN},1)
+        exten => _+X!,1,Goto(ext-routing,''${EXTEN},1)
 
         ; Catch-all -> add + and route out
-        exten => _X!,1,Goto(ext-routing,+$\{EXTEN},1)
+        exten => _X!,1,Goto(ext-routing,+''${EXTEN},1)
 
 
         ; ==========================================
@@ -136,20 +139,20 @@
 
         ; Calls destined for local networks.
         [ext-local]
-        ; route <OWN_PREFIX>4201 calls to your local extension <EXT_NAME>
-        exten => 4201,1,Dial(PJSIP/<EXT_NAME>,30)  ;
+        ; route <OWN_PREFIX>0001 calls to your local extension <EXT_NAME>
+        exten => 0001,1,Dial(PJSIP/+04243842,30)  ;
 
 
         ; Inter-PBX routing for both inbound and outbound calls.
         [ext-routing]
 
         ; route calls destined for your prefix
-        exten => _<OWN_PREFIX>.,1,Goto(ext-local,$\{EXTEN:9},1)
+        exten => _+04243842.,1,Goto(ext-local,''${EXTEN:9},1)
 
         ; other external calls -> do ENUM lookup on tel.dn42
-        exten => _+042X.,1,Set(TARGET_URI=$\{ENUMLOOKUP($\{EXTEN},sip,,,tel.dn42)})
+        exten => _+042X.,1,Set(TARGET_URI=''${ENUMLOOKUP(''${EXTEN},sip,,,tel.dn42)})
         ; if found, dial via our outbound endpoint
-        same => n,ExecIf($["$\{TARGET_URI}"!=""]?Dial(PJSIP/peer-enum-outbound/sip:$\{TARGET_URI},60))
+        same => n,ExecIf($["''${TARGET_URI}"!=""]?Dial(PJSIP/peer-enum-outbound/sip:''${TARGET_URI},60))
         ; if unallocated or failed, naturally hangup
         same => n,Hangup()
       '';
