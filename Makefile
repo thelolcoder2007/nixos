@@ -3,10 +3,12 @@
 
 update:
 ifdef XENOI
-	nh os switch -u --commit-lock-file --target-host "thomas@10.0.116.125" -H "xenoi"
+	nh os switch -u --commit-lock-file --target-host xenoi -H "xenoi"
+	nh os switch --target-host poseidon -H "poseidon"
+else
+	nh os switch -u --commit-lock-file --target-host poseidon -H poseidon
 endif
-	nh os switch --target-host "thomas@10.0.116.9" -H "poseidon"
-	nh os switch --target-host "thomas@10.0.116.5" -H "zeus"
+	nh os switch --target-host zeus -H "zeus"
 	${MAKE} push
 
 pull push:
@@ -20,7 +22,7 @@ endif
 build:
 	nix flake update --commit-lock-file
 	nh os build -H hera -d never
-	# nh os build -H hermes -d never # Hermes is temporarily borken
+	nh os build -H hermes -d never
 	nh os build -H pankration -d never
 	nh os build -H poseidon -d never
 	nh os build -H xenoi -d never
@@ -30,7 +32,7 @@ build:
 iso:
 	nix flake update --commit-lock-file
 	nh os build-image --image-variant iso -H hera -d never
-	# nh os build-image --image-variant iso -H hermes -d never # Hermes is temporarily borken
+	nh os build-image --image-variant iso -H hermes -d never
 	nh os build-image --image-variant iso -H pankration -d never
 	nh os build-image --image-variant iso -H poseidon -d never
 	nh os build-image --image-variant iso -H xenoi -d never

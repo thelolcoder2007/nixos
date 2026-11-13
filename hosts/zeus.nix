@@ -40,7 +40,7 @@ in
           {
             address = "fd00::";
             prefixLength = 8;
-            via = "fe80::250:56ff:fe89:b7ef";
+            via = "fe80::250:56ff:fe89:b7ef"; # Poseidon ens224 fe80 address
           }
         ];
       };
