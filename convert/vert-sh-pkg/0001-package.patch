@@ -1,0 +1,28 @@
+diff --git a/package.json b/package.json
+index ebade6a..c57be86 100644
+--- a/package.json
++++ b/package.json
+@@ -18,6 +18,8 @@
+ 	},
+ 	"devDependencies": {
+ 		"@inlang/paraglide-js": "^2.29.3",
++		"@inlang/plugin-m-function-matcher": "^2.2.16",
++		"@inlang/plugin-message-format": "^4.4.4",
+ 		"@poppanator/sveltekit-svg": "^7.0.1",
+ 		"@sveltejs/adapter-static": "^4.0.1",
+ 		"@sveltejs/kit": "^3.2.0",
+diff --git a/project.inlang/settings.json b/project.inlang/settings.json
+index da3aa28..5f7003b 100644
+--- a/project.inlang/settings.json
++++ b/project.inlang/settings.json
+@@ -22,8 +22,8 @@
+ 		"pt-BR"
+ 	],
+ 	"modules": [
+-		"https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4/dist/index.js",
+-		"https://cdn.jsdelivr.net/npm/@inlang/plugin-m-function-matcher@2/dist/index.js"
++		"node_modules/@inlang/plugin-message-format/dist/index.js",
++		"node_modules/@inlang/plugin-m-function-matcher/dist/index.js"
+ 	],
+ 	"plugin.inlang.messageFormat": {
+ 		"pathPattern": "./messages/{locale}.json"

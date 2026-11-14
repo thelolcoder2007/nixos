@@ -23,13 +23,13 @@ let
 in
 bun2nix.mkDerivation (finalAttrs: {
   pname = "vert-sh";
-  version = "0-unstable-2026-10-20";
+  version = "0-unstable-2026-11-13";
 
   src = fetchFromGitHub {
     owner = "vert-sh";
     repo = "vert";
-    rev = "257bcb3b2bb6a501bae0faf9ffb05060ee00c3f7";
-    hash = "sha256-qLmU6B0PHGOF8XzjXMdt/fJA7AY8JVtkCS5yS111gCc=";
+    rev = "35ebeb1679eb0b1af3f099c03060cb89f72e70f8";
+    hash = "sha256-jYRkNgOtKDPK99qTQ/t5/pTKQy57UlnPUtW3abJ+T68=";
   };
 
   packageJson = "${finalAttrs.src}/package.json";
@@ -40,7 +40,8 @@ bun2nix.mkDerivation (finalAttrs: {
   };
 
   patches = [
-    ./all-encompassing.patch
+    ./0001-package.patch
+    ./0002-bun.patch
   ];
 
   buildPhase = ''
