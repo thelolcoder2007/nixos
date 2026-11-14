@@ -11,18 +11,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.treefmt-nix.follows = "treefmt-nix";
     };
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     dns = {
       url = "github:kirelagin/dns.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    impermanence = {
-      url = "github:nix-community/impermanence";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # Not implemented yet, have to do some other stuff first
+    # impermanence = {
+    #   url = "github:nix-community/impermanence";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
