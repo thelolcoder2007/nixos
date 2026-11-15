@@ -21,7 +21,9 @@ in
       # keep-sorted start
       (import ../networking/client/static.nix { conf = staticConf; })
       ../base/base.nix
+      ../monitoring/alloy.nix
       ../monitoring/grafana.nix
+      # ../monitoring/loki.nix
       ../monitoring/zabbix-agent.nix
       ../monitoring/zabbix-server.nix
       ../networking/client/resolv.conf.nix

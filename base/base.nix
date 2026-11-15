@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -10,6 +11,7 @@
     ./clamav.nix
     ./sops.nix
     ./users.nix
+    inputs.nix-index-database.nixosModules.default
   ];
   sops = {
     # Github plz no ratelimit tyyy
@@ -46,7 +48,16 @@
       -----END CERTIFICATE-----
     ''
   ];
-
+  programs = {
+    nix-index-database.comma.enable = true;
+    nix-index = {
+      enable = true;
+      enableBashIntegration = true;
+      # I only support bash on my machines, so this is just bloat at this point
+      enableZshIntegration = false;
+      enableFishIntegration = false;
+    };
+  };
   nix = {
     extraOptions = ''
       !include ${config.sops.templates."nix-github-token.env".path}
@@ -73,7 +84,6 @@
       # keep-sorted start
       bat
       btop
-      comma
       curl
       dig
       fastfetch
@@ -86,6 +96,7 @@
       kitty
       nano
       nh
+      nload
       pciutils
       screen
       tcpdump

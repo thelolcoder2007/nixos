@@ -5,6 +5,10 @@
       url = "path:/home/thomas/git/github/factorio-mods";
       flake = false;
     };
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     bun2nix = {
       url = "github:nix-community/bun2nix";
