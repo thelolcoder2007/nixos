@@ -43,7 +43,7 @@ in
           default = "https://vertd.vert.sh";
           description = "URL of the vertd daemon for video conversion (default: official VERT instance)";
         };
-        PUB_DISABLE_FAILURE_BLOCKS = mkOption {
+        DISABLE_FAILURE_BLOCKS = mkOption {
           type = types.str;
           default = "false";
           example = "true";

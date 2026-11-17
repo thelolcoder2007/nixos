@@ -1,5 +1,6 @@
+
 diff --git a/package.json b/package.json
-index ebade6a..c57be86 100644
+index ebade6a..f22e16c 100644
 --- a/package.json
 +++ b/package.json
 @@ -18,6 +18,8 @@
@@ -11,6 +12,15 @@ index ebade6a..c57be86 100644
  		"@poppanator/sveltekit-svg": "^7.0.1",
  		"@sveltejs/adapter-static": "^4.0.1",
  		"@sveltejs/kit": "^3.2.0",
+@@ -62,7 +64,7 @@
+ 		"@mediabunny/mp3-encoder": "^1.66.0",
+ 		"@mediabunny/prores": "^1.66.0",
+ 		"@neplex/vectorizer": "^0.1.0",
+-		"@neplex/vectorizer-wasm32-wasi": "https://registry.npmjs.org/@neplex/vectorizer-wasm32-wasi/-/vectorizer-wasm32-wasi-0.1.0.tgz",
++		"@neplex/vectorizer-wasm32-wasi": "file:./vectorizer-wasm32-wasi-0.1.0.tgz",
+ 		"@stripe/stripe-js": "^10.3.0",
+ 		"byte-data": "^19.0.1",
+ 		"client-zip": "^2.5.1",
 diff --git a/project.inlang/settings.json b/project.inlang/settings.json
 index da3aa28..5f7003b 100644
 --- a/project.inlang/settings.json

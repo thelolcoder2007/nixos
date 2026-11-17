@@ -14,6 +14,7 @@ let
       mapAttrsToList (k: v: "PUB_${k}=${v}") (
         env
         // {
+          ENV = "production";
           DONATION_URL = "https://donations.vert.sh";
           STRIPE_KEY = "pk_live_51TlrPaFTPjkhEGBSu5Kwy5jJQYxcX5yUUHXiH5g7Xzvb0NKzDqbooc126HjlW35uUkfAgQN2ruEoCuyQynoxpKaA00ojFgQ116";
         }
@@ -43,6 +44,17 @@ bun2nix.mkDerivation (finalAttrs: {
     ./0001-package.patch
     ./0002-bun.patch
   ];
+
+  postPatch =
+    let
+      vectorizerWasmTgz = builtins.fetchurl {
+        url = "https://registry.npmjs.org/@neplex/vectorizer-wasm32-wasi/-/vectorizer-wasm32-wasi-0.1.0.tgz";
+        sha256 = "sha256:136yqn8nwfz8dhcqxr2lkc0glgyd0jfsflmm989rwb2zwh551k1q";
+      };
+    in
+    ''
+      cp ${vectorizerWasmTgz} vectorizer-wasm32-wasi-0.1.0.tgz
+    '';
 
   buildPhase = ''
     runHook preBuild

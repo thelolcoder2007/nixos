@@ -1,7 +1,16 @@
 diff --git a/bun.lock b/bun.lock
-index e4845b8..bd0796f 100644
+index e4845b8..73be522 100644
 --- a/bun.lock
 +++ b/bun.lock
+@@ -21,7 +21,7 @@
+         "@mediabunny/mp3-encoder": "^1.66.0",
+         "@mediabunny/prores": "^1.66.0",
+         "@neplex/vectorizer": "^0.1.0",
+-        "@neplex/vectorizer-wasm32-wasi": "https://registry.npmjs.org/@neplex/vectorizer-wasm32-wasi/-/vectorizer-wasm32-wasi-0.1.0.tgz",
++        "@neplex/vectorizer-wasm32-wasi": "file:./vectorizer-wasm32-wasi-0.1.0.tgz",
+         "@stripe/stripe-js": "^10.3.0",
+         "byte-data": "^19.0.1",
+         "client-zip": "^2.5.1",
 @@ -46,6 +46,8 @@
        },
        "devDependencies": {
@@ -37,3 +46,12 @@ index e4845b8..bd0796f 100644
      "@inlang/recommend-sherlock": ["@inlang/recommend-sherlock@0.2.1", "", { "dependencies": { "comment-json": "^4.2.3" } }, "sha512-ckv8HvHy/iTqaVAEKrr+gnl+p3XFNwe5D2+6w6wJk2ORV2XkcRkKOJ/XsTUJbPSiyi4PI+p+T3bqbmNx/rDUlg=="],
  
      "@inlang/sdk": ["@inlang/sdk@4.2.0", "", { "dependencies": { "@lix-js/sdk": "0.20.1", "@sinclair/typebox": "^0.31.17", "kysely": "^0.28.12", "uuid": "^14.0.0" } }, "sha512-Cmaqvn34wsxiF27318Zw2rg+017HHNJWV5MH8rfyVKVANZNpzlztxzRbFienE/gASMLD8oluYHHolIb/p6Egrw=="],
+@@ -222,7 +236,7 @@
+ 
+     "@neplex/vectorizer-linux-x64-musl": ["@neplex/vectorizer-linux-x64-musl@0.1.0", "", { "os": "linux", "cpu": "x64" }, "sha512-T9QgcxddN7mF/8JrA1FNr7F3EwKKwWFFl2v8tndRtDU1N/2wLj+1drSzgJZjxcTjlMG3yOcLhDqFXq7Nsxwwkg=="],
+ 
+-    "@neplex/vectorizer-wasm32-wasi": ["@neplex/vectorizer-wasm32-wasi@https://registry.npmjs.org/@neplex/vectorizer-wasm32-wasi/-/vectorizer-wasm32-wasi-0.1.0.tgz", { "dependencies": { "@napi-rs/wasm-runtime": "^1.1.4" } }, "sha512-rEQs14UTfQqh69uxwRo2aJiDzymdOx+j/5pl7sDuEITsx/6nb60dsZkd8gkyuNzBeYSTt8lSSL3sxEmHXQauPw=="],
++    "@neplex/vectorizer-wasm32-wasi": ["@neplex/vectorizer-wasm32-wasi@./vectorizer-wasm32-wasi-0.1.0.tgz", { "dependencies": { "@napi-rs/wasm-runtime": "^1.1.4" } }, "sha512-rEQs14UTfQqh69uxwRo2aJiDzymdOx+j/5pl7sDuEITsx/6nb60dsZkd8gkyuNzBeYSTt8lSSL3sxEmHXQauPw=="],
+ 
+     "@neplex/vectorizer-win32-arm64-msvc": ["@neplex/vectorizer-win32-arm64-msvc@0.1.0", "", { "os": "win32", "cpu": "arm64" }, "sha512-QdzriEzZHlzaCFZKw4GgMZ2cUomD+fAgOFs4qYVFQ9K2weyJzTNsCam3gb6xZFhFJ/REPVbNdAB46W6RyAjLBA=="],
+ 
