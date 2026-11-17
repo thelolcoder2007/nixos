@@ -24,10 +24,11 @@
 - [ ] Set up pxeboot
 - [x] Make up a name for games server
 - [ ] Add games
-  - [x] Mindustry
-  - [x] Satisfactory
-  - [x] Rust
   - [ ] Factorio
+  - [x] Mindustry
+  - [x] Minecraft
   - [ ] OpenRCT2
-  - [x] OpenTTD
+  - [ ] OpenTTD
+  - [x] Satisfactory
+  - [ ] Rust
 - [ ] Set up impermanence
