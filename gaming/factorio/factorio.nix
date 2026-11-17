@@ -8,16 +8,14 @@
 {
   services.factorio = {
     enable = true;
-    admins = [
-
-    ];
+    admins = [ ];
     mods =
       let
         modDir = inputs.factoriomods.outPath;
         modList = lib.pipe modDir [
           builtins.readDir
-          (lib.filterAttrs (_k: v: v == "regular"))
-          (lib.mapAttrsToList (k: _v: k))
+          (lib.filterAttrs (_: v: v == "regular"))
+          lib.attrNames
           (builtins.filter (lib.hasSuffix ".zip"))
         ];
         validPath =
