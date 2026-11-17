@@ -24,6 +24,7 @@ in
       ../gaming/factorio/factorio.nix
       ../gaming/mindustry/mindustry.nix
       ../gaming/minecraft/minecraft.nix
+      ../gaming/openttd/openttd.nix
       ../gaming/rust/rust.nix
       ../gaming/satisfactory/satisfactory.nix
       ../monitoring/zabbix-agent.nix
