@@ -3,6 +3,7 @@ let
   DN42Hosts = [
     "poseidon"
     "xenoi"
+    "zeus"
   ]; # FIXME make this dynamic
   advertisedRoutes = lib.concatStringsSep "," (
     [
