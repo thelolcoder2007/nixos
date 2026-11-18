@@ -126,37 +126,28 @@ in
       (import ../networking/server/firewall/DN42.nix {
         inherit config;
         peers = [
-          peer_pixia
+          # keep-sorted start
+          peer_bean
           peer_jssfr
+          peer_pixia
           peer_routedbits
           peer_s6v
           peer_sabrina
-          peer_bean
+          # keep-sorted end
         ];
       })
       (import ../networking/server/BGP/peer.nix {
         inherit config lib pkgs;
-        peer = peer_s6v;
-      })
-      (import ../networking/server/BGP/peer.nix {
-        inherit config lib pkgs;
-        peer = peer_sabrina;
-      })
-      (import ../networking/server/BGP/peer.nix {
-        inherit config lib pkgs;
-        peer = peer_pixia;
-      })
-      (import ../networking/server/BGP/peer.nix {
-        inherit config lib pkgs;
-        peer = peer_routedbits;
-      })
-      (import ../networking/server/BGP/peer.nix {
-        inherit config lib pkgs;
-        peer = peer_jssfr;
-      })
-      (import ../networking/server/BGP/peer.nix {
-        inherit config lib pkgs;
-        peer = peer_bean;
+        peers = [
+          # keep-sorted start
+          peer_bean
+          peer_jssfr
+          peer_pixia
+          peer_routedbits
+          peer_s6v
+          peer_sabrina
+          # keep-sorted end
+        ];
       })
       (import ../networking/server/DNS/authoritative.nix {
         conf = DNSconf;
