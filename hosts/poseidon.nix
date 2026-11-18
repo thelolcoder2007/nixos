@@ -64,6 +64,34 @@ in
           aigp on;
         '';
       };
+      peer_s6v = {
+        asnum = "4242423432";
+        clearnetEndpoint = "ams1.dn42.s6v.net";
+        remotePort = "42074";
+        name = "s6v";
+        localPort = 51822;
+        publickey = "YxZCD/u4kn1hkHTkj1yrxKv6gDK+noGDcmkD6v7eg08=";
+        dn42Endpoint-LL = "3432";
+      };
+      peer_sabrina = {
+        asnum = "4242421810";
+        clearnetEndpoint = "nl42.sabrinaishere.party";
+        remotePort = "23842";
+        name = "sabrina";
+        localPort = 51825;
+        publickey = "bEyqKaQQz9Zg+CCQ36I8SXScFcGopycRm9MaxOpF/gw=";
+        dn42Endpoint-LL = "1810";
+      };
+      peer_bean = {
+        asnum = "4242422992";
+        clearnetEndpoint = "64.177.60.123";
+        remotePort = "23842";
+        name = "bean";
+        localPort = 51826;
+        publickey = "EOKT8PaSBd8neeYq+jHoel0Ouk1OAxQySYG7O/8gGQo=";
+        dn42Endpoint-LL = "2992";
+      };
+
       DNSconf.dnsZones = [
         "2.3.9.4.1.c.4.5.7.a.d.f.ip6.arpa."
         "224/27.99.23.172.in-addr.arpa."
@@ -101,7 +129,18 @@ in
           peer_pixia
           peer_jssfr
           peer_routedbits
+          peer_s6v
+          peer_sabrina
+          peer_bean
         ];
+      })
+      (import ../networking/server/BGP/peer.nix {
+        inherit config lib pkgs;
+        peer = peer_s6v;
+      })
+      (import ../networking/server/BGP/peer.nix {
+        inherit config lib pkgs;
+        peer = peer_sabrina;
       })
       (import ../networking/server/BGP/peer.nix {
         inherit config lib pkgs;
@@ -114,6 +153,10 @@ in
       (import ../networking/server/BGP/peer.nix {
         inherit config lib pkgs;
         peer = peer_jssfr;
+      })
+      (import ../networking/server/BGP/peer.nix {
+        inherit config lib pkgs;
+        peer = peer_bean;
       })
       (import ../networking/server/DNS/authoritative.nix {
         conf = DNSconf;
