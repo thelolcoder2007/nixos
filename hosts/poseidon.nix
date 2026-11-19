@@ -82,15 +82,6 @@ in
         publickey = "bEyqKaQQz9Zg+CCQ36I8SXScFcGopycRm9MaxOpF/gw=";
         dn42Endpoint-LL = "1810";
       };
-      peer_bean = {
-        asnum = "4242422992";
-        clearnetEndpoint = "64.177.60.123";
-        remotePort = "23842";
-        name = "bean";
-        localPort = 51826;
-        publickey = "EOKT8PaSBd8neeYq+jHoel0Ouk1OAxQySYG7O/8gGQo=";
-        dn42Endpoint-LL = "2992";
-      };
 
       DNSconf.dnsZones = [
         "2.3.9.4.1.c.4.5.7.a.d.f.ip6.arpa."
@@ -127,7 +118,6 @@ in
         inherit config;
         peers = [
           # keep-sorted start
-          peer_bean
           peer_jssfr
           peer_pixia
           peer_routedbits
@@ -140,7 +130,6 @@ in
         inherit config lib pkgs;
         peers = [
           # keep-sorted start
-          peer_bean
           peer_jssfr
           peer_pixia
           peer_routedbits
