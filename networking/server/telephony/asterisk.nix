@@ -160,6 +160,12 @@
       "modules.conf" = ''
         [modules]
         autoload=yes
+        noload = res_adsi.so
+        noload = app_adsiprog.so
+        noload = app_getcpeid.so
+        noload = res_pjsip_publish_asterisk.so
+        noload = cdr_custom.so
+        noload = cel_custom.so
         noload = res_xmpp.so
         noload = chan_motif.so
         noload = res_pjsip_notify.so
