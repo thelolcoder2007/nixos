@@ -112,4 +112,10 @@ in
       ../networking/server/tftp.nix
       # keep-sorted end
     ];
+  environment.systemPackages = with pkgs; [
+    step-cli
+    step-kms-plugin
+    step-ca
+    openssl
+  ];
 }

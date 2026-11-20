@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   imports = [
     ../../../base/sops.nix
@@ -31,9 +31,9 @@
       authority = {
         disableIssuedAtCheck = false;
         claims = {
-          minTLSCertDuration = "5m";
-          maxTLSCertDuration = "24h";
-          defaultTLSCertDuration = "24h";
+          minTLSCertDuration = "24h";
+          maxTLSCertDuration = "2400h";
+          defaultTLSCertDuration = "2400h";
           disableRenew = false;
           allowRenewalAfterExpi = false;
         };
@@ -45,6 +45,19 @@
           ];
           allowWildcardNames = true;
         };
+        options.x509.templatefile = pkgs.writeText "leaf-aia.tmpl" ''
+          {
+            "subject": {{ toJson .Subject }},
+            "sans": {{ toJson .SANs }},
+            {{- if typeIs "*rsa.PublicKey" .Insecure.CR.PublicKey }}
+            "keyUsage": ["keyEncipherment", "digitalSignature"],
+            {{- else }}
+            "keyUsage": ["digitalSignature"],
+            {{- end }}
+            "extKeyUsage": ["serverAuth", "clientAuth"],
+            "issuingCertificateURL": ["http://acme.16.dapperepoging.nl/intermediate.der"]
+          }
+        '';
         enableSSHCA = false;
         provisioners = [
           {

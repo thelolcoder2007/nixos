@@ -52,6 +52,5 @@
         cert_key = "/var/lib/acme/grafana.16.dapperepoging.nl/key.pem";
       };
     };
-
   };
 }
