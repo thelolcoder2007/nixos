@@ -70,6 +70,8 @@ in
       music = cname "apollo";
       ns = cname "zeus";
       tftp = cname "zeus";
+      vert = cname "xenoi";
+      vertd = cname "xenoi";
       # keep-sorted end
     };
 }

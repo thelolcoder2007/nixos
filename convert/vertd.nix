@@ -6,7 +6,7 @@
   ];
   services.vertd.enable = true;
 
-  services.nginx.virtualHosts."vertd.dapperepoging.nl".locations."/".proxyPass =
+  services.nginx.virtualHosts."vertd.16.dapperepoging.nl".locations."/".proxyPass =
     "http://127.0.0.1:24153";
-  x.nginx.virtualHosts."vertd.dapperepoging.nl".localAcmeHost = true;
+  x.nginx.virtualHosts."vertd.16.dapperepoging.nl".localAcmeHost = true;
 }

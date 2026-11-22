@@ -7,12 +7,12 @@
   ];
   services.vert-sh.enable = true;
 
-  services.nginx.virtualHosts."vert-sh.dapperepoging.nl" = {
+  services.nginx.virtualHosts."vert.16.dapperepoging.nl" = {
     root = config.services.vert-sh.package;
     locations."/" = {
       index = "index.html";
       tryFiles = "$uri $uri/ /index.html";
     };
   };
-  x.nginx.virtualHosts."vert-sh.dapperepoging.nl".snakeoilHost = true;
+  x.nginx.virtualHosts."vert.16.dapperepoging.nl".snakeoilHost = true;
 }
