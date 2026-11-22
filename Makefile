@@ -14,10 +14,10 @@ endif
 pull push:
 	git push
 ifdef XENOI
-	ssh thomas@10.0.116.125 "git -C /etc/nixos/nixos pull"
+	ssh xenoi "git -C /etc/nixos/nixos pull"
 endif
-	ssh thomas@10.0.116.9 "git -C /etc/nixos/nixos pull"
-	ssh thomas@10.0.116.5 "git -C /etc/nixos/nixos pull"
+	ssh poseidon "git -C /etc/nixos/nixos pull"
+	ssh zeus "git -C /etc/nixos/nixos pull"
 
 build:
 	nix flake update --commit-lock-file
