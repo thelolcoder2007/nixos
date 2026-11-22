@@ -14,5 +14,5 @@
       tryFiles = "$uri $uri/ /index.html";
     };
   };
-  x.nginx.virtualHosts."vert.16.dapperepoging.nl".snakeoilHost = true;
+  x.nginx.virtualHosts."vert.16.dapperepoging.nl".localAcmeHost = true;
 }

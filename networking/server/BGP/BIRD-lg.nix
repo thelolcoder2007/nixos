@@ -31,11 +31,4 @@
         (_: { });
   };
   x.nginx.virtualHosts."lg.nlgld.dn42".DN42Host = true;
-  networking.firewall = {
-    allowedUDPPorts = [ 443 ];
-    allowedTCPPorts = [
-      80
-      443
-    ];
-  };
 }

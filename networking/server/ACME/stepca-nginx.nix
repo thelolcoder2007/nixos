@@ -8,5 +8,4 @@
     "= /intermediate.der".alias = "/var/www/html/intermediate.der";
     "/".return = "302 https://$host$request_uri";
   };
-  networking.firewall.allowedTCPPorts = [ 80 ];
 }

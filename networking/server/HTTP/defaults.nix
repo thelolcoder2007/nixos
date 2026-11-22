@@ -1,3 +1,5 @@
+{ config, lib, ... }:
+
 {
   services.nginx = {
     enable = true;
@@ -23,4 +25,17 @@
       '';
     };
   };
+  networking.firewall.allowedTCPPorts =
+    let
+      cfg = config.services.nginx;
+    in
+    lib.lists.unique (
+      [
+        cfg.defaultHTTPListenPort
+        cfg.defaultSSLListenPort
+      ]
+      ++ (map (listenAttr: listenAttr.port) (
+        lib.flatten (map (vhost: vhost.listen) (lib.attrValues config.services.nginx.virtualHosts))
+      ))
+    );
 }
