@@ -109,9 +109,14 @@ in
       systemd.services."openttd-ds" = {
         after = [ "network.target" ];
         description = "OpenTTD Dedicated server";
-        script = "${lib.getExe cfg.package} -D -f -x -c ${lib.toString configFile}";
+        script = "${lib.getExe cfg.package} -D -x -c ${lib.toString configFile}";
+        environment = {
+          HOME = "/var/lib/openttd";
+          XDG_DATA_HOME = "/var/lib/openttd";
+        };
         serviceConfig = {
           DynamicUser = true;
+          LogsDirectory = "openttd";
           MemoryDenyWriteExecute = false;
           NoNewPrivileges = true;
           PrivateDevices = true;
@@ -135,6 +140,8 @@ in
           RestrictNamespaces = true;
           RestrictRealtime = true;
           RestrictSUIDSGID = true;
+          StateDirectory = "openttd";
+          WorkingDirectory = "/var/lib/openttd";
         };
         wantedBy = [ "multi-user.target" ];
       };
