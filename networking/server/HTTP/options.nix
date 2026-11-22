@@ -10,61 +10,61 @@ let
   cfg = config.x.nginx.virtualHosts;
   clientScript = pkgs.writeShellScript "client.sh" ''
 
-  # Kioubit Certificate Authority client script
-  # Adapted for NixOS by Erents
-  # Version 1.1.2-NIXOS
+    # Kioubit Certificate Authority client script
+    # Adapted for NixOS by Erents
+    # Version 1.1.2-NIXOS
 
-  set -eu
+    set -eu
 
-  ENDPOINT="https://dn42.g-load.eu/utilityAPI/ca/v1/request"
-  TOKEN_FILE="''${TOKEN_FILE:-token.txt}"
+    ENDPOINT="https://dn42.g-load.eu/utilityAPI/ca/v1/request"
+    TOKEN_FILE="''${TOKEN_FILE:-token.txt}"
 
-  performRequest() {
-    csr_data="$1"
+    performRequest() {
+      csr_data="$1"
 
-    if [ -z "$csr_data" ]; then
-        echo "Error: CSR data is empty."
+      if [ -z "$csr_data" ]; then
+          echo "Error: CSR data is empty."
+          exit 1
+      fi
+
+      if [ ! -f "$TOKEN_FILE" ]; then
+        echo "Error: Token file '$TOKEN_FILE' is missing. It must be generated once on the webpage and then saved as a file called '$TOKEN_FILE'"
+        exit 2
+      fi
+
+      api_token=$(${lib.getExe' pkgs.coreutils "cat"} "$TOKEN_FILE")
+
+      exit_code=0
+      result=$(${lib.getExe pkgs.curl} --fail-with-body --silent "$ENDPOINT" -F "csr=$csr_data" -F "token=$api_token") || exit_code=$?
+      if [ $exit_code -ne 0 ]; then
+        echo "Error: Remote error message:"
+        echo "$result"
         exit 1
-    fi
+      fi
 
-    if [ ! -f "$TOKEN_FILE" ]; then
-      echo "Error: Token file '$TOKEN_FILE' is missing. It must be generated once on the webpage and then saved as a file called '$TOKEN_FILE'"
+      echo "$result" > signed.crt
+      echo "Saved signed certificate to 'signed.crt'"
+      echo "Success"
+      echo "--- The following files need to be configured in your webserver ---"
+      echo "Private key: server.key"
+      echo "Signed certificate: signed.crt"
+    }
+
+    get_certificate() {
+      domain="$1"
+      echo "CSR request for: ''${domain}, *.''${domain}. If you need to customize this, create a custom CSR and then use the 'sign_csr' command"
+      echo "Generating private key and CSR..."
+      csr_content=$(${lib.getExe pkgs.openssl} req -nodes -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -keyout server.key -out - -subj "/CN=''${domain}" -addext "subjectAltName = DNS:''${domain}, DNS:*.''${domain}" 2>/dev/null)
+      performRequest "$csr_content"
+    }
+
+    # MAIN
+    if [ -z "''${2-}" ]; then
+      echo "Error: Domain argument missing"
       exit 2
     fi
-
-    api_token=$(${lib.getExe' pkgs.coreutils "cat"} "$TOKEN_FILE")
-
-    exit_code=0
-    result=$(${lib.getExe pkgs.curl} --fail-with-body --silent "$ENDPOINT" -F "csr=$csr_data" -F "token=$api_token") || exit_code=$?
-    if [ $exit_code -ne 0 ]; then
-      echo "Error: Remote error message:"
-      echo "$result"
-      exit 1
-    fi
-
-    echo "$result" > signed.crt
-    echo "Saved signed certificate to 'signed.crt'"
-    echo "Success"
-    echo "--- The following files need to be configured in your webserver ---"
-    echo "Private key: server.key"
-    echo "Signed certificate: signed.crt"
-  }
-
-  get_certificate() {
-    domain="$1"
-    echo "CSR request for: ''${domain}, *.''${domain}. If you need to customize this, create a custom CSR and then use the 'sign_csr' command"
-    echo "Generating private key and CSR..."
-    csr_content=$(${lib.getExe pkgs.openssl} req -nodes -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -keyout server.key -out - -subj "/CN=''${domain}" -addext "subjectAltName = DNS:''${domain}, DNS:*.''${domain}" 2>/dev/null)
-    performRequest "$csr_content"
-  }
-
-  # MAIN
-  if [ -z "''${2-}" ]; then
-    echo "Error: Domain argument missing"
-    exit 2
-  fi
-  get_certificate "$2"
-  exit 0
+    get_certificate "$2"
+    exit 0
   '';
 in
 {
