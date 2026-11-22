@@ -20,10 +20,18 @@ creation_rules:
         - *xenoi
         - *zeus
 
-  - path_regex: ^networking/server/HTTP/certs/private.key.sops$|^networking/server/HTTP/certs/env-acme.sops$
+  # I want to phase this one out sometime soon
+  - path_regex: ^networking/server/HTTP/certs/private.key.sops$
     key_groups:
       - age:
         - *thomas
+
+  # List all prodHost-containing NixOS hosts here
+  - path_regex: ^networking/server/HTTP/certs/env-acme.sops$
+    key_groups:
+      - age:
+        - *thomas
+        - *hermes
 
   - path_regex: ^secrets/hera.yml$
     key_groups:
