@@ -31,4 +31,5 @@
   - [ ] OpenTTD
   - [x] Satisfactory
   - [ ] Rust
+- [ ] Decrease the amount of secrets Xenoi can read (it is a worrying amount)
 - [ ] Set up impermanence

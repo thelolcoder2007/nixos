@@ -7,5 +7,9 @@ sudo chmod 0400 /nix/persist/var/lib/sops-nix/key.txt
 sudo cp /nix/persist /mnt/nix -r
 sudo nixos-generate-config --root /mnt
 git clone https://github.com/thelolcoder2007/nixos /mnt/etc/nixos/nixos
-echo "AGE key:"
+sudo chmod 0755 /mnt/etc/nixos/nixos
+sudo chown thomas:users /mnt/etc/nixos/nixos
+echo "AGE pubkey:"
 nix-shell -p ssh-to-age,age "ssh-to-age -private-key -i /nix/persist/var/lib/sops-nix/key.txt | age-keygen -y"
+echo "GUIDS:"
+sudo blkid
