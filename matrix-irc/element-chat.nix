@@ -81,4 +81,5 @@ in
       };
     };
   };
+  x.nginx.virtualHosts."element-2.chat.dapperepoging.nl".snakeoilHost = true;
 }

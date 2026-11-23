@@ -55,4 +55,5 @@ in
       };
     };
   };
+  x.nginx.virtualHosts."call-2.dapperepoging.nl".snakeoilHost = true;
 }
