@@ -1,5 +1,5 @@
-.SILENT: update push pull
-.PHONY: update push pull build iso
+.SILENT: update push pull sops
+.PHONY: update push pull build iso sops
 
 update:
 ifdef XENOI
@@ -38,3 +38,6 @@ iso:
 	nh os build-image --image-variant iso -H xenoi -d never
 	nh os build-image --image-variant iso -H zeus -d never
 	rm result
+
+sops:
+	sops updatekeys $$(find -type f -name "*.yml") $$(find -type f -name "*.sops")

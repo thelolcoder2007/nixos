@@ -20,7 +20,7 @@ creation_rules:
         - *xenoi
         - *zeus
 
-  # I want to phase this one out sometime soon
+  # I want to phase this one out sometime soon(tm)
   - path_regex: ^networking/server/HTTP/certs/private.key.sops$
     key_groups:
       - age:
