@@ -68,12 +68,12 @@ in
       description = "OpenTTD package to use for the dedicated server";
     };
     port = mkOption {
-      type = types.ints.between 0 65535;
+      type = types.port;
       default = 3979;
       description = "Port for OpenTTD dedicated server to use";
     };
     adminPort = mkOption {
-      type = types.ints.between 0 65535;
+      type = types.port;
       default = 3977;
       description = "Port for remote management of OpenTTD dedicated server";
     };

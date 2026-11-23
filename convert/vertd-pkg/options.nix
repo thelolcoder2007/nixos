@@ -24,6 +24,11 @@ in
       default = (pkgs.callPackage ./package.nix { });
       description = "Package of vertd to run";
     };
+    port = mkOption {
+      type = types.port;
+      default = 24153;
+      description = "Port for vertd to listen on";
+    };
     options = {
       WEBHOOK_URL = mkOption {
         type = types.str;
@@ -32,12 +37,14 @@ in
       };
       WEBHOOK_PINGS = mkOption {
         type = types.str;
-        default = "<@&role_id> <@user_id>";
+        example = "<@&role_id> <@user_id>";
+        default = "";
         description = "Webhook pings -- these will be formatted into the main message";
       };
       ADMIN_PASSWORD = mkOption {
         type = types.str;
         default = "";
+        example = "supersecret";
         description = "Admin password for kept videos.";
       };
       PUBLIC_URL = mkOption {
@@ -64,7 +71,7 @@ in
       Group = "vertd";
       DynamicUser = true;
       Restart = "on-failure";
-      EnvironmentFile = pipe cfg.options [
+      EnvironmentFile = pipe (cfg.options // { PORT = toString cfg.port; }) [
         (mapAttrsToList (k: v: "${k}=${v}"))
         (concatStringsSep "\n")
         (pkgs.writeText "vert.env")

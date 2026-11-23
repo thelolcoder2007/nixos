@@ -1,25 +1,25 @@
 {
   config,
   inputs,
-  lib,
   pkgs,
   conf,
   ...
 }:
 let
   dbPath = "/var/lib/powerdns/dnssec.bind.sqlite3";
+  lib = pkgs.lib // inputs.dns.lib;
 
   localhost = pkgs.writeText "localhost.zone" (
-    inputs.dns.lib.toString "localhost" (import ./zones/localhost.zone.nix)
+    lib.toString "localhost" (import ./zones/localhost.zone.nix)
   );
   localhost-rdnsv4 = pkgs.writeText "127.in-addr.arpa.zone" (
-    inputs.dns.lib.toString "127.in-addr.arpa" (import ./zones/127.in-addr.arpa.zone.nix)
+    lib.toString "127.in-addr.arpa" (import ./zones/127.in-addr.arpa.zone.nix)
   );
 
-  empty = pkgs.writeText "db.empty" (inputs.dns.lib.toString "@" (import ./zones/db.empty.zone.nix));
+  empty = pkgs.writeText "db.empty" (lib.toString "@" (import ./zones/db.empty.zone.nix));
 
   localhost-rdnsv6 = pkgs.writeText "1.0..0.ip6.arpa.zone" (
-    inputs.dns.lib.toString "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa" (
+    lib.toString "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa" (
       import ./zones/1.0..0.ip6.arpa.zone.nix
     )
   );
@@ -32,7 +32,7 @@ let
       )
       + lib.optionalString (zone == "2.4.8.3.4.2.4.0.tel.dn42.") ''
         *.2.4.8.3.4.2.4.0.tel.dn42. 3600 IN NAPTR 100 10 "u" "E2U+sip" "!^(.*)$!sip:\\1@sip.nlgld.dn42:5060!" .
-      ''
+      '' # DNS.nix cannot handle NAPTRs
     )
   );
   named-conf-path = pkgs.writeText "named.conf" (
