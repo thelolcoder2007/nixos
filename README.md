@@ -28,7 +28,7 @@
   - [x] Mindustry
   - [x] Minecraft
   - [ ] OpenRCT2
-  - [ ] OpenTTD
+  - [x] OpenTTD
   - [x] Satisfactory
   - [ ] Rust
 - [ ] Decrease the amount of secrets Xenoi can read (it is a worrying amount)
