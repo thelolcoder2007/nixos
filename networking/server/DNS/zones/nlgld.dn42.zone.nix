@@ -27,12 +27,14 @@ in
 
   CAA = [
     {
+      issuerCritical = false;
       tag = "issue";
       value = "g-load.eu";
     }
     {
+      issuerCritical = false;
       tag = "issuewild";
-      valie = "g-load.eu";
+      value = "g-load.eu";
     }
   ];
 

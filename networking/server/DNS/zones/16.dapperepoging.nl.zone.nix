@@ -21,6 +21,7 @@ in
 
   CAA = [
     {
+      issuerCritical = false;
       tag = "issue";
       value = "dapperepoging.nl";
     }
