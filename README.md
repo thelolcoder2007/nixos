@@ -24,6 +24,7 @@
 - [ ] Add centralized logging facility to Hera
 - [ ] Make all logs point to Hera instead of local files
 - [ ] Set up pxeboot
+- [ ] Dynamically add DN42 advertisement to Tailscale
 - [ ] Add `nix-collect-garbage -d --except <the last derivation of these hosts>` makefile target
 - [ ] Make use of new lk-jwt-service options (matrix-irc/livekit.nix)
 - [x] Make up a name for games server

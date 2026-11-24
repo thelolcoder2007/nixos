@@ -4,7 +4,7 @@ let
     "poseidon"
     "xenoi"
     "zeus"
-  ]; # FIXME make this dynamic
+  ];
   advertisedRoutes = builtins.concatStringsSep "," (
     [
       "10.0.111.0/24"
