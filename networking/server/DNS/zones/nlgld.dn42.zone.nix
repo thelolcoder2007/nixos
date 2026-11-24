@@ -25,6 +25,17 @@ in
     "fda7:54c1:4932::"
   ];
 
+  CAA = [
+    {
+      tag = "issue";
+      value = "g-load.eu";
+    }
+    {
+      tag = "issuewild";
+      valie = "g-load.eu";
+    }
+  ];
+
   MX = [
     {
       preference = 0;
