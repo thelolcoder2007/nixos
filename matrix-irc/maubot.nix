@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ config, ... }:
 
 {
   nixpkgs.config.permittedInsecurePackages = [
@@ -30,7 +26,6 @@
         giphy
         hasswebhookbot
         hateheif
-        # help # Fetch gives HTTP 522
         invite
         join
         metric
@@ -42,7 +37,7 @@
   };
   services.nginx.virtualHosts."maubot.dapperepoging.nl" = {
     locations."${config.services.maubot.settings.server.ui_base_path}" = {
-      proxyPass = "http://127.0.0.1:${lib.toString config.services.maubot.settings.server.port}$request_uri";
+      proxyPass = "http://127.0.0.1:${toString config.services.maubot.settings.server.port}$request_uri";
       proxyWebsockets = true;
     };
   };

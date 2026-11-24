@@ -70,12 +70,12 @@ in
     port = mkOption {
       type = types.port;
       default = 3979;
-      description = "Port for OpenTTD dedicated server to use";
+      description = "Port for OpenTTD dedicated server to use. This sets settings.network.server_port.";
     };
     adminPort = mkOption {
       type = types.port;
       default = 3977;
-      description = "Port for remote management of OpenTTD dedicated server";
+      description = "Port for remote management of OpenTTD dedicated server. This sets settings.network.server_admin_port.";
     };
     configFile = mkOption {
       type = types.nullOr (types.pathWith { inStore = true; });
@@ -85,7 +85,7 @@ in
     settings = mkOption {
       type = tomlFormat.type;
       default = { };
-      description = "Config to be put into config file. This overwrites configFile option.";
+      description = "Config to be put into config file. If configFile is not null, this has no use.";
     };
   };
   config =
@@ -96,12 +96,12 @@ in
         else
           pkgs.writeText "openttd.cfg" (
             lib.generators.toINI { } (
-              lib.recursiveUpdate (lib.recursiveUpdate (lib.fromTOML default_cfg) {
+              lib.recursiveUpdate (lib.recursiveUpdate (fromTOML default_cfg) cfg.settings) {
                 network = {
                   server_port = cfg.port;
                   server_admin_port = cfg.adminPort;
                 };
-              }) cfg.settings
+              }
             )
           );
     in

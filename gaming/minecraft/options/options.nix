@@ -13,7 +13,7 @@ in
   options.services.minecraft-server.ops =
     let
       minecraftUUID =
-        lib.types.strMatching "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+        types.strMatching "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
         // {
           description = "Minecraft UUID";
         };

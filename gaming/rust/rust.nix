@@ -11,10 +11,10 @@ in
 {
   imports = [ ../common.nix ];
   services.steamcmd-servers = {
-    enable = lib.mkDefault true;
+    enable = true;
     servers.rustds = lib.recursiveUpdate presets.rust {
       enable = true;
-      executableArgs = lib.mkForce [
+      executableArgs = [
         "-batchmode"
         "-logfile"
         "+server.port 28015"
@@ -24,17 +24,18 @@ in
         "+server.maxplayers 100"
         "+server.hostname \"NixOS Rust Server\""
       ];
-      ports = lib.mkForce { };
-      resources.memoryLimit = lib.mkForce "8G";
+      ports = { };
+      resources.memoryLimit = "8G";
     };
   };
-  networking.firewall.allowedTCPPorts = [ 28015 ];
-  networking.firewall.allowedUDPPorts = [ 28015 ];
-  # My main firewall will pick this up anyways, but let's catch it in case that doesn't happen:
-  networking.firewall.extraInputRules = ''
-    	ip saddr { 10.0.111.0/24, 10.0.116.0/24 } meta l4proto { tcp, udp } th dport 28016 accept;
-    	ip6 saddr 2a07:54c1:4932::/48 meta l4proto { tcp, udp } th dport 28016 accept;
-  '';
+  networking.firewall.allowedTCPPorts = [
+    28015
+    28016
+  ];
+  networking.firewall.allowedUDPPorts = [
+    28015
+    28016
+  ];
   programs.nix-ld = {
     enable = lib.mkForce true;
     libraries = with pkgs; [

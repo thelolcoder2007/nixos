@@ -15,8 +15,8 @@
         );
       in
       ''
-        ip saddr { ${lib.concatStringsSep ", " ipv4addr} } tcp dport 10050 accept comment "monitoring from monitoring servers";
-        ip6 saddr { ${lib.concatStringsSep ", " ipv6addr} } tcp dport 10050 accept comment "monitoring from monitoring servers";
+        ip saddr { ${builtins.concatStringsSep ", " ipv4addr} } tcp dport 10050 accept comment "monitoring from monitoring servers";
+        ip6 saddr { ${builtins.concatStringsSep ", " ipv6addr} } tcp dport 10050 accept comment "monitoring from monitoring servers";
       '';
   };
 }

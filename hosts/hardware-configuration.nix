@@ -10,8 +10,8 @@ let
   base = {
     assertions = [
       {
-        assertion = !(host.vmwareHost && host.qemuHost);
-        message = "Configuration Error: Cannot run both VMware and QEMU hosts simultaneously. Please set one of the host parameters (vmwareHost or qemuHost) to false.";
+        assertion = !(vmwareHost && qemuHost);
+        message = "Configuration Error: One host cannot run on both VMware and QEMU. Please set at most one of the options vmwareHost or qemuHost to true.";
       }
     ];
     boot = {

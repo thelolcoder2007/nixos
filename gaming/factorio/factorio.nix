@@ -15,7 +15,7 @@
         modList = lib.pipe modDir [
           builtins.readDir
           (lib.filterAttrs (_: v: v == "regular"))
-          lib.attrNames
+          builtins.attrNames
           (builtins.filter (lib.hasSuffix ".zip"))
         ];
         validPath =

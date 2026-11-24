@@ -29,7 +29,7 @@
     }
   );
 
-  networking.firewall.allowedUDPPorts = lib.forEach peers (peer: peer.localPort);
+  networking.firewall.allowedUDPPorts = map (peer: peer.localPort) peers;
   networking.wireguard.interfaces = lib.genAttrs' peers (
     peer:
     lib.nameValuePair "dn42_${peer.asnum}" {
@@ -61,8 +61,8 @@
   );
 
   services.bird.config = lib.mkAfter (
-    lib.concatStringsSep "\n" (
-      lib.forEach peers (peer: ''
+    builtins.concatStringsSep "\n" (
+      map (peer: ''
         protocol bgp AS${peer.asnum}_v6 from dnpeers {
           enable extended messages on;
           bfd graceful;
@@ -78,7 +78,7 @@
           };
           neighbor fe80::${peer.dn42Endpoint-LL}%dn42_${peer.asnum} as ${peer.asnum};
         }
-      '')
+      '') peers
     )
   );
 }

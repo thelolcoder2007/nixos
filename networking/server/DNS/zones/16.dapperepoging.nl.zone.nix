@@ -30,7 +30,7 @@ in
     "v=spf1; -all"
   ];
   subdomains =
-    lib.genAttrs (lib.attrNames inputs.self.nixosConfigurations) (
+    lib.genAttrs (builtins.attrNames inputs.self.nixosConfigurations) (
       name:
       let
         ifaceConf =

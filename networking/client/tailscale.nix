@@ -5,7 +5,7 @@ let
     "xenoi"
     "zeus"
   ]; # FIXME make this dynamic
-  advertisedRoutes = lib.concatStringsSep "," (
+  advertisedRoutes = builtins.concatStringsSep "," (
     [
       "10.0.111.0/24"
       "10.0.116.0/24"

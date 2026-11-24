@@ -60,7 +60,7 @@
   environment.etc."current-system-packages".text =
     let
       packages = map (p: "${p.name}") config.environment.systemPackages;
-      sortedUnique = builtins.sort builtins.lessThan (lib.lists.unique packages);
+      sortedUnique = builtins.sort builtins.lessThan (lib.unique packages);
     in
     builtins.concatStringsSep "\n" sortedUnique;
 }

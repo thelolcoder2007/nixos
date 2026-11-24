@@ -29,13 +29,13 @@
     let
       cfg = config.services.nginx;
     in
-    lib.lists.unique (
+    lib.unique (
       [
         cfg.defaultHTTPListenPort
         cfg.defaultSSLListenPort
       ]
       ++ (map (listenAttr: listenAttr.port) (
-        lib.flatten (map (vhost: vhost.listen) (lib.attrValues config.services.nginx.virtualHosts))
+        lib.flatten (map (vhost: vhost.listen) (builtins.attrValues config.services.nginx.virtualHosts))
       ))
     );
 }

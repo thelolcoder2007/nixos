@@ -14,10 +14,10 @@ in
         "-log"
         "-unattended"
       ];
-      beta = lib.mkForce null; # Because for some fuckass reason steamcmd-servers wants me to run the beta version :(((
+      beta = null; # Because for some fuckass reason steamcmd-servers wants me to run the beta version :(((
       # > beta = "experimental";
-      ports = lib.mkForce { };
-      resources.memoryLimit = lib.mkForce "8G";
+      ports = { };
+      resources.memoryLimit = "8G";
     };
   };
   networking.firewall = {

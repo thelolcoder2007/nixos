@@ -44,19 +44,24 @@
       treefmt-nix,
       ...
     }@inputs:
+    let
+      treefmt-fmt =
+        (treefmt-nix.lib.evalModule nixpkgs.outputs.legacyPackages.x86_64-linux ./base/treefmt.nix)
+        .config.build;
+    in
     {
       # for `nix fmt`
-      formatter.x86_64-linux =
-        (treefmt-nix.lib.evalModule nixpkgs.outputs.legacyPackages.x86_64-linux ./base/treefmt.nix)
-        .config.build.wrapper;
+      formatter.x86_64-linux = treefmt-fmt.wrapper;
       # for `nix flake check`
-      checks.x86_64-linux.formatting = (treefmt-nix.lib.evalModule nixpkgs.outputs.legacyPackages.x86_64-linux ./base/treefmt.nix).config.build.check self;
+      checks.x86_64-linux.formatting = treefmt-fmt.check self;
+
       nixosConfigurations =
         let
           emulatedHost = "pankration";
+          inherit (nixpkgs) lib;
           hosts = {
             # Hera sees everything Zeus does (which is mostly sleeping with other women)
-            # Therefore it is my monitoring server and does the home-assistant stuff
+            # Therefore it is my monitoring server ~~and does the home-assistant stuff~~
             "hera" = {
               guid_root = "0";
               guid_boot = "0";
@@ -105,13 +110,13 @@
             };
           };
         in
-        nixpkgs.lib.genAttrs (nixpkgs.lib.attrNames hosts) (
+        lib.genAttrs (builtins.attrNames hosts) (
           host:
-          nixpkgs.lib.nixosSystem {
+          lib.nixosSystem {
             modules = [
               ./hosts/${host}.nix
               (import ./hosts/hardware-configuration.nix {
-                inherit (nixpkgs) lib;
+                inherit lib;
                 host = hosts.${host};
               })
             ];
@@ -122,12 +127,12 @@
           }
         )
         // {
-          xenoi = nixpkgs.lib.nixosSystem {
+          xenoi = lib.nixosSystem {
             modules = [
               ./hosts/xenoi.overrides.nix
               ./hosts/${emulatedHost}.nix
               (import ./hosts/hardware-configuration.nix {
-                inherit (nixpkgs) lib;
+                inherit lib;
                 host = hosts.xenoi;
               })
             ];

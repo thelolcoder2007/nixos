@@ -85,7 +85,7 @@ in
     {
       assertions = [
         {
-          assertion = lib.all (
+          assertion = builtins.all (
             vhost:
             lib.count (x: x) [
               vhost.snakeoilHost
@@ -93,19 +93,19 @@ in
               vhost.DN42Host
               vhost.localAcmeHost
             ] <= 1
-          ) (lib.attrValues cfg);
+          ) (builtins.attrValues cfg);
           message = "A virtualHost cannot have only have at most one of the following four attributes set to true: snakeoilHost, prodHost, DN42Host, localAcmeHost";
         }
       ];
 
       sops.secrets = {
-        "sslprivatekey" = lib.mkIf (lib.any (vhost: vhost.snakeoilHost) (lib.attrValues cfg)) {
+        "sslprivatekey" = lib.mkIf (builtins.any (vhost: vhost.snakeoilHost) (builtins.attrValues cfg)) {
           owner = config.users.users.nginx.name;
           group = config.users.groups.nginx.name;
           sopsFile = ./certs/private.key.sops;
           format = "binary";
         };
-        "acme_env" = lib.mkIf (lib.any (vhost: vhost.prodHost) (lib.attrValues cfg)) {
+        "acme_env" = lib.mkIf (builtins.any (vhost: vhost.prodHost) (builtins.attrValues cfg)) {
           owner = config.users.users.nginx.name;
           group = config.users.groups.nginx.name;
           sopsFile = ./certs/env-acme.sops;
@@ -114,8 +114,8 @@ in
       };
 
       security.acme = {
-        acceptTerms = lib.any (vhost: vhost.prodHost || vhost.localAcmeHost) (lib.attrValues cfg);
-        defaults = lib.mkIf (lib.any (vhost: vhost.prodHost) (lib.attrValues cfg)) {
+        acceptTerms = builtins.any (vhost: vhost.prodHost || vhost.localAcmeHost) (builtins.attrValues cfg);
+        defaults = lib.mkIf (builtins.any (vhost: vhost.prodHost) (builtins.attrValues cfg)) {
           acceptTerms = true;
           defaults = {
             email = "thomas.erents@gmail.com";
@@ -123,11 +123,11 @@ in
             environmentFile = config.sops.secrets."acme_env".path;
           };
         };
-        certs = lib.genAttrs (lib.attrNames (lib.filterAttrs (_: v: v.localAcmeHost) cfg)) (_: {
+        certs = lib.genAttrs (builtins.attrNames (lib.filterAttrs (_: v: v.localAcmeHost) cfg)) (_: {
           server = "https://certs.16.dapperepoging.nl/acme/acme/directory";
         });
       };
-      services.nginx.virtualHosts = lib.genAttrs (lib.attrNames cfg) (
+      services.nginx.virtualHosts = lib.genAttrs (builtins.attrNames cfg) (
         vhost:
         {
           http2 = true;
@@ -155,7 +155,7 @@ in
       );
     }
 
-    (lib.mkIf (lib.any (vhost: vhost.DN42Host) (lib.attrValues cfg)) {
+    (lib.mkIf (builtins.any (vhost: vhost.DN42Host) (builtins.attrValues cfg)) {
       sops.secrets."dn42_secret".path = "/run/dn42-cert/token.txt";
       systemd = {
         timers.dn42-cert = {

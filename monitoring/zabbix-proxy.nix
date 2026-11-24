@@ -10,7 +10,7 @@
 let
   zabbixUsername = "zabbix";
 in
-assert (builtins.elem serverHost (lib.attrNames inputs.self.nixosConfiguratons));
+assert (builtins.elem serverHost (builtins.attrNames inputs.self.nixosConfiguratons));
 {
   imports = [
     ../database/postgres.nix
