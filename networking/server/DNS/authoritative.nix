@@ -39,14 +39,16 @@ let
         };
       '') compiledDNSzones
     )
-    + builtins.readFile (pkgs.replaceVars ./zones/named.conf.default-zones {
-      inherit
-        localhost
-        localhost-rdnsv4
-        localhost-rdnsv6
-        empty
-        ;
-    })
+    + builtins.readFile (
+      pkgs.replaceVars ./zones/named.conf.default-zones {
+        inherit
+          localhost
+          localhost-rdnsv4
+          localhost-rdnsv6
+          empty
+          ;
+      }
+    )
   );
 in
 {

@@ -45,15 +45,13 @@
       ...
     }@inputs:
     let
-      treefmt-fmt =
-        (treefmt-nix.lib.evalModule nixpkgs.outputs.legacyPackages.x86_64-linux ./base/treefmt.nix)
-        .config.build;
+      treefmt-fmt = treefmt-nix.lib.evalModule nixpkgs.outputs.legacyPackages.x86_64-linux ./base/treefmt.nix;
     in
     {
       # for `nix fmt`
-      formatter.x86_64-linux = treefmt-fmt.wrapper;
+      formatter.x86_64-linux = treefmt-fmt.config.build.wrapper;
       # for `nix flake check`
-      checks.x86_64-linux.formatting = treefmt-fmt.check self;
+      checks.x86_64-linux.formatting = treefmt-fmt.config.checkcheck self;
 
       nixosConfigurations =
         let
