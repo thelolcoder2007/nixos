@@ -1,10 +1,12 @@
+<!-- markdownlint-disable MD013 -->
+
 # nixos
 
 ## Setup
 
 1. Boot into system like normal
-2. Clone repo into /tmp
-3. Run `./setup/setup.sh`
+2. `git clone https://github.com/thelolcoder2007/nixos <somewhere>`
+3. Run `<somewhere>/setup/setup.sh`
 4. Put GUIDs of disks into `flake.nix`
 5. `sudo nixos-install --flake ".#<hostname>"`
 6. Reboot
@@ -22,7 +24,7 @@
 - [ ] Add centralized logging facility to Hera
 - [ ] Make all logs point to Hera instead of local files
 - [ ] Set up pxeboot
-- [ ] Add "remove all old derivations from my hosts" makefile target
+- [ ] Add `nix-collect-garbage -d --except <the last derivation of these hosts>` makefile target
 - [ ] Make use of new lk-jwt-service options (matrix-irc/livekit.nix)
 - [x] Make up a name for games server
 - [ ] Add games
