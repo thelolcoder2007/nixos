@@ -10,4 +10,13 @@
   NS = [
     "ns.nlgld.dn42."
   ];
+  subdomains."*".NAPTR = [
+    {
+      order = 100;
+      preference = 10;
+      flags = "u";
+      services = "E2U+sip";
+      regexp = "!^(.*)$!sip:\\1@sip.nlgld.dn42:5060!";
+    }
+  ];
 }

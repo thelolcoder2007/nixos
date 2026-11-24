@@ -16,7 +16,7 @@
       inputs.treefmt-nix.follows = "treefmt-nix";
     };
     dns = {
-      url = "github:kirelagin/dns.nix";
+      url = "github:kirelagin/dns.nix/pull/54/head";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # Not implemented yet, have to do some other stuff first
