@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   interface ? "ens224",
   ipv4Config,
   ipv6Config ? {
@@ -60,30 +61,20 @@
               #   data = "/netboot.pxe";
               # }
             ]
-            ++ (
-              if (ipv4Config ? routers) then
-                [
-                  {
-                    name = "routers";
-                    code = 3;
-                    data = ipv4Config.routers;
-                  }
-                ]
-              else
-                [ ]
-            )
-            ++ (
-              if (ipv4Config ? staticRoutes) then
-                [
-                  {
-                    name = "classless-static-route";
-                    code = 121;
-                    data = ipv4Config.staticRoutes;
-                  }
-                ]
-              else
-                [ ]
-            );
+            ++ (lib.optionals (ipv4Config ? routers) [
+              {
+                name = "routers";
+                code = 3;
+                data = ipv4Config.routers;
+              }
+            ])
+            ++ (lib.optionals (ipv4Config ? staticRoutes) [
+              {
+                name = "classless-static-route";
+                code = 121;
+                data = ipv4Config.staticRoutes;
+              }
+            ]);
           }
         ];
       };
@@ -96,26 +87,22 @@
           if routes == [ ] then
             ""
           else
-            builtins.concatStringsSep "\n" (
-              map (route: ''
-                route ${route} {
-                	AdvRoutePreference medium;
-                 	AdvRouteLifetime ${toString ipv6Config.routeLifetime};
-                };
-              '') routes
-            );
+            lib.concatMapStringsSep "\n" (route: ''
+              route ${route} {
+              	AdvRoutePreference medium;
+               	AdvRouteLifetime ${toString ipv6Config.routeLifetime};
+              };
+            '') routes;
         convertRDNSS =
           rdnsservers:
           if rdnsservers == [ ] then
             ""
           else
-            builtins.concatStringsSep "\n" (
-              map (server: ''
-                RDNSS ${server} {
-                	AdvRDNSSLifetime ${toString ipv6Config.RDNSSLifetime};
-                };
-              '') rdnsservers
-            );
+            lib.concatMapStringsSep "\n" (server: ''
+              RDNSS ${server} {
+              	AdvRDNSSLifetime ${toString ipv6Config.RDNSSLifetime};
+              };
+            '') rdnsservers;
       in
       {
         enable = ipv6Config.enabled;

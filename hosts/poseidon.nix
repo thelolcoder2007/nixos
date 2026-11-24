@@ -33,55 +33,56 @@ in
         ipv4PrefixLength = 27;
         ipv6Address = "fda7:54c1:4932::";
       };
-
-      peer_pixia = {
-        asnum = "4242423729";
-        clearnetEndpoint = "nue1.pixiainfra.pixia.eu.org";
-        remotePort = "23842";
-        name = "pixia";
-        localPort = 51823;
-        publickey = "2n/880OXKFlvu1NU7mWUcHiPM9SfYc8prjNIl90Dj2M=";
-        dn42Endpoint-LL = "3729";
-      };
-      peer_routedbits = {
-        asnum = "4242420207";
-        clearnetEndpoint = "router.ams1.routedbits.com";
-        remotePort = "53842";
-        name = "routedbits";
-        localPort = 51821;
-        publickey = "JjAHDWR1CgQd1HJNvURrqUECkN++0bzYxlm57VXjlyc=";
-        dn42Endpoint-LL = "207";
-      };
-      peer_jssfr = {
-        asnum = "4242420230";
-        clearnetEndpoint = "sinope.sotecware.net";
-        remotePort = "53842";
-        name = "jssfr";
-        localPort = 51824;
-        publickey = "FVvqcKOfUlDzdg+e/K/LFu80n1evXct+F9gnfBzlGTg=";
-        dn42Endpoint-LL = "230";
-        optionalConfig = ''
-          aigp on;
-        '';
-      };
-      peer_s6v = {
-        asnum = "4242423432";
-        clearnetEndpoint = "ams1.dn42.s6v.net";
-        remotePort = "42074";
-        name = "s6v";
-        localPort = 51822;
-        publickey = "YxZCD/u4kn1hkHTkj1yrxKv6gDK+noGDcmkD6v7eg08=";
-        dn42Endpoint-LL = "3432";
-      };
-      peer_sabrina = {
-        asnum = "4242421810";
-        clearnetEndpoint = "nl42.sabrinaishere.party";
-        remotePort = "23842";
-        name = "sabrina";
-        localPort = 51825;
-        publickey = "bEyqKaQQz9Zg+CCQ36I8SXScFcGopycRm9MaxOpF/gw=";
-        dn42Endpoint-LL = "1810";
-      };
+      peers = [
+        {
+          asnum = "4242423729";
+          clearnetEndpoint = "nue1.pixiainfra.pixia.eu.org";
+          dn42Endpoint-LL = "3729";
+          localPort = 51823;
+          name = "pixia";
+          publickey = "2n/880OXKFlvu1NU7mWUcHiPM9SfYc8prjNIl90Dj2M=";
+          remotePort = "23842";
+        }
+        {
+          asnum = "4242420207";
+          clearnetEndpoint = "router.ams1.routedbits.com";
+          dn42Endpoint-LL = "207";
+          localPort = 51821;
+          name = "routedbits";
+          publickey = "JjAHDWR1CgQd1HJNvURrqUECkN++0bzYxlm57VXjlyc=";
+          remotePort = "53842";
+        }
+        {
+          asnum = "4242420230";
+          clearnetEndpoint = "sinope.sotecware.net";
+          dn42Endpoint-LL = "230";
+          localPort = 51824;
+          name = "jssfr";
+          publickey = "FVvqcKOfUlDzdg+e/K/LFu80n1evXct+F9gnfBzlGTg=";
+          remotePort = "53842";
+          optionalConfig = ''
+            aigp on;
+          '';
+        }
+        {
+          asnum = "4242423432";
+          clearnetEndpoint = "ams1.dn42.s6v.net";
+          dn42Endpoint-LL = "3432";
+          localPort = 51822;
+          name = "s6v";
+          publickey = "YxZCD/u4kn1hkHTkj1yrxKv6gDK+noGDcmkD6v7eg08=";
+          remotePort = "42074";
+        }
+        {
+          asnum = "4242421810";
+          clearnetEndpoint = "nl42.sabrinaishere.party";
+          dn42Endpoint-LL = "1810";
+          localPort = 51825;
+          name = "sabrina";
+          publickey = "bEyqKaQQz9Zg+CCQ36I8SXScFcGopycRm9MaxOpF/gw=";
+          remotePort = "23842";
+        }
+      ];
 
       DNSconf.dnsZones = [
         "2.3.9.4.1.c.4.5.7.a.d.f.ip6.arpa."
@@ -114,29 +115,16 @@ in
       };
     in
     [
-      (import ../networking/server/firewall/DN42.nix {
-        inherit config;
-        peers = [
-          # keep-sorted start
-          peer_jssfr
-          peer_pixia
-          peer_routedbits
-          peer_s6v
-          peer_sabrina
-          # keep-sorted end
-        ];
-      })
       (import ../networking/server/BGP/peer.nix {
-        inherit config lib pkgs;
-        peers = [
-          # keep-sorted start
-          peer_jssfr
-          peer_pixia
-          peer_routedbits
-          peer_s6v
-          peer_sabrina
-          # keep-sorted end
-        ];
+        inherit
+          config
+          lib
+          pkgs
+          peers
+          ;
+      })
+      (import ../networking/server/firewall/DN42.nix {
+        inherit config peers;
       })
       (import ../networking/server/DNS/authoritative.nix {
         conf = DNSconf;
@@ -150,7 +138,7 @@ in
       })
       (import ../networking/server/dhcp-server.nix {
         inherit (DHCPconf) ipv4Config ipv6Config;
-        inherit config;
+        inherit config lib;
         interface = "ens224";
       })
       # keep-sorted start

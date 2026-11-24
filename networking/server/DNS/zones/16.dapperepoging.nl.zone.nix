@@ -19,6 +19,13 @@ in
     "zeus.16.dapperepoging.nl."
   ];
 
+  CAA = [
+    {
+      tag = "issue";
+      value = "dapperepoging.nl";
+    }
+  ];
+
   MX = [
     {
       preference = 0;
@@ -49,7 +56,7 @@ in
     // {
       _dmarc.TXT = [ "v=DMARC1; p=reject;" ];
       # Other machines
-      cerberos = host "10.0.116.1" "2a07:54c1:4932:116::"; # Cerberos is my firewall
+      cerberos = host "10.0.116.1" "2a07:54c1:4932:116::"; # Cerberos is my router
       chronos = host "10.0.116.103" "2a07:54c1:4932:116::103"; # Chronos is the PTP clock master, based on Arch linux
       olympos = host "10.0.116.2" "2a07:54c1:4932:116::2"; # Olympos is a hypervisor
       olympos-ipmi = host "10.0.116.22" "2a07:54c1:4932:116::22";
