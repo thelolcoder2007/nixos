@@ -33,15 +33,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1788076475,
-        "narHash": "sha256-sD4UyILWAhk7aexE3YpDOdb71ZEeL+1/+LV05XIWCBo=",
+        "lastModified": 1781854681,
+        "narHash": "sha256-ae8Q2G78ylo8coxuw6pkvd80sHWWySKYEJYm9N9oDOw=",
         "owner": "kirelagin",
         "repo": "dns.nix",
-        "rev": "4710a34f2c36e7a0d634d7ba8fe2499d75f012a2",
+        "rev": "b9a41c17a2e23eb04563f1ce0171ae0e1a49177e",
         "type": "github"
       },
       "original": {
         "owner": "kirelagin",
+        "ref": "pull/54/head",
         "repo": "dns.nix",
         "type": "github"
       }
