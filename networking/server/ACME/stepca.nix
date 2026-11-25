@@ -1,11 +1,11 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 {
   imports = [
     ../../../base/sops.nix
   ];
   sops.secrets."stepca-intermediate-password" = {
-    owner = "step-ca";
-    group = "step-ca";
+    owner = config.users.users.step-ca.name;
+    group = config.users.groups.step-ca.name;
   };
   users.users.step-ca.extraGroups = [ "nginx" ];
   services.step-ca = {
@@ -45,19 +45,6 @@
           ];
           allowWildcardNames = true;
         };
-        options.x509.templatefile = pkgs.writeText "leaf-aia.tmpl" ''
-          {
-            "subject": {{ toJson .Subject }},
-            "sans": {{ toJson .SANs }},
-            {{- if typeIs "*rsa.PublicKey" .Insecure.CR.PublicKey }}
-            "keyUsage": ["keyEncipherment", "digitalSignature"],
-            {{- else }}
-            "keyUsage": ["digitalSignature"],
-            {{- end }}
-            "extKeyUsage": ["serverAuth", "clientAuth"],
-            "issuingCertificateURL": ["http://acme.16.dapperepoging.nl/intermediate.der"]
-          }
-        '';
         enableSSHCA = false;
         provisioners = [
           {
