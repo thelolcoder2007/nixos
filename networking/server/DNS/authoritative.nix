@@ -2,7 +2,10 @@
   config,
   inputs,
   pkgs,
-  conf,
+  conf ? {
+    dnsZones = [ ];
+    listenPort = 53;
+  },
   ...
 }:
 let
