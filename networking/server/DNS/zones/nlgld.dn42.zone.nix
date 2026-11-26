@@ -49,7 +49,7 @@ in
     "v=spf1; -all"
   ];
 
-  subdomains =
+  subdomains = # Add A/AAAA records for all NixOS hosts
     lib.genAttrs (builtins.attrNames inputs.self.nixosConfigurations) (
       name:
       let
@@ -61,18 +61,32 @@ in
               ipv4.addresses = [ { address = ""; } ];
               ipv6.addresses = [ { address = ""; } ];
             };
+        getAllAddresses = addresses: map (addresses: addresses.address) addresses;
       in
-      host ((builtins.elemAt ifaceConf.ipv4.addresses 0).address) (
-        (builtins.elemAt ifaceConf.ipv6.addresses 0).address
+      {
+        A = (getAllAddresses ifaceConf.ipv4.addresses);
+        AAAA = (getAllAddresses ifaceConf.ipv4.addresses);
+      }
+    )
+    # Add CNAMEs for all nginx vhosts to their respective physical hosts
+    // lib.mergeAttrsList (
+      lib.lists.unique (
+        lib.flatten (
+          map (
+            phyhost:
+            lib.genAttrs' (builtins.filter (vhost: lib.hasSuffix ".nlgld.dn42" vhost && vhost != phyhost) (
+              builtins.attrNames inputs.nixosConfigurations.${phyhost}.config.services.nginx.virtualHosts
+            )) (vhost: lib.nameValuePair (lib.removeSuffix ".nlgld.dn42" vhost) (cname phyhost))
+          ) (builtins.attrNames inputs.nixosConfigurations)
+        )
       )
     )
+    # Any other config
     // {
       _dmarc.TXT = [ "v=DMARC1; p=reject;" ];
       olympos = host "172.23.99.250" "fda7:54c1:4932::250";
       chronos = host "172.23.99.251" "fda7:54c1:4932::251";
       ns = host "172.23.99.254" "fda7:54c1:4932::";
-      lg = cname "poseidon";
       sip = cname "poseidon";
-      keys = cname "poseidon";
     };
 }

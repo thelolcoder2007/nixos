@@ -462,11 +462,16 @@ zone "0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa" 
     file "@empty@";
     allow-update { none; };
 }; // IPv6 unspecified address (::)
+zone "c.f.ip6.arpa" {
+    type master;
+    file "@empty@";
+    allow-update { none; };
+}; // IPv6 locally assigned ULA space (fc00::/7)
 zone "d.f.ip6.arpa" {
     type master;
     file "@empty@";
     allow-update { none; };
-}; // IPv6 locally assigned ULA space (fd00::/8)
+}; // IPv6 locally assigned ULA space (fc00::/7)
 zone "8.e.f.ip6.arpa" {
     type master;
     file "@empty@";
