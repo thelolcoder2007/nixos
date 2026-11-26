@@ -54,7 +54,7 @@ in
       in
       {
         A = (getAllAddresses ifaceConf.ipv4.addresses);
-        AAAA = (getAllAddresses ifaceConf.ipv4.addresses);
+        AAAA = (getAllAddresses ifaceConf.ipv6.addresses);
       }
     )
     # Add CNAMEs for all nginx vhosts to their respective physical hosts
@@ -66,9 +66,9 @@ in
             lib.genAttrs'
               (builtins.filter (
                 vhost: lib.hasSuffix ".16.dapperepoging.nl" vhost && vhost != "${phyhost}.16.dapperepoging.nl"
-              ) (builtins.attrNames inputs.nixosConfigurations.${phyhost}.config.services.nginx.virtualHosts))
+              ) (builtins.attrNames inputs.self.nixosConfigurations.${phyhost}.config.services.nginx.virtualHosts))
               (vhost: lib.nameValuePair (lib.removeSuffix ".16.dapperepoging.nl" vhost) (cname phyhost))
-          ) (builtins.attrNames inputs.nixosConfigurations)
+          ) (builtins.attrNames inputs.self.nixosConfigurations)
         )
       )
     )
