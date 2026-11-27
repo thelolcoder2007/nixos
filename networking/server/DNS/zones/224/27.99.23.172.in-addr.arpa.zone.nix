@@ -10,7 +10,7 @@ in
   SOA = {
     nameServer = "ns.nlgld.dn42.";
     adminEmail = "nlgld@dn42";
-    serial = 2026080402;
+    serial = 2026112702;
   };
   TTL = 3600;
 

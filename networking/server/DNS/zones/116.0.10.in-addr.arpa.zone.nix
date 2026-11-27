@@ -10,7 +10,7 @@ in
   SOA = {
     nameServer = "zeus.16.dapperepoging.nl.";
     adminEmail = "hostmaster+16@dapperepoging.nl";
-    serial = 2026090902;
+    serial = 2026112702;
   };
   TTL = 3600;
 

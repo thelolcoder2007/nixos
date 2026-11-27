@@ -11,7 +11,7 @@ in
   SOA = {
     nameServer = "ns.nlgld.dn42.";
     adminEmail = "nlgld@dn42";
-    serial = 2026080402;
+    serial = 2026112702;
   };
   TTL = 3600;
 
@@ -65,7 +65,7 @@ in
       in
       lib.optionalAttrs
         (
-          (getAllAddresses ifaceConf.ipv4.addresses != "") && (getAllAddresses ifaceConf.ipv6.addresses != "")
+          (getAllAddresses ifaceConf.ipv4.addresses != [""]) && (getAllAddresses ifaceConf.ipv6.addresses != [""])
         )
         {
           A = (getAllAddresses ifaceConf.ipv4.addresses);
