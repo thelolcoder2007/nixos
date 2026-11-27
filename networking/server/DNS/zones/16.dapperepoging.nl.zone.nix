@@ -52,10 +52,14 @@ in
             };
         getAllAddresses = addresses: map (addresses: addresses.address) addresses;
       in
-      {
-        A = (getAllAddresses ifaceConf.ipv4.addresses);
-        AAAA = (getAllAddresses ifaceConf.ipv6.addresses);
-      }
+      lib.optionalAttrs
+        (
+          (getAllAddresses ifaceConf.ipv4.addresses != "") && (getAllAddresses ifaceConf.ipv6.addresses != "")
+        )
+        {
+          A = (getAllAddresses ifaceConf.ipv4.addresses);
+          AAAA = (getAllAddresses ifaceConf.ipv6.addresses);
+        }
     )
     # Add CNAMEs for all nginx vhosts to their respective physical hosts
     // lib.mergeAttrsList (
@@ -84,15 +88,9 @@ in
 
       # CNAMEs
       # keep-sorted start
-      build = cname "xenoi";
-      dn42 = cname "poseidon";
       mc = cname "pankration";
-      monitoring = cname "hera";
-      music = cname "apollo";
-      ns = cname "zeus";
+      ns = host "10.0.116.5" "2a07:54c1:4932:116::5";
       tftp = cname "zeus";
-      vert = cname "xenoi";
-      vertd = cname "xenoi";
       # keep-sorted end
     };
 }

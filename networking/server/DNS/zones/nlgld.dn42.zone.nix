@@ -63,10 +63,14 @@ in
             };
         getAllAddresses = addresses: map (addresses: addresses.address) addresses;
       in
-      {
-        A = (getAllAddresses ifaceConf.ipv4.addresses);
-        AAAA = (getAllAddresses ifaceConf.ipv6.addresses);
-      }
+      lib.optionalAttrs
+        (
+          (getAllAddresses ifaceConf.ipv4.addresses != "") && (getAllAddresses ifaceConf.ipv6.addresses != "")
+        )
+        {
+          A = (getAllAddresses ifaceConf.ipv4.addresses);
+          AAAA = (getAllAddresses ifaceConf.ipv6.addresses);
+        }
     )
     # Add CNAMEs for all nginx vhosts to their respective physical hosts
     // lib.mergeAttrsList (

@@ -1,6 +1,10 @@
-{ ... }:
+{ inputs, ... }:
 let
-  host = hostname: { PTR = [ "${hostname}.nlgld.dn42." ]; };
+  inherit (inputs.nixpkgs) lib;
+  host = hostname: {
+    PTR = [ "${hostname}.nlgld.dn42." ];
+  };
+  fwdConfig = import ../nlgld.dn42.zone.nix { inherit inputs; };
 in
 {
   SOA = {
@@ -13,11 +17,14 @@ in
   NS = [
     "ns.nlgld.dn42."
   ];
-  subdomains = {
-    "250" = host "olympos";
-    "251" = host "chronos";
-    "253" = host "zeus";
-    "254" = host "poseidon";
-    "*" = host "dhcp.v4.connected-by"; # All other hosts that I have not described
-  };
+  subdomains =
+    lib.genAttrs' (builtins.attrNames (lib.filterAttrs (_k: v: v ? A) fwdConfig.subdomains)) (
+      subdomain:
+      lib.nameValuePair (lib.last (
+        lib.splitString "." (builtins.elemAt fwdConfig.subdomains.${subdomain}.A 0)
+      )) (host subdomain)
+    )
+    // {
+      "*" = host "dhcp.v4.connected-by";
+    }; # All other hosts that I have not described
 }

@@ -1,8 +1,10 @@
-{ ... }:
+{ inputs, ... }:
 let
+  inherit (inputs.nixpkgs) lib;
   host = hostname: {
     PTR = [ "${hostname}.16.dapperepoging.nl." ];
   };
+  fwdConfig = import ./16.dapperepoging.nl.zone.nix { inherit inputs; };
 in
 {
   SOA = {
@@ -15,16 +17,12 @@ in
   NS = [
     "zeus.16.dapperepoging.nl."
   ];
-  subdomains = {
-    "1" = host "cerberos";
-    "2" = host "olympos";
-    "5" = host "zeus";
-    "6" = host "hermes";
-    "7" = host "pankration";
-    "8" = host "hera";
-    "9" = host "poseidon";
-    "22" = host "olympos-ipmi";
-    "103" = host "chronos";
-    "125" = host "xenoi";
-  };
+  subdomains =
+    lib.genAttrs' (builtins.attrNames (lib.filterAttrs (_: v: v ? A) fwdConfig.subdomains))
+      (
+        subdomain:
+        lib.nameValuePair (lib.last (
+          lib.splitString "." (builtins.elemAt fwdConfig.subdomains.${subdomain}.A 0)
+        )) (host subdomain)
+      );
 }
