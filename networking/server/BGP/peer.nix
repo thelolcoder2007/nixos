@@ -63,18 +63,13 @@
   services.bird.config = lib.mkAfter (
     lib.concatMapStringsSep "\n" (peer: ''
       protocol bgp AS${peer.asnum}_v6 from dnpeers {
-        enable extended messages on;
-        bfd graceful;
-        bfd {
-            interval 10s;
-        };
-        ipv4 {
-          extended next hop on;
-          ${peer.optionalConfig or ""}
-        };
-        ipv6 {
-          ${peer.optionalConfig or ""}
-        };
+        ${lib.optionalString (peer ? optionalConfig) ''
+          ipv4 {
+            ${peer.optionalConfig or ""}
+          };
+          ipv6 {
+            ${peer.optionalConfig}
+          };''}
         neighbor fe80::${peer.dn42Endpoint-LL}%dn42_${peer.asnum} as ${peer.asnum};
       }
     '') peers

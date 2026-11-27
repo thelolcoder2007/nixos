@@ -137,7 +137,14 @@
           local as OWNAS;
           path metric on;
 
+          enable extended messages on;
+          bfd graceful;
+          bfd {
+              interval 10s;
+          };
+
           ipv4 {
+              extended next hop on;
               import filter {
                 if is_valid_network() && !is_self_net() then {
                   if (roa_check(dn42_roa, net, bgp_path.last) != ROA_VALID) then {
