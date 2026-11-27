@@ -18,7 +18,7 @@ in
     zabbixWeb = {
       enable = true;
       frontend = "nginx";
-      hostname = config.networking.fqdnOrHostName;
+      hostname = "mon.${config.networking.domain}";
       database = {
         socket = "/var/run/postgresql/postgresql.sock";
         type = "pgsql";
