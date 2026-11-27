@@ -63,11 +63,10 @@ in
         lib.flatten (
           map (
             phyhost:
-            lib.genAttrs'
-              (builtins.filter (
-                vhost: lib.hasSuffix ".16.dapperepoging.nl" vhost && vhost != "${phyhost}.16.dapperepoging.nl"
-              ) (builtins.attrNames inputs.self.nixosConfigurations.${phyhost}.config.services.nginx.virtualHosts))
-              (vhost: lib.nameValuePair (lib.removeSuffix ".16.dapperepoging.nl" vhost) (cname phyhost))
+            lib.genAttrs' (builtins.filter
+              (vhost: lib.hasSuffix ".16.dapperepoging.nl" vhost && vhost != "${phyhost}.16.dapperepoging.nl")
+              (builtins.attrNames inputs.self.nixosConfigurations.${phyhost}.config.services.nginx.virtualHosts)
+            ) (vhost: lib.nameValuePair (lib.removeSuffix ".16.dapperepoging.nl" vhost) (cname phyhost))
           ) (builtins.attrNames inputs.self.nixosConfigurations)
         )
       )
