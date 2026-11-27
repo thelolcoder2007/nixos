@@ -43,7 +43,7 @@ in
 {
   services.nginx = {
     enable = true;
-    virtualHosts."call-2.dapperepoging.nl" = {
+    virtualHosts."call-2.16.dapperepoging.nl" = {
       globalRedirect = null;
       root = element-call-configured;
       locations."/" = {
@@ -55,5 +55,5 @@ in
       };
     };
   };
-  x.nginx.virtualHosts."call-2.dapperepoging.nl".snakeoilHost = true;
+  x.nginx.virtualHosts."call-2.16.dapperepoging.nl".snakeoilHost = true;
 }

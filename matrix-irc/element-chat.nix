@@ -69,7 +69,7 @@ in
 {
   services.nginx = {
     enable = true;
-    virtualHosts."element-2.chat.dapperepoging.nl" = {
+    virtualHosts."element-2.chat.16.dapperepoging.nl" = {
       globalRedirect = null;
       root = element-web-configured;
       locations."/" = {
@@ -81,5 +81,5 @@ in
       };
     };
   };
-  x.nginx.virtualHosts."element-2.chat.dapperepoging.nl".snakeoilHost = true;
+  x.nginx.virtualHosts."element-2.chat.16.dapperepoging.nl".snakeoilHost = true;
 }

@@ -27,7 +27,7 @@ in
     ../networking/server/HTTP/options.nix
   ];
 
-  services.nginx.virtualHosts."fluffy-2.chat.dapperepoging.nl" = {
+  services.nginx.virtualHosts."fluffy-2.chat.16.dapperepoging.nl" = {
     locations."/" = {
       index = "index.html";
       tryFiles = "$uri $uri/ /index.html";
@@ -37,5 +37,5 @@ in
     };
     root = fluffychat-configured;
   };
-  x.nginx.virtualHosts."fluffy-2.chat.dapperepoging.nl".snakeoilHost = true;
+  x.nginx.virtualHosts."fluffy-2.chat.16.dapperepoging.nl".snakeoilHost = true;
 }

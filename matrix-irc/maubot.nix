@@ -35,11 +35,11 @@
         # keep-sorted end
       ];
   };
-  services.nginx.virtualHosts."maubot.dapperepoging.nl" = {
+  services.nginx.virtualHosts."maubot.16.dapperepoging.nl" = {
     locations."${config.services.maubot.settings.server.ui_base_path}" = {
       proxyPass = "http://127.0.0.1:${toString config.services.maubot.settings.server.port}$request_uri";
       proxyWebsockets = true;
     };
   };
-  x.nginx.virtualHosts."maubot.dapperepoging.nl".snakeoilHost = true;
+  x.nginx.virtualHosts."maubot.16.dapperepoging.nl".snakeoilHost = true;
 }

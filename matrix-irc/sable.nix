@@ -49,7 +49,7 @@ in
 {
   services.nginx = {
     enable = true;
-    virtualHosts."sable-2.chat.dapperepoging.nl" = {
+    virtualHosts."sable-2.chat.16.dapperepoging.nl" = {
       root = sable;
       locations."/" = {
         index = "index.html";
@@ -60,5 +60,5 @@ in
       };
     };
   };
-  x.nginx.virtualHosts."sable-2.chat.dapperepoging.nl".snakeoilHost = true;
+  x.nginx.virtualHosts."sable-2.chat.16.dapperepoging.nl".snakeoilHost = true;
 }
